@@ -1,0 +1,19 @@
+{
+  "name": "nko3-comorichweb",
+  "version": "0.0.0",
+  "description": "comorichweb",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git@github.com:nko3/comorichweb.git"
+  },
+  "dependencies": {
+  },
+  "engines": {
+    "node": "0.8.x"
+  },
+  "subdomain": "comorichweb.nko3"
+}
