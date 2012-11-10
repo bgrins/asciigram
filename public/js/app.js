@@ -49,6 +49,10 @@ log("Stored Files", Store.get("files"));
 
 var FrameBuffer = {
     _frames: [],
+    set: function(content) {
+        FrameBuffer.clear();
+        FrameBuffer.add(content);
+    },
     add: function(content) {
         FrameBuffer._frames.push({
             content: content,
@@ -88,6 +92,7 @@ var AppView = Backbone.View.extend({
         var file = FileStore.getByID($(e.currentTarget).data("id"));
         if (file.frames) {
             $("body").addClass("previewing");
+            $("#full-preview a").attr("href", "/view/" + file.id).text(file.id);
             $("#full-preview pre").html(file.frames[0].content);
         }
 
@@ -115,20 +120,33 @@ var AppView = Backbone.View.extend({
     },
 
     saveImage: function(e) {
-        FrameBuffer.clear();
 
         var frame = $(e.currentTarget).closest(".gram-container").find("pre").html();
-        FrameBuffer.add(frame);
+        FrameBuffer.set(frame);
 
         this.pushCurrentBufferToServer(function(id) {
             $(e.currentTarget).closest(".gram-container").find("a").attr("href", "/view/" + id).text(id);
         });
     },
 
+    addDataURLSnapshot: function(url) {
+
+        var that = this;
+        var img = new Image();
+        img.onload = function() {
+            var pre = $("<pre />");
+            App.asciiImage(img, pre[0]);
+            FrameBuffer.set(pre.html());
+
+            that.addVideoToLocalStorage(guid(), that.getCurrentFrames());
+        };
+        img.src = url;
+
+    },
+
     takeSnapshot: function(e) {
-        FrameBuffer.clear();
         var frame = $("#videoascii").html();
-        FrameBuffer.add(frame);
+        FrameBuffer.set(frame);
 
         this.pushCurrentBufferToServer(function() {
             log("Snapshot taken");
@@ -178,7 +196,7 @@ var AppView = Backbone.View.extend({
         }
         else {
             FileStore.push({
-                id: "no id",
+                id: guid(),
                 frames: frames
             });
 
@@ -188,12 +206,12 @@ var AppView = Backbone.View.extend({
 
     addVideoToLocalStorage: function(id, frames) {
 
-        var allSaved = Store.get("files") || [];
-        allSaved.push({
+        FileStore.push({
             id: id,
             frames: frames
         });
-        Store.set("files", allSaved);
+
+        this.renderThumbs();
     },
 
     initialize: function() {
@@ -220,14 +238,8 @@ var AppView = Backbone.View.extend({
     fileReaderOpts: {
         on: {
             load: function(e, file) {
-                var img = new Image();
-
-                img.src = e.target.result;
-                var container = $("<div class='gram-container'><pre></pre><div><button class='btn save-image'>Save</button><a target='_blank'></a></div>").appendTo("body");
-
-                //$("body").append(img);
-                App.asciiImage(img, container.find("pre")[0]);
-                log("Loaded", e, file);
+                App.addDataURLSnapshot(e.target.result);
+                //var container = $("<div class='gram-container'><pre></pre><div><button class='btn save-image'>Save</button><a target='_blank'></a></div>").appendTo("body");
             }
         }
     },
