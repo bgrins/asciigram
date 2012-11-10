@@ -21,9 +21,11 @@ File.prototype.generateLookup = function() {
     return randomstring;
 };
 
-function GetFile(lookup){
-    return File.where("lookup").equals(lookup);
-}
+function getFile(lookup, cb){
+    File.findOne({ lookup: lookup }, function(err, doc) {
+        cb(err, doc);
+    });
+};
 
 exports.File = File;
-exports.GetFile = GetFile;
+exports.getFile = getFile;

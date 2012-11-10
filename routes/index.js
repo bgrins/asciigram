@@ -17,18 +17,14 @@ exports.add = function(req, res) {
 	});
 };
 
-/*
-exports.mongo = function(req, res){
-	var schema = mongoose.Schema({ name: 'string' });
-	var Cat = db.model('Cat', schema);
+exports.get = function(req, res) {
+	var lookup = req.params.id;
+	fileStore.getFile(lookup, function(err, file) {
+		if (err || !file) {
+			res.send("Not found", 404);
+			return;
+		}
 
-	var kitty = new Cat({ name: 'Zildjian' });
-	kitty.save(function (err) {
-	  if (err) // ...
-	  res.end('meow');
+		res.send(file.content);
 	});
-	console.log(kitty);
-
-
-  res.render('index', { title: 'Express' });
-};*/
+};

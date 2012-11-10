@@ -34,6 +34,8 @@ app.configure('development', function(){
 
 app.get('/', indexRoute.index);
 app.post("/add", indexRoute.add)
+app.get("/get/:id", indexRoute.get);
+
 
 http.createServer(app).listen(app.get('port'), function(){
   console.log("Express server listening on port " + app.get('port'));
