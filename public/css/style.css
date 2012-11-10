@@ -123,7 +123,7 @@ video {
 }
 
 .sprite { background: url('/img/social-sprite.png') no-repeat top left; display:inline-block;  } 
-.sprite.facebook { background-position: 0px 0px; width: 33px; height: 32px;  } 
-.sprite.google { background-position: -43px 0px; width: 33px; height: 32px;  } 
-.sprite.pinterest { background-position: -86px 0px; width: 32px; height: 32px;  } 
-.sprite.twitter { background-position: -128px 0px; width: 33px; height: 33px;  } 
+.sprite.facebook { background-position: 0px 0px; width: 33px; height: 32px;  margin:0 4px;} 
+.sprite.google { background-position: -43px 0px; width: 33px; height: 32px;  margin:0 4px;} 
+.sprite.pinterest { background-position: -86px 0px; width: 32px; height: 32px;  margin:0 4px;} 
+.sprite.twitter { background-position: -128px 0px; width: 33px; height: 33px;  margin:0 4px;} 
