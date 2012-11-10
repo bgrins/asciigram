@@ -1,7 +1,93 @@
 var App = new (Backbone.View.extend({
+var store = (function() {
+
+    var _store = window.localStorage || { };
+
+    return {
+        get: function(key) {
+            if (_store[key] != undefined) {
+                try {
+                    return JSON.parse(_store[key]);
+                } catch(e) { }
+            }
+        },
+        set: function(key, val) {
+            _store[key] = JSON.stringify(val);
+        }
+    }
+
+})();
+
+log("Stored Files", store.get("files"));
+
+var FrameBuffer = {
+    _frames: [],
+    add: function(content) {
+        FrameBuffer._frames.push({
+            content: content,
+            timestamp: Date.now()
+        });
+    },
+    clear: function() {
+        FrameBuffer._frames = [];
+    },
+    get: function() {
+        return FrameBuffer._frames;
+    }
+};
+
+FrameBuffer.add("1");
+setTimeout(function() {
+    FrameBuffer.add("2");
+}, 100);
+setTimeout(function() {
+    FrameBuffer.add("3");
+}, 200);
+setTimeout(function() {
+    FrameBuffer.add("4");
+}, 400);
+setTimeout(function() {
+    FrameBuffer.add("5");
+}, 600);
+
+var AppView = Backbone.View.extend({
+
+    events: {
+        "click #save": "save"
+    },
+
+    getCurrentFrames: function() {
+        return FrameBuffer.get();
+    },
+
+    save: function() {
+
+        var frames = this.getCurrentFrames();
+
+        if (frames.length == 0) {
+            log("Error, no frames provided");
+            return;
+        }
+
+        var ajax = $.post("add", { frames: JSON.stringify(frames) });
+
+        ajax.done(function(id) {
+            var allSaved = store.get("files") || [];
+            allSaved.push({
+                id: id,
+                frames: frames
+            });
+            store.set("files", allSaved);
+
+            log(store.get("files"));
+        });
+    },
+
     initialize: function() {
         this.asciiLogo();
-        //getUserMedia(userMediaOptions, this.userMediaSuccess, this.userMediaError);
+
+        log("Getting user media");
+        getUserMedia(this.userMediaOptions, this.userMediaSuccess, this.userMediaError);
 
         FileReaderJS.setupDrop(document.body, this.fileReaderOpts);
         FileReaderJS.setupClipboard(document.body, this.fileReaderOpts);
@@ -9,11 +95,12 @@ var App = new (Backbone.View.extend({
     },
 
     userMediaSuccess: function() {
-
+        log("User media success");
     },
 
     userMediaError: function() {
 
+        log("User media error");
     },
 
     fileReaderOpts: {
@@ -37,9 +124,59 @@ var App = new (Backbone.View.extend({
 
     asciiImage: function(image, container) {
         Jscii.renderImage(image, container);
+    },
+
+    userMediaOptions: {
+        "audio": false,
+        "video": true,
+        el: "webcam",
+
+        extern: null,
+        append: true,
+        width: 320,
+        height: 240,
+
+        mode: "callback",
+        swffile: "../dist/fallback/jscam_canvas_only.swf",
+        quality: 85,
+        context: "",
+
+        debug: function () {},
+        onCapture: function () {
+            //window.webcam.save();
+        },
+        onTick: function () {},
+        onSave: function (data) {
+    /*
+            var col = data.split(";"),
+                img = App.image,
+                tmp = null,
+                w = this.width,
+                h = this.height;
+
+            for (var i = 0; i < w; i++) {
+                tmp = parseInt(col[i], 10);
+                img.data[App.pos + 0] = (tmp >> 16) & 0xff;
+                img.data[App.pos + 1] = (tmp >> 8) & 0xff;
+                img.data[App.pos + 2] = tmp & 0xff;
+                img.data[App.pos + 3] = 0xff;
+                App.pos += 4;
+            }
+
+            if (App.pos >= 4 * w * h) {
+                App.ctx.putImageData(img, 0, 0);
+                App.pos = 0;
+            }
+    */
+        },
+        onLoad: function () {}
     }
 
-}))();
+});
+
+if (APP) {
+    var App = new AppView({ el: $("body") });
+}
 
 var userMediaOptions = {
     "audio": false,
@@ -121,7 +258,7 @@ function init(image) {
             var x = e.pageX - offset.left;
             var y = e.pageY - offset.top;
             canvas.draw(texture).swirl(x, y, 200, 4).update();
-            Jscii.renderImage(canvas, asciiContainer[0]);
+            //Jscii.renderImage(canvas, asciiContainer[0]);
         }
     });
 
