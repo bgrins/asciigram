@@ -140,7 +140,9 @@ var AppView = Backbone.View.extend({
         function onload() {
             that.asciiImage(img[0], container, function() {
                 that.GL = new GLView({ image: $("#logo") });
+                img.hide();
             });
+
         }
 
         if (img[0].complete) {
@@ -224,6 +226,8 @@ var GLView = Backbone.View.extend({
     }
 
 });
+
+$('.share').html(generateShareLinks("http://google.com", "some description"));
 
 if (window.APP) {
     var App = new AppView({ el: $("body") });
