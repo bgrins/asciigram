@@ -1,8 +1,7 @@
 
 
 
-<div id="gl-container" class="ascii-container">
-	<img id='logo' width='150' src='/img/person.png' />
+<div id="gl-container" class="ascii-container row">
 
 
 	<div id="image-toolbar" class="toolbar">
@@ -10,9 +9,18 @@
 		<input type="file" id="file-input" name="file-input" multiple="">
 	</div>
 
-	<div class='gl-holder'>
-		<pre id="imgascii"></pre>
+	<div class='span5 pull-left screen'>
+		<img id='logo' width='150' src='/img/person.png' />
+
+		<div class='gl-holder'>
+			<pre id="imgascii"></pre>
+		</div>
 	</div>
+
+	<div class='span4 pull-right channels'>
+
+	</div>
+
 </div>
 
 
@@ -40,5 +48,6 @@
       <pre>
         {{preview}}
       </div>
+
     </li>
     </script>

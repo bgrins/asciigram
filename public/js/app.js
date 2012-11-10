@@ -53,6 +53,7 @@ var AppView = Backbone.View.extend({
 
     events: {
         "click #save": "save",
+        "click .save-image": "saveImage",
         "click #record": "toggleRecord"
     },
 
@@ -74,6 +75,21 @@ var AppView = Backbone.View.extend({
 
     getCurrentFrames: function() {
         return FrameBuffer.get();
+    },
+
+    saveImage: function(e) {
+        FrameBuffer.clear();
+
+        var frame = $(e.currentTarget).closest(".gram-container").find("pre").html();
+        FrameBuffer.add(frame);
+
+        var frames = this.getCurrentFrames();
+        var ajax = $.post("add", { frames: JSON.stringify(frames) });
+        var that = this;
+        ajax.done(function(id) {
+            that.addVideoToLocalStorage(id, frames);
+            $(e.currentTarget).closest(".gram-container").find("a").attr("href", "/view/" + id).text(id);
+        });
     },
 
     save: function() {
@@ -147,7 +163,7 @@ var AppView = Backbone.View.extend({
                 var img = new Image();
 
                 img.src = e.target.result;
-                var container = $("<div class='gram-container'><pre></pre></div>").appendTo("body");
+                var container = $("<div class='gram-container'><pre></pre><div><button class='btn save-image'>Save</button><a target='_blank'></a></div>").appendTo("body");
 
                 //$("body").append(img);
                 App.asciiImage(img, container.find("pre")[0]);
@@ -219,7 +235,6 @@ var GLView = Backbone.View.extend({
         catch (e) {
             return;
         }
-
 
         $(image).show();
 

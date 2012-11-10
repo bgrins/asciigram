@@ -21,7 +21,15 @@
 }());
 
 window.log = function(){
-  if(this.console){
-    console.log( Array.prototype.slice.call(arguments) );
-  }
+
+    if (typeof console != 'undefined' && typeof console.log == 'function') {
+
+      if ((Array.prototype.slice.call(arguments)).length === 1 && typeof Array.prototype.slice.call(arguments)[0] === 'string') {
+        console.log( (Array.prototype.slice.call(arguments)).toString() );
+      }
+      else {
+        console.log( Array.prototype.slice.call(arguments) );
+      }
+    }
+
 };
