@@ -10,7 +10,7 @@ function Frame(obj) {
 		return;
 	}
 
-	$('.share').html('Number of views: '+file.numberOfViews);
+	$('.view-count').html('Number of views: '+file.numberOfViews);
 
 	var frames = _.map(file.frames, function(frame) {
 		return new Frame(frame);

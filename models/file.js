@@ -47,7 +47,7 @@ function updateViewCount(doc){
 };
 
 function getPopular(cb){
-	var query = File.find().sort('-numberOfViews').limit(12);
+	var query = File.find().sort('-numberOfViews').limit(12).where();
 
 	query.exec(function(err, doc) {
         cb(err, doc);

@@ -7,7 +7,7 @@
 	var popularHtml = ""; 
 
 	for (var i=0; i< files.length; i++){ 
-		popularHtml += "<div>"files[i].numberOfViews+"</div>";
+		popularHtml += "<div class='popular-preview'>"+"<pre>"+files[i].frames[0].content+"</pre></div>";
 	}
 
 	$('.popular-container').html(popularHtml);

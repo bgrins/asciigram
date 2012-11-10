@@ -55,7 +55,11 @@ exports.popular = function(req, res){
 			res.send("Not found", 404);
 			return;
 		}
-		res.render("popular", { title: "Asciigram -- Popular", files: JSON.stringify(files) });
+		for (var i=0; i<files.length; i++){ 
+			files[i].frames[0].content = files[i].frames[0].content.replace(/&nbsp;/g, " ").replace(/<br>/g, "\n");
+		}		
+
+		res.render("popular", { title: "Asciigram -- Popular", files: files });
 	});
 };
 
@@ -68,7 +72,8 @@ exports.view = function(req, res) {
 		}
 		
 		fileStore.updateViewCount(file);
-		res.render("view", { title: "Asciigram -- View", file: JSON.stringify(file) });
+		res.render("view", { title: "Asciigram -- View", file: JSON.stringify(file), 
+			numberOfViews: file.numberOfViews });
 	});
 }
 
