@@ -47,3 +47,10 @@ pre {
 video {
 	width: 200px;
 }
+
+#gl-container canvas {
+	position:absolute;
+	top:0;
+	left:0;
+	opacity:0;
+}
