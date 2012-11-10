@@ -215,7 +215,7 @@ var GLView = Backbone.View.extend({
                 var x = e.pageX - offset.left;
                 var y = e.pageY - offset.top;
                 canvas.draw(texture).swirl(x, y, 200, 4).update();
-                //Jscii.renderImage(canvas, asciiContainer[0]);
+                Jscii.renderImage(canvas, asciiContainer[0]);
             }
         });
 
