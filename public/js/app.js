@@ -4,7 +4,7 @@ var Store = (function() {
 
     return {
         get: function(key) {
-            if (_store[key] != undefined) {
+            if (_store[key] !== undefined) {
                 try {
                     return JSON.parse(_store[key]);
                 } catch(e) { }
@@ -47,6 +47,10 @@ var FrameBuffer = {
 
 var AppView = Backbone.View.extend({
 
+    SEND_TO_SERVER: false,
+    memoryStore: [],
+    thumbTemplate: Handlebars.compile($("#video-list").html()),
+
     events: {
         "click #save": "save",
         "click #record": "toggleRecord"
@@ -67,21 +71,43 @@ var AppView = Backbone.View.extend({
 
         var frames = this.getCurrentFrames();
 
-        if (frames.length == 0) {
+        if (frames.length === 0) {
             log("Error, no frames provided");
             return;
         }
 
-        var ajax = $.post("add", { frames: JSON.stringify(frames) });
-
-        ajax.done(function(id) {
-            var allSaved = Store.get("files") || [];
-            allSaved.push({
-                id: id,
+        if (this.SEND_TO_SERVER) {
+            var ajax = $.post("add", { frames: JSON.stringify(frames) });
+            var that = this;
+            ajax.done(function(id) {
+                that.addVideoToLocalStorage(id, frames);
+            });
+        }
+        else {
+            App.memoryStore.push({
+                id: "no id",
                 frames: frames
             });
-            Store.set("files", allSaved);
+
+            var that = this;
+            var templateHTML = _.map(App.memoryStore, function(i) {
+                return that.thumbTemplate({
+                    preview: i.frames[0].content
+                });
+            }).join("");
+
+            $("#results").html(templateHTML);
+        }
+    },
+
+    addVideoToLocalStorage: function(id, frames) {
+
+        var allSaved = Store.get("files") || [];
+        allSaved.push({
+            id: id,
+            frames: frames
         });
+        Store.set("files", allSaved);
     },
 
     initialize: function() {
