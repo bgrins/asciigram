@@ -47,7 +47,7 @@
 
     video = videoEl;
     container = containerEl;
-    navigator.getMedia({video: true, audio: true}, function(localMediaStream){
+    navigator.getMedia({video: true, audio: false }, function(localMediaStream){
       stream = localMediaStream;
       var url = window.URL || window.webkitURL;
       video.src = url.createObjectURL(localMediaStream);
