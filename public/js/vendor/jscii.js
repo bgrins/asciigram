@@ -83,8 +83,8 @@
   /**
    * given an image object and DOM element, render the ASCII string inside element
    */
-  function renderImage(image, container) {
-
+  function renderImage(image, container, cb) {
+    cb = cb || function() {};
     function drawImage(image) {
       var ratio = image.width/image.height;
       imgCanvas.width = w = 150;
@@ -92,15 +92,21 @@
       imgCtx.drawImage(image, 0, 0, w, h);
       data = imgCtx.getImageData(0, 0, w, h).data;
       container.innerHTML = getAsciiString(data, w, h);
+      cb();
     }
 
     if (image.tagName == "CANVAS") {
       drawImage(image);
     }
     else {
-      image.addEventListener('load', function(){
+      if (image.complete) {
         drawImage(image);
-      });
+      }
+      else {
+        image.addEventListener('load', function(){
+          drawImage(image);
+        });
+      }
     }
   }
 

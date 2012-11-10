@@ -84,6 +84,7 @@ var AppView = Backbone.View.extend({
     },
 
     initialize: function() {
+
         this.asciiLogo();
 
         log("Getting user media");
@@ -119,11 +120,27 @@ var AppView = Backbone.View.extend({
     },
 
     asciiLogo: function() {
-        this.asciiImage($("#logo")[0], $("#imgascii")[0]);
+        var img = $("#logo");
+        var container = $("#imgascii")[0];
+        var that = this;
+
+        function onload() {
+            that.asciiImage(img[0], container, function() {
+                log("CALLBACK");
+                that.GL = new GLView({ image: $("#logo") });
+            });
+        }
+
+        if (img[0].complete) {
+            onload();
+        }
+        else {
+            img.on("load", onload);
+        }
     },
 
-    asciiImage: function(image, container) {
-        Jscii.renderImage(image, container);
+    asciiImage: function(image, container, cb) {
+        Jscii.renderImage(image, container, cb);
     },
 
     userMediaOptions: {
@@ -174,101 +191,76 @@ var AppView = Backbone.View.extend({
 
 });
 
+var GLView = Backbone.View.extend({
+
+    initialize: function(opts) {
+        if (!opts.image) {
+            throw "No Image provided";
+        }
+
+        this.image = opts.image;
+
+        var that = this;
+        if (this.image[0].complete) {
+            this.setupGL();
+        }
+        else {
+            this.image.on("load", function() {
+                that.setupGL();
+            });
+        }
+    },
+    setupGL: function() {
+
+        var image = this.image[0];
+        var placeholder = $("#gl-container");
+        var asciiContainer= $("#imgascii");
+
+        var asciiWidth = asciiContainer.width();
+
+        $(image).width(asciiWidth);
+
+        try {
+            var canvas = fx.canvas();
+        }
+        catch (e) {
+            return;
+        }
+
+
+        $(image).show();
+
+        // Create a texture from the image and draw it to the canvas
+        var texture = canvas.texture(image);
+
+        $(image).hide();
+        canvas.draw(texture).update();
+
+
+        var distorting = true;
+        // Draw a swirl under the mouse
+        $(placeholder).click(function(e) {
+            distorting = !distorting;
+        });
+
+        $(placeholder).mousemove(function(e) {
+            if (distorting) {
+                var offset = $(canvas).offset();
+                var x = e.pageX - offset.left;
+                var y = e.pageY - offset.top;
+                canvas.draw(texture).swirl(x, y, 200, 4).update();
+                //Jscii.renderImage(canvas, asciiContainer[0]);
+            }
+        });
+
+        placeholder.append(canvas);
+        $(canvas).offset(asciiContainer.offset());
+    }
+
+
+});
+
 if (APP) {
     var App = new AppView({ el: $("body") });
 }
 
-var userMediaOptions = {
-    "audio": false,
-    "video": true,
-    el: "webcam",
-
-    extern: null,
-    append: true,
-    width: 320,
-    height: 240,
-
-    mode: "callback",
-    swffile: "../dist/fallback/jscam_canvas_only.swf",
-    quality: 85,
-    context: "",
-
-    debug: function () {},
-    onCapture: function () {
-        //window.webcam.save();
-    },
-    onTick: function () {},
-    onSave: function (data) {
-/*
-        var col = data.split(";"),
-            img = App.image,
-            tmp = null,
-            w = this.width,
-            h = this.height;
-
-        for (var i = 0; i < w; i++) {
-            tmp = parseInt(col[i], 10);
-            img.data[App.pos + 0] = (tmp >> 16) & 0xff;
-            img.data[App.pos + 1] = (tmp >> 8) & 0xff;
-            img.data[App.pos + 2] = tmp & 0xff;
-            img.data[App.pos + 3] = 0xff;
-            App.pos += 4;
-        }
-
-        if (App.pos >= 4 * w * h) {
-            App.ctx.putImageData(img, 0, 0);
-            App.pos = 0;
-        }
-*/
-    },
-    onLoad: function () {}
-};
-
-function init(image) {
-
-    var placeholder = $("#gl-container");
-    var asciiContainer= $("#imgascii");
-
-    var asciiWidth = asciiContainer.width();
-    $(image).width(asciiWidth);
-
-    try {
-        var canvas = fx.canvas();
-    }
-    catch (e) {
-        placeholder.html(e);
-        return;
-    }
-
-
-    // Create a texture from the image and draw it to the canvas
-    var texture = canvas.texture(image);
-    canvas.draw(texture).update();
-
-
-    var distorting = true;
-    // Draw a swirl under the mouse
-    $(placeholder).click(function(e) {
-        distorting = !distorting;
-    });
-
-    $(placeholder).mousemove(function(e) {
-        if (distorting) {
-            var offset = $(canvas).offset();
-            var x = e.pageX - offset.left;
-            var y = e.pageY - offset.top;
-            canvas.draw(texture).swirl(x, y, 200, 4).update();
-            //Jscii.renderImage(canvas, asciiContainer[0]);
-        }
-    });
-
-    $(image).hide();
-    log(asciiContainer, asciiContainer.offset())
-    placeholder.append(canvas);
-    $(canvas).offset(asciiContainer.offset());
-}
-
-
-$("#logo").on("load", function() {
-    init(this);
-});
