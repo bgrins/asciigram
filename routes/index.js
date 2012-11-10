@@ -49,6 +49,16 @@ exports.add = function(req, res) {
 	}
 };
 
+exports.popular = function(req, res){
+	fileStore.getPopular(function(err, files) {
+		if (err || !files) {
+			res.send("Not found", 404);
+			return;
+		}
+		res.render("popular", { title: "Asciigram -- Popular", files: JSON.stringify(files) });
+	});
+};
+
 exports.view = function(req, res) {
 	var lookup = req.params.id;
 	fileStore.getFile(lookup, function(err, file) {
@@ -56,10 +66,10 @@ exports.view = function(req, res) {
 			res.send("Not found", 404);
 			return;
 		}
-
+		
+		fileStore.updateViewCount(file);
 		res.render("view", { title: "Asciigram -- View", file: JSON.stringify(file) });
 	});
-
 }
 
 exports.get = function(req, res) {

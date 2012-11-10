@@ -1,16 +1,18 @@
+(function(files) {
 
-function Frame(obj) {
-	this.content = obj.content.replace(/&nbsp;/g, " ").replace(/<br>/g, "\n");
-	this.timestamp = new Date(obj.timestamp);
-}
-
-(function(file) {
-
-	if (!file) {
+	if (!files) {
 		return;
 	}
 
-	$('.share').html('Number of views: '+file.numberOfViews);
+	var popularHtml = ""; 
+
+	for (var i=0; i< files.length; i++){ 
+		popularHtml += "<div>"files[i].numberOfViews+"</div>";
+	}
+
+	$('.popular-container').html(popularHtml);
+
+/*	$('.share').html('Number of views: '+afile.numberOfViews);
 
 	var frames = _.map(file.frames, function(frame) {
 		return new Frame(frame);
@@ -43,6 +45,6 @@ function Frame(obj) {
 
 	function stop() {
 		clearInterval(timeout);
-	}
+	}*/
 
-})(window.LOADEDFILE);
+})(window.LOADPOPULAR);

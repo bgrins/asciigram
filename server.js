@@ -24,7 +24,8 @@ app.configure(function(){
   app.use(express.session());
   app.use(express.static(path.join(__dirname, 'public')));
 
-  db = mongoose.connect('mongodb://nodejitsu_nko3-comorichweb:r1o7du673h4f7lspurbqdudqd5@ds039277.mongolab.com:39277/nodejitsu_nko3-comorichweb_nodejitsudb5539601137');
+/*  db = mongoose.connect('mongodb://nodejitsu_nko3-comorichweb:r1o7du673h4f7lspurbqdudqd5@ds039277.mongolab.com:39277/nodejitsu_nko3-comorichweb_nodejitsudb5539601137');*/
+ db = mongoose.connect('mongodb://127.0.0.1/asciigram');
 });
 
 app.configure('development', function(){
@@ -35,6 +36,7 @@ app.get('/', indexRoute.index);
 app.get("/about", indexRoute.about);
 app.post("/add", indexRoute.add);
 app.get("/view/:id", indexRoute.view);
+app.get("/popular", indexRoute.popular);
 app.get("/get/:id", indexRoute.get);
 
 
