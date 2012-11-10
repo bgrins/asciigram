@@ -1,6 +1,7 @@
 var Store = (function() {
 
-    var _store = window.localStorage || { };
+    var USE_LOCAL_STORAGE = true;
+    var _store = USE_LOCAL_STORAGE && window.localStorage || { };
 
     return {
         get: function(key) {
@@ -14,7 +15,7 @@ var Store = (function() {
             _store[key] = JSON.stringify(val);
         },
         clear: function() {
-            if (window.localStorage && window.localStorage.clear) {
+            if (window.localStorage && _store === window.localStorage && window.localStorage.clear) {
                 window.localStorage.clear();
             }
             else {
@@ -25,10 +26,33 @@ var Store = (function() {
 
 })();
 
+var FileStore = {
+    get: function() {
+        return Store.get("files") || [];
+    },
+    getByID: function(id) {
+        return _.filter(FileStore.get(), function(f) {
+            return id == f.id;
+        })[0] || { };
+    },
+    push: function(file) {
+        var files = FileStore.get();
+        files.push(file);
+        Store.set("files", files);
+    },
+    clear: function() {
+        Store.set("files", []);
+    }
+};
+
 log("Stored Files", Store.get("files"));
 
 var FrameBuffer = {
     _frames: [],
+    set: function(content) {
+        FrameBuffer.clear();
+        FrameBuffer.add(content);
+    },
     add: function(content) {
         FrameBuffer._frames.push({
             content: content,
@@ -48,13 +72,36 @@ var FrameBuffer = {
 var AppView = Backbone.View.extend({
 
     SEND_TO_SERVER: false,
-    memoryStore: [],
     thumbTemplate: Handlebars.compile($("#video-list").html()),
 
     events: {
         "click #save": "save",
         "click .save-image": "saveImage",
-        "click #record": "toggleRecord"
+        "click #record": "toggleRecord",
+        "click #results li": "previewFile",
+        "click": "cancelPreview",
+        "click #snapshot": "takeSnapshot"
+    },
+
+    cancelPreview: function() {
+        $("body").removeClass("previewing");
+    },
+
+    previewFile: function(e) {
+
+        var file = FileStore.getByID($(e.currentTarget).data("id"));
+        if (file.frames) {
+            this.GL.stop();
+            $("#imgascii").html(file.frames[0].content);
+            /*
+            $("body").addClass("previewing");
+            $("#full-preview a").attr("href", "/view/" + file.id).text(file.id);
+            $("#full-preview pre").html(file.frames[0].content);
+            */
+        }
+
+        return false;
+
     },
 
     toggleRecord: function() {
@@ -70,7 +117,6 @@ var AppView = Backbone.View.extend({
         }
 
         this.recording = !this.recording;
-
     },
 
     getCurrentFrames: function() {
@@ -78,18 +124,62 @@ var AppView = Backbone.View.extend({
     },
 
     saveImage: function(e) {
-        FrameBuffer.clear();
 
         var frame = $(e.currentTarget).closest(".gram-container").find("pre").html();
-        FrameBuffer.add(frame);
+        FrameBuffer.set(frame);
 
+        this.pushCurrentBufferToServer(function(id) {
+            $(e.currentTarget).closest(".gram-container").find("a").attr("href", "/view/" + id).text(id);
+        });
+    },
+
+    addDataURLSnapshot: function(url) {
+
+        var that = this;
+        var img = new Image();
+        img.onload = function() {
+            var pre = $("<pre />");
+            App.asciiImage(img, pre[0]);
+            FrameBuffer.set(pre.html());
+
+            that.addVideoToLocalStorage(guid(), that.getCurrentFrames());
+        };
+        img.src = url;
+
+    },
+
+    takeSnapshot: function(e) {
+        var frame = $("#videoascii").html();
+        FrameBuffer.set(frame);
+
+        this.pushCurrentBufferToServer(function() {
+            log("Snapshot taken");
+        });
+    },
+
+    pushCurrentBufferToServer: function(cb) {
         var frames = this.getCurrentFrames();
         var ajax = $.post("add", { frames: JSON.stringify(frames) });
         var that = this;
         ajax.done(function(id) {
             that.addVideoToLocalStorage(id, frames);
-            $(e.currentTarget).closest(".gram-container").find("a").attr("href", "/view/" + id).text(id);
+            cb(id);
         });
+    },
+
+    renderThumbs: function() {
+
+        var that = this;
+        var templateHTML = _.map(FileStore.get(), function(i) {
+
+            return that.thumbTemplate({
+                preview: new Frame(i.frames[0]).content,
+                id: i.id
+            });
+
+        }).join("");
+
+        $("#results").html(templateHTML);
     },
 
     save: function() {
@@ -109,33 +199,23 @@ var AppView = Backbone.View.extend({
             });
         }
         else {
-            App.memoryStore.push({
-                id: "no id",
-                frames: _.map(frames, function(f) {
-                    return new Frame(f);
-                })
+            FileStore.push({
+                id: guid(),
+                frames: frames
             });
 
-            var that = this;
-            var templateHTML = _.map(App.memoryStore, function(i) {
-
-                return that.thumbTemplate({
-                    preview: i.frames[0].content
-                });
-            }).join("");
-
-            $("#results").html(templateHTML);
+            this.renderThumbs();
         }
     },
 
     addVideoToLocalStorage: function(id, frames) {
 
-        var allSaved = Store.get("files") || [];
-        allSaved.push({
+        FileStore.push({
             id: id,
             frames: frames
         });
-        Store.set("files", allSaved);
+
+        this.renderThumbs();
     },
 
     initialize: function() {
@@ -152,22 +232,19 @@ var AppView = Backbone.View.extend({
             }
         });
 
+        this.renderThumbs();
+
         FileReaderJS.setupDrop(document.body, this.fileReaderOpts);
         FileReaderJS.setupClipboard(document.body, this.fileReaderOpts);
         FileReaderJS.setupInput(document.getElementById('file-input'), this.fileReaderOpts);
     },
 
     fileReaderOpts: {
+        accept: "image/*",
         on: {
             load: function(e, file) {
-                var img = new Image();
-
-                img.src = e.target.result;
-                var container = $("<div class='gram-container'><pre></pre><div><button class='btn save-image'>Save</button><a target='_blank'></a></div>").appendTo("body");
-
-                //$("body").append(img);
-                App.asciiImage(img, container.find("pre")[0]);
-                log("Loaded", e, file);
+                App.addDataURLSnapshot(e.target.result);
+                //var container = $("<div class='gram-container'><pre></pre><div><button class='btn save-image'>Save</button><a target='_blank'></a></div>").appendTo("body");
             }
         }
     },
@@ -202,12 +279,24 @@ var AppView = Backbone.View.extend({
 var GLView = Backbone.View.extend({
 
     WARP_SIZE: 140,
+    distorting: true,
     initialize: function(opts) {
         if (!opts.image) {
             throw "No Image provided";
         }
 
         this.image = opts.image;
+
+        this.placeholder = $("#gl-container");
+        this.asciiContainer= $("#imgascii");
+
+        try {
+            this.canvas = fx.canvas();
+        }
+        catch (e) {
+            this.canvas = $([]);
+            return;
+        }
 
         var that = this;
         if (this.image[0].complete) {
@@ -219,22 +308,28 @@ var GLView = Backbone.View.extend({
             });
         }
     },
+    stop: function() {
+        this.distorting = false;
+        this.placeholder.unbind("click mousemove");
+        $(this.canvas).remove();
+    },
+    toggle: function() {
+        this.distorting = !this.distorting;
+    },
+    start: function() {
+        this.distorting = true;
+    },
     setupGL: function() {
 
         var image = this.image[0];
-        var placeholder = $("#gl-container");
-        var asciiContainer= $("#imgascii");
+        var placeholder = this.placeholder;
+        var asciiContainer= this.asciiContainer;
 
         var asciiWidth = asciiContainer.width();
 
         $(image).width(asciiWidth);
 
-        try {
-            var canvas = fx.canvas();
-        }
-        catch (e) {
-            return;
-        }
+        var canvas = this.canvas;
 
         $(image).show();
 
@@ -245,15 +340,15 @@ var GLView = Backbone.View.extend({
         canvas.draw(texture).update();
 
 
-        var distorting = true;
+        var that = this;
         // Draw a swirl under the mouse
         $(placeholder).click(function(e) {
-            distorting = !distorting;
+            that.toggle();
         });
 
         var WARP_SIZE = this.WARP_SIZE;
         $(placeholder).mousemove(function(e) {
-            if (distorting) {
+            if (that.distorting) {
                 var offset = $(canvas).offset();
                 var x = e.pageX - offset.left;
                 var y = e.pageY - offset.top;

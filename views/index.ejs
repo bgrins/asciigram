@@ -1,5 +1,7 @@
 
 
+<div id="booth-container" class='container-fluid'>
+
 
 <div id="gl-container" class="ascii-container row">
 
@@ -9,7 +11,7 @@
 		<input type="file" id="file-input" name="file-input" multiple="">
 	</div>
 
-	<div class='span5 pull-left screen'>
+	<div class='span8 pull-left screen'>
 		<img id='logo' width='150' src='/img/person.png' />
 
 		<div class='gl-holder'>
@@ -17,18 +19,21 @@
 		</div>
 	</div>
 
-	<div class='span4 pull-right channels'>
-
+	<div class='span3 pull-right channels'>
+      	<div id="your-files">
+      		<ul id='results'></ul>
+  		</div>
 	</div>
 
 </div>
-
+</div>
 
 <div id="playspace" class="ascii-container">
 
 <div id="video-toolbar" class="toolbar">
 
 	<button class="btn btn-primary" id="record" data-recording-text="Stop Recording"><i class="icon-facetime-video"></i> <strong>Record</strong></button>
+	<button class="btn btn-primary" id="snapshot"><i class="icon-camera"></i> <strong>Take picture</strong></button>
 	<!--<button class="btn btn-primary" id="record"><i class="icon-facetime-video"></i> <strong>Replay</strong></button>
 
 	<button class="btn" id="save">Save</button>-->
@@ -38,16 +43,21 @@
 	<video id="video" autoplay></video>
     <pre id="videoascii"></pre>
 </div>
+
+<div id="full-preview">
+	<a target="_blank"></a>
+	<br />
+	<pre></pre>
+</div>
 <script>APP = true</script>
 
 <code id="num-frames"></code>
 
 
-    <script type='text/handlebars' id="video-list">
-    <li>
-      <pre>
-        {{preview}}
-      </div>
-
-    </li>
-    </script>
+<script type='text/handlebars' id="video-list">
+<li data-id="{{id}}">
+  <pre>
+    {{preview}}
+  </div>
+</li>
+</script>
