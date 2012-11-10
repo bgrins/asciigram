@@ -40,13 +40,17 @@
 	<video id="video" autoplay></video>
     <pre id="videoascii"></pre>
 </div>
+
+<div id="full-preview">
+	<pre></pre>
+</div>
 <script>APP = true</script>
 
 <code id="num-frames"></code>
 
 
 <script type='text/handlebars' id="video-list">
-<li>
+<li data-id="{{id}}">
   <pre>
     {{preview}}
   </div>

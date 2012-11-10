@@ -30,6 +30,11 @@ var FileStore = {
     get: function() {
         return Store.get("files") || [];
     },
+    getByID: function(id) {
+        return _.filter(FileStore.get(), function(f) {
+            return id == f.id;
+        })[0] || { };
+    },
     push: function(file) {
         var files = FileStore.get();
         files.push(file);
@@ -69,7 +74,25 @@ var AppView = Backbone.View.extend({
         "click #save": "save",
         "click .save-image": "saveImage",
         "click #record": "toggleRecord",
+        "click #results li": "previewFile",
+        "click": "cancelPreview",
         "click #snapshot": "takeSnapshot"
+    },
+
+    cancelPreview: function() {
+        $("body").removeClass("previewing");
+    },
+
+    previewFile: function(e) {
+
+        var file = FileStore.getByID($(e.currentTarget).data("id"));
+        if (file.frames) {
+            $("body").addClass("previewing");
+            $("#full-preview pre").html(file.frames[0].content);
+        }
+
+        return false;
+
     },
 
     toggleRecord: function() {
@@ -128,7 +151,8 @@ var AppView = Backbone.View.extend({
         var templateHTML = _.map(FileStore.get(), function(i) {
 
             return that.thumbTemplate({
-                preview: new Frame(i.frames[0]).content
+                preview: new Frame(i.frames[0]).content,
+                id: i.id
             });
 
         }).join("");
