@@ -1,4 +1,4 @@
-var store = (function() {
+var Store = (function() {
 
     var _store = window.localStorage || { };
 
@@ -12,12 +12,20 @@ var store = (function() {
         },
         set: function(key, val) {
             _store[key] = JSON.stringify(val);
+        },
+        clear: function() {
+            if (window.localStorage && window.localStorage.clear) {
+                window.localStorage.clear();
+            }
+            else {
+                _store = {};
+            }
         }
     }
 
 })();
 
-log("Stored Files", store.get("files"));
+log("Stored Files", Store.get("files"));
 
 var FrameBuffer = {
     _frames: [],
@@ -71,14 +79,12 @@ var AppView = Backbone.View.extend({
         var ajax = $.post("add", { frames: JSON.stringify(frames) });
 
         ajax.done(function(id) {
-            var allSaved = store.get("files") || [];
+            var allSaved = Store.get("files") || [];
             allSaved.push({
                 id: id,
                 frames: frames
             });
-            store.set("files", allSaved);
-
-            log(store.get("files"));
+            Store.set("files", allSaved);
         });
     },
 
