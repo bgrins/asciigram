@@ -219,3 +219,5 @@ function init(image) {
 $("#logo").on("load", function() {
     init(this);
 });
+
+$('.share').html(generateShareLinks("http://google.com", "sladkflkjsdljdf"));
