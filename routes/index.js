@@ -4,6 +4,10 @@ exports.index = function(req, res){
   res.render('index', { title: 'Asciigram' });
 };
 
+exports.about = function(req, res){
+  res.render('about', { title: 'About' });
+};
+
 exports.add = function(req, res) {
 	var id = req.body.id;
 	var frames;
@@ -13,15 +17,15 @@ exports.add = function(req, res) {
 	} catch(e) {
 		res.send("Invalid file data", 500);
 	}
-	
+
 	if (id) {
 		fileStore.getFile(id, function(err, file) {
 			if (err || !file) {
 				res.send("Not found", 404);
 				return;
 			}
-			
-			updateFile(file);			
+
+			updateFile(file);
 		});
 	}
 	else {
@@ -36,8 +40,8 @@ exports.add = function(req, res) {
 		});
 
 		file.save(function(err) {
-			if (err) { 
-				res.end("oops", 500); 
+			if (err) {
+				res.end("oops", 500);
 			}
 
 			return res.send(file.lookup);

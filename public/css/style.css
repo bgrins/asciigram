@@ -7,10 +7,10 @@ body.drag {
 	background: limegreen;
 }
 .full-width {
-	left: 0;
+	/*left: 0;
 	right: 0;
 	position:relative;
-	position:absolute;
+	position:absolute;*/
 	background: #333;
 	color: #eee;
 }
@@ -117,7 +117,7 @@ video {
 
 .jumbotron {
 	text-align: center;
-	margin-bottom: 100px;
+	margin-bottom: 10px;
 }
 .jumbotron h1 {
 	font-size: 72px;
