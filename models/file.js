@@ -9,8 +9,7 @@ var frameSchema = new mongoose.Schema({
 
 var fileschema = new mongoose.Schema({
     lookup: String,
-    frames: [ frameSchema ],
-    timestamp: { type: Date, default: Date.now },
+    frames: [ frameSchema ]
 });
 
 var File = mongoose.model("File", fileschema);
@@ -19,7 +18,7 @@ var Frame = mongoose.model("Frame", frameSchema);
 File.prototype.addFrame = function(content, timestamp) {
     var frame = new Frame();
     frame.content = content;
-    frame.timestamp = timestamp || Date.now;
+    frame.timestamp = timestamp || Date.now();
     this.frames.push(frame);
 };
 

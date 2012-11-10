@@ -34,6 +34,7 @@ app.configure('development', function(){
 
 app.get('/', indexRoute.index);
 app.post("/add", indexRoute.add)
+app.get("/view/:id", indexRoute.view);
 app.get("/get/:id", indexRoute.get);
 
 

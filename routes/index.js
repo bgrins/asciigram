@@ -1,7 +1,7 @@
 var fileStore = require("../models/file.js");
 
 exports.index = function(req, res){
-  res.render('index', { title: 'Express' });
+  res.render('index', { title: 'Asciigram' });
 };
 
 exports.add = function(req, res) {
@@ -37,6 +37,19 @@ exports.add = function(req, res) {
 		});
 	}
 };
+
+exports.view = function(req, res) {
+	var lookup = req.params.id;
+	fileStore.getFile(lookup, function(err, file) {
+		if (err || !file) {
+			res.send("Not found", 404);
+			return;
+		}
+
+		res.render("view", { title: "Asciigram -- View", file: JSON.stringify(file) });
+	});
+
+}
 
 exports.get = function(req, res) {
 	var lookup = req.params.id;
