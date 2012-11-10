@@ -34,6 +34,8 @@ var FrameBuffer = {
             content: content,
             timestamp: Date.now()
         });
+
+        $("#num-frames").text(FrameBuffer._frames.length);
     },
     clear: function() {
         FrameBuffer._frames = [];
@@ -60,7 +62,15 @@ setTimeout(function() {
 var AppView = Backbone.View.extend({
 
     events: {
-        "click #save": "save"
+        "click #save": "save",
+        "click #record": "toggleRecord"
+    },
+
+    toggleRecord: function() {
+        if (!this.recording) {
+            FrameBuffer.clear();
+        }
+        this.recording = !this.recording;
     },
 
     getCurrentFrames: function() {
@@ -92,51 +102,19 @@ var AppView = Backbone.View.extend({
 
         this.asciiLogo();
 
-        log("Getting user media");
-        //getUserMedia(this.userMediaOptions, this.userMediaSuccess, this.userMediaError);
-        //this.webcam = this.userMediaOptions;
-
+        var that = this;
         Jscii.renderVideo($('#video')[0], $('#videoascii')[0], function() {
             $("body").removeClass("no-video").addClass("yes-video");
+            FrameBuffer.clear();
+        }, function(markup) {
+            if (that.recording) {
+                FrameBuffer.add(markup);
+            }
         });
 
         FileReaderJS.setupDrop(document.body, this.fileReaderOpts);
         FileReaderJS.setupClipboard(document.body, this.fileReaderOpts);
 
-    },
-
-    userMediaSuccess: function() {
-        log("User media success");
-
-
-        if (App.options.context === 'webrtc') {
-
-            var video = App.userMediaOptions.videoEl;
-            log(video);
-            if ((typeof MediaStream !== "undefined" && MediaStream !== null) && stream instanceof MediaStream) {
-
-              video.src = stream;
-              return video.play();
-            } else {
-              var vendorURL = window.URL || window.webkitURL;
-              video.src = vendorURL ? vendorURL.createObjectURL(stream) : stream;
-            }
-
-            video.onerror = function () {
-                stream.stop();
-                streamError();
-            };
-
-        } else{
-            // flash context
-        }
-
-
-    },
-
-    userMediaError: function() {
-
-        log("User media error");
     },
 
     fileReaderOpts: {
@@ -175,52 +153,6 @@ var AppView = Backbone.View.extend({
 
     asciiImage: function(image, container, cb) {
         Jscii.renderImage(image, container, cb);
-    },
-
-    userMediaOptions: {
-        "audio": false,
-        "video": true,
-        el: "webcam",
-
-        extern: null,
-        append: true,
-        width: 320,
-        height: 240,
-
-        mode: "callback",
-        swffile: "../dist/fallback/jscam_canvas_only.swf",
-        quality: 85,
-        context: "",
-
-        debug: function () {},
-        onCapture: function () {
-            App.webcam.save();
-        },
-        onTick: function () {},
-        onSave: function (data) {
-    /*
-            var col = data.split(";"),
-                img = App.image,
-                tmp = null,
-                w = this.width,
-                h = this.height;
-
-            for (var i = 0; i < w; i++) {
-                tmp = parseInt(col[i], 10);
-                img.data[App.pos + 0] = (tmp >> 16) & 0xff;
-                img.data[App.pos + 1] = (tmp >> 8) & 0xff;
-                img.data[App.pos + 2] = tmp & 0xff;
-                img.data[App.pos + 3] = 0xff;
-                App.pos += 4;
-            }
-
-            if (App.pos >= 4 * w * h) {
-                App.ctx.putImageData(img, 0, 0);
-                App.pos = 0;
-            }
-    */
-        },
-        onLoad: function () {}
     }
 
 });
@@ -293,7 +225,7 @@ var GLView = Backbone.View.extend({
 
 });
 
-if (APP) {
+if (window.APP) {
     var App = new AppView({ el: $("body") });
 }
 
