@@ -25,7 +25,7 @@ var FrameBuffer = {
     add: function(content) {
         FrameBuffer._frames.push({
             content: content,
-            timestamp: Date.now
+            timestamp: Date.now()
         });
     },
     clear: function() {
