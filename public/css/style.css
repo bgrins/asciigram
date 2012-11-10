@@ -1,7 +1,7 @@
 body {
-  padding-top: 20px;
-  padding-bottom: 40px;
-  background: url(/img/grey.png);
+	padding: 0;
+  	padding-bottom: 30px;
+  	background: url(/img/grey.png);
 }
 body.drag {
 	background: limegreen;
@@ -52,6 +52,7 @@ h1, h2, h3, h4 {
 h1 {
   text-transform: uppercase;
   letter-spacing: 1px;
+  margin-top: 2px;
   }
 h2 {
   margin-bottom: 8px;
@@ -137,9 +138,9 @@ video {
 	margin-top: 28px;
 }
 
-.sprite { background: url('/img/social-sprite.png') no-repeat top left; display:inline-block;  } 
-.sprite.facebook { background-position: 0px 0px; width: 33px; height: 32px;  margin:0 4px;} 
-.sprite.google { background-position: -43px 0px; width: 33px; height: 32px;  margin:0 4px;} 
-.sprite.pinterest { background-position: -86px 0px; width: 32px; height: 32px;  margin:0 4px;} 
-.sprite.twitter { background-position: -128px 0px; width: 33px; height: 33px;  margin:0 4px;} 
+.sprite { background: url('/img/social-sprite.png') no-repeat top left; display:inline-block;  }
+.sprite.facebook { background-position: 0px 0px; width: 33px; height: 32px;  margin:0 4px;}
+.sprite.google { background-position: -43px 0px; width: 33px; height: 32px;  margin:0 4px;}
+.sprite.pinterest { background-position: -86px 0px; width: 32px; height: 32px;  margin:0 4px;}
+.sprite.twitter { background-position: -128px 0px; width: 33px; height: 33px;  margin:0 4px;}
 
