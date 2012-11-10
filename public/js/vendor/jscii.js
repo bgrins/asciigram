@@ -1,5 +1,5 @@
 !function() {
-
+  var DEFAULT_WIDTH = 100;
   navigator.getMedia = navigator.getUserMedia ||
     navigator.webkitGetUserMedia ||
     navigator.mozGetUserMedia ||
@@ -90,7 +90,7 @@
     cb = cb || function() {};
     function drawImage(image) {
       var ratio = image.width/image.height;
-      imgCanvas.width = w = 150;
+      imgCanvas.width = w = DEFAULT_WIDTH;
       imgCanvas.height = h = w/ratio;
       imgCtx.drawImage(image, 0, 0, w, h);
       data = imgCtx.getImageData(0, 0, w, h).data;
@@ -136,9 +136,9 @@
   }
 
   /**
-   * default video dimension at 150 width and a 4:3 ratio
+   * default video dimension at DEFAULT_WIDTH width and a 4:3 ratio
    */
-  setVideoDimension(150, parseInt(150*3/4, 10));
+  setVideoDimension(DEFAULT_WIDTH, parseInt(DEFAULT_WIDTH*3/4, 10));
 
   window.Jscii = {
     setVideoDimension: setVideoDimension,

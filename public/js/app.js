@@ -185,6 +185,7 @@ var AppView = Backbone.View.extend({
 
 var GLView = Backbone.View.extend({
 
+    WARP_SIZE: 140,
     initialize: function(opts) {
         if (!opts.image) {
             throw "No Image provided";
@@ -235,12 +236,13 @@ var GLView = Backbone.View.extend({
             distorting = !distorting;
         });
 
+        var WARP_SIZE = this.WARP_SIZE;
         $(placeholder).mousemove(function(e) {
             if (distorting) {
                 var offset = $(canvas).offset();
                 var x = e.pageX - offset.left;
                 var y = e.pageY - offset.top;
-                canvas.draw(texture).swirl(x, y, 200, 4).update();
+                canvas.draw(texture).swirl(x, y, WARP_SIZE, 4).update();
                 Jscii.renderImage(canvas, asciiContainer[0]);
             }
         });
