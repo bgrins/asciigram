@@ -290,6 +290,14 @@ var GLView = Backbone.View.extend({
         this.placeholder = $("#gl-container");
         this.asciiContainer= $("#imgascii");
 
+        try {
+            this.canvas = fx.canvas();
+        }
+        catch (e) {
+            this.canvas = $([]);
+            return;
+        }
+
         var that = this;
         if (this.image[0].complete) {
             this.setupGL();
@@ -303,6 +311,7 @@ var GLView = Backbone.View.extend({
     stop: function() {
         this.distorting = false;
         this.placeholder.unbind("click mousemove");
+        $(this.canvas).remove();
     },
     toggle: function() {
         this.distorting = !this.distorting;
@@ -320,12 +329,7 @@ var GLView = Backbone.View.extend({
 
         $(image).width(asciiWidth);
 
-        try {
-            var canvas = fx.canvas();
-        }
-        catch (e) {
-            return;
-        }
+        var canvas = this.canvas;
 
         $(image).show();
 
