@@ -1,4 +1,3 @@
-
 var store = (function() {
 
     var _store = window.localStorage || { };
@@ -256,7 +255,6 @@ var GLView = Backbone.View.extend({
         placeholder.append(canvas);
         $(canvas).offset(asciiContainer.offset());
     }
-
 
 });
 
