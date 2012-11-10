@@ -8,6 +8,12 @@
 git clone git@github.com:nko3/comorichweb.git
 ~~~
 
+~~~sh
+npm install
+sudo npm install -g nodemon
+nodemon server.js
+~~~
+
 ### Nodejitsu — [More details][5], [Handbook][4]
 
 ~~~sh

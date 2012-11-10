@@ -3,3 +3,93 @@ body {
   padding-bottom: 40px;
   background: url(/img/grey.png);
 }
+body.drag {
+	background: limegreen;
+}
+html, body, input, select, textarea {
+  font-family: Calibri, Candara, Segoe, "Segoe UI", Optima, sans-serif;
+
+  font-weight: 300;
+  font-size: 16px;
+  line-height: 1.5;
+  color: #333;
+}
+h1, h2, h3, h4 {
+  font-family: "MetaPro", "Lucida Grande", sans-serif;
+}
+h1 {
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  }
+h2 {
+  margin-bottom: 8px;
+  color: #444;
+  border-bottom: solid 1px #999;
+}
+h3 {
+  color: #68218F;
+  border-bottom: solid 1px #999;
+}
+h4 {
+  margin-top: 6px;
+}
+a {
+  color: #00B7FF;
+}
+
+pre {
+	font: bold 8px/5px monospace;
+	color: #000;
+	clear: both;
+    text-align: left;
+    box-shadow: 0 0 10px #300;
+    display:inline-block;
+}
+
+video {
+	width: 200px;
+}
+
+#gl-container canvas {
+	opacity:0;
+	position:absolute;
+	top: 0;
+	left: 0;
+}
+
+.gram-container {
+	text-align: center;
+}
+#gl-container {
+	text-align: center;
+}
+.gl-holder {
+	position:relative;
+}
+#logo {
+	margin: 0 auto;
+	text-align: center;
+	width: 150px;
+	display: block;
+}
+
+.jumbotron {
+	margin: 10px 0;
+	text-align: center;
+}
+.jumbotron h1 {
+	font-size: 72px;
+	line-height: 1;
+}
+.jumbotron .btn {
+	font-size: 21px;
+	padding: 14px 24px;
+}
+
+
+.marketing {
+	margin: 60px 0;
+}
+.marketing p + h4 {
+	margin-top: 28px;
+}
