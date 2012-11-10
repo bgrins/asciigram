@@ -85,7 +85,9 @@ var App = new (Backbone.View.extend({
 
     initialize: function() {
         this.asciiLogo();
-        //getUserMedia(userMediaOptions, this.userMediaSuccess, this.userMediaError);
+
+        log("Getting user media");
+        getUserMedia(this.userMediaOptions, this.userMediaSuccess, this.userMediaError);
 
         FileReaderJS.setupDrop(document.body, this.fileReaderOpts);
         FileReaderJS.setupClipboard(document.body, this.fileReaderOpts);
@@ -93,11 +95,12 @@ var App = new (Backbone.View.extend({
     },
 
     userMediaSuccess: function() {
-
+        log("User media success");
     },
 
     userMediaError: function() {
 
+        log("User media error");
     },
 
     fileReaderOpts: {
@@ -121,6 +124,52 @@ var App = new (Backbone.View.extend({
 
     asciiImage: function(image, container) {
         Jscii.renderImage(image, container);
+    },
+
+    userMediaOptions: {
+        "audio": false,
+        "video": true,
+        el: "webcam",
+
+        extern: null,
+        append: true,
+        width: 320,
+        height: 240,
+
+        mode: "callback",
+        swffile: "../dist/fallback/jscam_canvas_only.swf",
+        quality: 85,
+        context: "",
+
+        debug: function () {},
+        onCapture: function () {
+            //window.webcam.save();
+        },
+        onTick: function () {},
+        onSave: function (data) {
+    /*
+            var col = data.split(";"),
+                img = App.image,
+                tmp = null,
+                w = this.width,
+                h = this.height;
+
+            for (var i = 0; i < w; i++) {
+                tmp = parseInt(col[i], 10);
+                img.data[App.pos + 0] = (tmp >> 16) & 0xff;
+                img.data[App.pos + 1] = (tmp >> 8) & 0xff;
+                img.data[App.pos + 2] = tmp & 0xff;
+                img.data[App.pos + 3] = 0xff;
+                App.pos += 4;
+            }
+
+            if (App.pos >= 4 * w * h) {
+                App.ctx.putImageData(img, 0, 0);
+                App.pos = 0;
+            }
+    */
+        },
+        onLoad: function () {}
     }
 
 }))({ el: $("body") });

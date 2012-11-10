@@ -16,7 +16,6 @@ app.configure(function(){
   app.set('layout', 'views/layout.ejs');
   app.use(partials());
 
-  app.use(express.favicon());
   app.use(express.logger('dev'));
   app.use(express.bodyParser());
   app.use(express.methodOverride());
