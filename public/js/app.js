@@ -236,6 +236,7 @@ var AppView = Backbone.View.extend({
     },
 
     fileReaderOpts: {
+        accept: "image/*",
         on: {
             load: function(e, file) {
                 App.addDataURLSnapshot(e.target.result);
