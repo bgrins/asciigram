@@ -1,21 +1,30 @@
 
-<div id="gl-container" class="ascii-container">
-<img id='logo' width='150' src='/img/person.png' />
 
-  <div class='gl-holder'>
-    <pre id="imgascii"></pre>
-  </div>
+
+<div id="gl-container" class="ascii-container">
+	<img id='logo' width='150' src='/img/person.png' />
+
+
+	<div id="image-toolbar" class="toolbar">
+		<button class="btn" id="save">Save</button>
+		<input type="file" id="file-input" name="file-input" multiple="">
+	</div>
+
+	<div class='gl-holder'>
+		<pre id="imgascii"></pre>
+	</div>
 </div>
 
-<button class="btn" id="save">Save</button>
 
 <div id="playspace" class="ascii-container">
 
-	<div id="video-toolbar" class="toolbar">
+<div id="video-toolbar" class="toolbar">
 
 	<button class="btn btn-primary" id="record"><i class="icon-facetime-video"></i> <strong>Record</strong></button>
 
-	</div>
+	<button class="btn" id="save">Save</button>
+</div>
+
 
 	<video id="video" autoplay></video>
     <pre id="videoascii"></pre>
