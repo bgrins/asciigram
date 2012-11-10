@@ -1,4 +1,3 @@
-var App = new (Backbone.View.extend({
 var store = (function() {
 
     var _store = window.localStorage || { };
@@ -174,6 +173,7 @@ var AppView = Backbone.View.extend({
 
 });
 
+var APP;
 if (APP) {
     var App = new AppView({ el: $("body") });
 }
