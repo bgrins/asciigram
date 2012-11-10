@@ -16,12 +16,14 @@ body.drag {
 }
 
 #results {
-	position:absolute;
-	right:0;
-	top: 100px;
+	max-height: 400px;
+	overflow-y: auto;
 	list-style: none;
 	border: solid 5px #333;
 	border-right: none;
+}
+#results pre {
+	word-wrap: break-word;
 }
 
 #results li {

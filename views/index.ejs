@@ -19,6 +19,7 @@
 
 	<div class='span4 pull-right channels'>
 
+      <ul id='results'></ul>
 	</div>
 
 </div>
@@ -29,6 +30,7 @@
 <div id="video-toolbar" class="toolbar">
 
 	<button class="btn btn-primary" id="record" data-recording-text="Stop Recording"><i class="icon-facetime-video"></i> <strong>Record</strong></button>
+	<button class="btn btn-primary" id="snapshot"><i class="icon-camera"></i> <strong>Take picture</strong></button>
 	<!--<button class="btn btn-primary" id="record"><i class="icon-facetime-video"></i> <strong>Replay</strong></button>
 
 	<button class="btn" id="save">Save</button>-->
@@ -43,11 +45,11 @@
 <code id="num-frames"></code>
 
 
-    <script type='text/handlebars' id="video-list">
-    <li>
-      <pre>
-        {{preview}}
-      </div>
+<script type='text/handlebars' id="video-list">
+<li>
+  <pre>
+    {{preview}}
+  </div>
 
-    </li>
-    </script>
+</li>
+</script>

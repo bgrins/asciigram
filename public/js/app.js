@@ -1,6 +1,7 @@
 var Store = (function() {
 
-    var _store = window.localStorage || { };
+    var USE_LOCAL_STORAGE = true;
+    var _store = USE_LOCAL_STORAGE && window.localStorage || { };
 
     return {
         get: function(key) {
@@ -14,7 +15,7 @@ var Store = (function() {
             _store[key] = JSON.stringify(val);
         },
         clear: function() {
-            if (window.localStorage && window.localStorage.clear) {
+            if (window.localStorage && _store === window.localStorage && window.localStorage.clear) {
                 window.localStorage.clear();
             }
             else {
@@ -24,6 +25,20 @@ var Store = (function() {
     };
 
 })();
+
+var FileStore = {
+    get: function() {
+        return Store.get("files") || [];
+    },
+    push: function(file) {
+        var files = FileStore.get();
+        files.push(file);
+        Store.set("files", files);
+    },
+    clear: function() {
+        Store.set("files", []);
+    }
+};
 
 log("Stored Files", Store.get("files"));
 
@@ -48,13 +63,13 @@ var FrameBuffer = {
 var AppView = Backbone.View.extend({
 
     SEND_TO_SERVER: false,
-    memoryStore: [],
     thumbTemplate: Handlebars.compile($("#video-list").html()),
 
     events: {
         "click #save": "save",
         "click .save-image": "saveImage",
-        "click #record": "toggleRecord"
+        "click #record": "toggleRecord",
+        "click #snapshot": "takeSnapshot"
     },
 
     toggleRecord: function() {
@@ -70,7 +85,6 @@ var AppView = Backbone.View.extend({
         }
 
         this.recording = !this.recording;
-
     },
 
     getCurrentFrames: function() {
@@ -83,13 +97,43 @@ var AppView = Backbone.View.extend({
         var frame = $(e.currentTarget).closest(".gram-container").find("pre").html();
         FrameBuffer.add(frame);
 
+        this.pushCurrentBufferToServer(function(id) {
+            $(e.currentTarget).closest(".gram-container").find("a").attr("href", "/view/" + id).text(id);
+        });
+    },
+
+    takeSnapshot: function(e) {
+        FrameBuffer.clear();
+        var frame = $("#videoascii").html();
+        FrameBuffer.add(frame);
+
+        this.pushCurrentBufferToServer(function() {
+            log("Snapshot taken");
+        });
+    },
+
+    pushCurrentBufferToServer: function(cb) {
         var frames = this.getCurrentFrames();
         var ajax = $.post("add", { frames: JSON.stringify(frames) });
         var that = this;
         ajax.done(function(id) {
             that.addVideoToLocalStorage(id, frames);
-            $(e.currentTarget).closest(".gram-container").find("a").attr("href", "/view/" + id).text(id);
+            cb(id);
         });
+    },
+
+    renderThumbs: function() {
+
+        var that = this;
+        var templateHTML = _.map(FileStore.get(), function(i) {
+
+            return that.thumbTemplate({
+                preview: new Frame(i.frames[0]).content
+            });
+
+        }).join("");
+
+        $("#results").html(templateHTML);
     },
 
     save: function() {
@@ -109,22 +153,12 @@ var AppView = Backbone.View.extend({
             });
         }
         else {
-            App.memoryStore.push({
+            FileStore.push({
                 id: "no id",
-                frames: _.map(frames, function(f) {
-                    return new Frame(f);
-                })
+                frames: frames
             });
 
-            var that = this;
-            var templateHTML = _.map(App.memoryStore, function(i) {
-
-                return that.thumbTemplate({
-                    preview: i.frames[0].content
-                });
-            }).join("");
-
-            $("#results").html(templateHTML);
+            this.renderThumbs();
         }
     },
 
@@ -151,6 +185,8 @@ var AppView = Backbone.View.extend({
                 FrameBuffer.add(markup);
             }
         });
+
+        this.renderThumbs();
 
         FileReaderJS.setupDrop(document.body, this.fileReaderOpts);
         FileReaderJS.setupClipboard(document.body, this.fileReaderOpts);
