@@ -18,7 +18,37 @@ var store = (function() {
 
 })();
 
-log(store.get("files"));
+log("Stored Files", store.get("files"));
+
+var FrameBuffer = {
+    _frames: [],
+    add: function(content) {
+        FrameBuffer._frames.push({
+            content: content,
+            timestamp: Date.now
+        });
+    },
+    clear: function() {
+        FrameBuffer._frames = [];
+    },
+    get: function() {
+        return FrameBuffer._frames;
+    }
+};
+
+FrameBuffer.add("1");
+setTimeout(function() {
+    FrameBuffer.add("2");
+}, 100);
+setTimeout(function() {
+    FrameBuffer.add("3");
+}, 200);
+setTimeout(function() {
+    FrameBuffer.add("4");
+}, 400);
+setTimeout(function() {
+    FrameBuffer.add("5");
+}, 600);
 
 var App = new (Backbone.View.extend({
 
@@ -26,10 +56,20 @@ var App = new (Backbone.View.extend({
         "click #save": "save"
     },
 
+    getCurrentFrames: function() {
+        return FrameBuffer.get();
+    },
+
     save: function() {
 
-        var frames = JSON.stringify([{ content: "12345", timestamp: Date.now }]);
-        var ajax = $.post("add", { frames: frames });
+        var frames = this.getCurrentFrames();
+
+        if (frames.length == 0) {
+            log("Error, no frames provided");
+            return;
+        }
+
+        var ajax = $.post("add", { frames: JSON.stringify(frames) });
 
         ajax.done(function(id) {
             var allSaved = store.get("files") || [];
