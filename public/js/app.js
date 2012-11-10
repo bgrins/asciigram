@@ -1,5 +1,4 @@
 var App = new (Backbone.View.extend({
-
     initialize: function() {
         this.asciiLogo();
         //getUserMedia(userMediaOptions, this.userMediaSuccess, this.userMediaError);
@@ -131,7 +130,6 @@ function init(image) {
     placeholder.append(canvas);
     $(canvas).offset(asciiContainer.offset());
 }
-
 
 $("#logo").on("load", function() {
     init(this);
