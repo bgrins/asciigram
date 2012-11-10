@@ -1,4 +1,8 @@
 (function(file) {
+	if (!file) {
+		return;
+	}
+
 	function Frame(obj) {
 		this.content = obj.content;
 		this.timestamp = new Date(obj.timestamp);
