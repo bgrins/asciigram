@@ -50,7 +50,7 @@ setTimeout(function() {
     FrameBuffer.add("5");
 }, 600);
 
-var App = new (Backbone.View.extend({
+var AppView = Backbone.View.extend({
 
     events: {
         "click #save": "save"
@@ -172,7 +172,11 @@ var App = new (Backbone.View.extend({
         onLoad: function () {}
     }
 
-}))({ el: $("body") });
+});
+
+if (APP) {
+    var App = new AppView({ el: $("body") });
+}
 
 var userMediaOptions = {
     "audio": false,
