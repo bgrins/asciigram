@@ -6,6 +6,16 @@ body {
 body.drag {
 	background: limegreen;
 }
+
+body.no-video #playspace {
+	display: none;
+}
+body.yes-video #playspace {
+	display: block;
+}
+body.yes-video #gl-container {
+	display: none;
+}
 html, body, input, select, textarea {
   font-family: Calibri, Candara, Segoe, "Segoe UI", Optima, sans-serif;
 
@@ -50,6 +60,15 @@ video {
 	width: 200px;
 }
 
+.ascii-container {
+	text-align: center;
+}
+#playspace video {
+	opacity:0;
+	position:absolute;
+	top: -10000px;
+	left: -10000px;
+}
 #gl-container canvas {
 	opacity:0;
 	position:absolute;
@@ -58,9 +77,6 @@ video {
 }
 
 .gram-container {
-	text-align: center;
-}
-#gl-container {
 	text-align: center;
 }
 .gl-holder {

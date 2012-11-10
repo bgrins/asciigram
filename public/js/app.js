@@ -97,7 +97,7 @@ var AppView = Backbone.View.extend({
         //this.webcam = this.userMediaOptions;
 
         Jscii.renderVideo($('#video')[0], $('#videoascii')[0], function() {
-            $("#playspace").removeClass("no-video").addClass("yes-video");
+            $("body").removeClass("no-video").addClass("yes-video");
         });
 
         FileReaderJS.setupDrop(document.body, this.fileReaderOpts);
