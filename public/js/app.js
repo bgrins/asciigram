@@ -19,7 +19,6 @@ function init(image) {
     var placeholder = $("#gl-container");
     var asciiContainer= $("#imgascii");
 
-    placeholder.offset(asciiContainer.offset());
     var asciiWidth = asciiContainer.width();
     $(image).width(asciiWidth);
 
@@ -31,11 +30,11 @@ function init(image) {
         return;
     }
 
+
     // Create a texture from the image and draw it to the canvas
     var texture = canvas.texture(image);
     canvas.draw(texture).update();
 
-    placeholder.append(canvas);
 
     var distorting = true;
     // Draw a swirl under the mouse
@@ -54,6 +53,9 @@ function init(image) {
     });
 
     $(image).hide();
+    log(asciiContainer, asciiContainer.offset())
+    placeholder.append(canvas);
+    $(canvas).offset(asciiContainer.offset());
 }
 
 
