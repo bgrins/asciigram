@@ -2,7 +2,11 @@ var App = new (Backbone.View.extend({
 
     initialize: function() {
         this.asciiLogo();
-        getUserMedia(userMediaOptions, this.userMediaSuccess, this.userMediaError);
+        //getUserMedia(userMediaOptions, this.userMediaSuccess, this.userMediaError);
+
+        FileReaderJS.setupDrop(document.body, this.fileReaderOpts);
+        FileReaderJS.setupClipboard(document.body, this.fileReaderOpts);
+
     },
 
     userMediaSuccess: function() {
@@ -11,6 +15,21 @@ var App = new (Backbone.View.extend({
 
     userMediaError: function() {
 
+    },
+
+    fileReaderOpts: {
+        on: {
+            load: function(e, file) {
+                var img = new Image();
+
+                img.src = e.target.result;
+                var container = $("<div class='gram-container'><pre></pre></div>").appendTo("body");
+
+                //$("body").append(img);
+                App.asciiImage(img, container.find("pre")[0]);
+                log("Loaded", e, file);
+            }
+        }
     },
 
     asciiLogo: function() {

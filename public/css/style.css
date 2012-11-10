@@ -3,7 +3,9 @@ body {
   padding-bottom: 40px;
   background: url(/img/grey.png);
 }
-
+body.drag {
+	background: limegreen;
+}
 html, body, input, select, textarea {
   font-family: Calibri, Candara, Segoe, "Segoe UI", Optima, sans-serif;
 
@@ -53,6 +55,10 @@ video {
 	position:absolute;
 	top: 0;
 	left: 0;
+}
+
+.gram-container {
+	text-align: center;
 }
 #gl-container {
 	text-align: center;
