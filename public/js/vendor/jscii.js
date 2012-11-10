@@ -37,7 +37,7 @@
   /**
    * given a video object and DOM element, render the ASCII string inside element
    */
-  function renderVideo(videoEl, containerEl, cb) {
+  function renderVideo(videoEl, containerEl, cb, ontick) {
     cb = cb || function() { };
     if(typeof navigator.getMedia !== 'function') {
       var msg = 'Error: browser does not support getUserMedia';
@@ -47,12 +47,12 @@
 
     video = videoEl;
     container = containerEl;
-    navigator.getMedia({video: true, audio: false }, function(localMediaStream){
+    navigator.getMedia({ video: true, audio: false }, function(localMediaStream){
       stream = localMediaStream;
       var url = window.URL || window.webkitURL;
       video.src = url.createObjectURL(localMediaStream);
 
-      startRender(15);
+      startRender(15, ontick);
       video.onloadedmetadata = logError;
 
       cb();
@@ -63,14 +63,17 @@
   /**
    * gets video image data, perform ascii conversion, append string to container
    */
-  function startRender(interval) {
+  function startRender(interval, ontick) {
+    ontick = ontick || function() {};
     if(typeof interval !== 'number') interval = 20;
     videoTimer = setInterval(function(){
       if(stream) {
         var w = videoWidth, h = videoHeight;
         videoCtx.drawImage(video, 0, 0, w, h);
         var data = videoCtx.getImageData(0, 0, w, h).data;
-        container.innerHTML = getAsciiString(data, w, h);
+        var asciiString = getAsciiString(data, w, h);
+        container.innerHTML = asciiString;
+        ontick(asciiString);
       }
     }, interval);
   }

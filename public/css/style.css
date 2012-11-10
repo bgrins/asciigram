@@ -76,6 +76,10 @@ video {
 	left: 0;
 }
 
+.toolbar {
+	margin-bottom: 10px;
+}
+
 .gram-container {
 	text-align: center;
 }
