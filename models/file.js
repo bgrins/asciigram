@@ -1,13 +1,27 @@
 var mongoose = require('mongoose');
 var db = db;
 
-var schema = new mongoose.Schema({
+
+var frameSchema = new mongoose.Schema({
     content: String,
-    timestamp: { type: Date, default: Date.now },
-    lookup: String
+    timestamp: Date
 });
 
-var File = mongoose.model("File", schema)
+var fileschema = new mongoose.Schema({
+    lookup: String,
+    frames: [ frameSchema ],
+    timestamp: { type: Date, default: Date.now },
+});
+
+var File = mongoose.model("File", fileschema);
+var Frame = mongoose.model("Frame", frameSchema);
+
+File.prototype.addFrame = function(content, timestamp) {
+    var frame = new Frame();
+    frame.content = content;
+    frame.timestamp = timestamp || Date.now;
+    this.frames.push(frame);
+};
 
 File.prototype.generateLookup = function() {
     var chars = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXTZabcdefghiklmnopqrstuvwxyz";
