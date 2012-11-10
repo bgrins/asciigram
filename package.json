@@ -2,6 +2,8 @@
   "name": "nko3-comorichweb",
   "version": "0.0.0",
   "description": "comorichweb",
+
+  "author": "Brian Grinstead, Aaron Marasco, Nicole Grinstead",
   "main": "server.js",
   "scripts": {
     "start": "node server.js"
@@ -11,6 +13,13 @@
     "url": "git@github.com:nko3/comorichweb.git"
   },
   "dependencies": {
+    "express":"3.x",
+    "express-partials": "*",
+    "ejs":"*"
+  },
+  "devDependencies" : {
+    "nodemon": "*",
+    "forever": "*"
   },
   "engines": {
     "node": "0.8.x"
