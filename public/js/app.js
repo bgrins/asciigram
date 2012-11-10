@@ -91,9 +91,13 @@ var AppView = Backbone.View.extend({
 
         var file = FileStore.getByID($(e.currentTarget).data("id"));
         if (file.frames) {
+            this.GL.stop();
+            $("#imgascii").html(file.frames[0].content);
+            /*
             $("body").addClass("previewing");
             $("#full-preview a").attr("href", "/view/" + file.id).text(file.id);
             $("#full-preview pre").html(file.frames[0].content);
+            */
         }
 
         return false;
@@ -275,12 +279,16 @@ var AppView = Backbone.View.extend({
 var GLView = Backbone.View.extend({
 
     WARP_SIZE: 140,
+    distorting: true,
     initialize: function(opts) {
         if (!opts.image) {
             throw "No Image provided";
         }
 
         this.image = opts.image;
+
+        this.placeholder = $("#gl-container");
+        this.asciiContainer= $("#imgascii");
 
         var that = this;
         if (this.image[0].complete) {
@@ -292,11 +300,21 @@ var GLView = Backbone.View.extend({
             });
         }
     },
+    stop: function() {
+        this.distorting = false;
+        this.placeholder.unbind("click mousemove");
+    },
+    toggle: function() {
+        this.distorting = !this.distorting;
+    },
+    start: function() {
+        this.distorting = true;
+    },
     setupGL: function() {
 
         var image = this.image[0];
-        var placeholder = $("#gl-container");
-        var asciiContainer= $("#imgascii");
+        var placeholder = this.placeholder;
+        var asciiContainer= this.asciiContainer;
 
         var asciiWidth = asciiContainer.width();
 
@@ -318,15 +336,15 @@ var GLView = Backbone.View.extend({
         canvas.draw(texture).update();
 
 
-        var distorting = true;
+        var that = this;
         // Draw a swirl under the mouse
         $(placeholder).click(function(e) {
-            distorting = !distorting;
+            that.toggle();
         });
 
         var WARP_SIZE = this.WARP_SIZE;
         $(placeholder).mousemove(function(e) {
-            if (distorting) {
+            if (that.distorting) {
                 var offset = $(canvas).offset();
                 var x = e.pageX - offset.left;
                 var y = e.pageY - offset.top;
