@@ -12,10 +12,6 @@
 		return new Frame(frame);
 	});
 
-	var start = _.min(_.map(frames, function(frame) {
-		return frame.timestamp.getTime();
-	}));
-
 	frames = _.sortBy(frames, function(f) {
 		return f.timestamp;
 	});
@@ -28,12 +24,11 @@
 	}
 
 	function showFrame(frame) {
-		player.textContent = curFrame.content;
+		player.textContent = frame.content;
 		var idx = _.indexOf(frames, frame) + 1;
 		if (idx > frames.length - 1) {
 			return;
 		}
-
 		var nextFrame = frames[idx];
 		setTimeout(function() {
 			showFrame(nextFrame)
