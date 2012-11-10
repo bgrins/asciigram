@@ -1,4 +1,47 @@
+
+var store = (function() {
+
+    var _store = window.localStorage || { };
+
+    return {
+        get: function(key) {
+            if (_store[key] != undefined) {
+                try {
+                    return JSON.parse(_store[key]);
+                } catch(e) { }
+            }
+        },
+        set: function(key, val) {
+            _store[key] = JSON.stringify(val);
+        }
+    }
+
+})();
+
+log(store.get("files"));
+
 var App = new (Backbone.View.extend({
+
+    events: {
+        "click #save": "save"
+    },
+
+    save: function() {
+
+        var frames = JSON.stringify([{ content: "12345", timestamp: Date.now }]);
+        var ajax = $.post("add", { frames: frames });
+
+        ajax.done(function(id) {
+            var allSaved = store.get("files") || [];
+            allSaved.push({
+                id: id,
+                frames: frames
+            });
+            store.set("files", allSaved);
+
+            log(store.get("files"));
+        });
+    },
 
     initialize: function() {
         this.asciiLogo();
@@ -40,7 +83,7 @@ var App = new (Backbone.View.extend({
         Jscii.renderImage(image, container);
     }
 
-}))();
+}))({ el: $("body") });
 
 var userMediaOptions = {
     "audio": false,
@@ -122,7 +165,7 @@ function init(image) {
             var x = e.pageX - offset.left;
             var y = e.pageY - offset.top;
             canvas.draw(texture).swirl(x, y, 200, 4).update();
-            Jscii.renderImage(canvas, asciiContainer[0]);
+            //Jscii.renderImage(canvas, asciiContainer[0]);
         }
     });
 
