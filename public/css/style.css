@@ -3,3 +3,47 @@ body {
   padding-bottom: 40px;
   background: url(/img/grey.png);
 }
+
+html, body, input, select, textarea {
+  font-family: Calibri, Candara, Segoe, "Segoe UI", Optima, sans-serif;
+
+  font-weight: 300;
+  font-size: 16px;
+  line-height: 1.5;
+  color: #333;
+}
+h1, h2, h3, h4 {
+  font-family: "MetaPro", "Lucida Grande", sans-serif;
+}
+h1 {
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  }
+h2 {
+  margin-bottom: 8px;
+  color: #444;
+  border-bottom: solid 1px #999;
+}
+h3 {
+  color: #68218F;
+  border-bottom: solid 1px #999;
+}
+h4 {
+  margin-top: 6px;
+}
+a {
+  color: #00B7FF;
+}
+
+pre {
+	font: bold 8px/5px monospace;
+	color: #000;
+	clear: both;
+    text-align: left;
+    box-shadow: 0 0 10px #300;
+    display:inline-block;
+}
+
+video {
+	width: 200px;
+}
