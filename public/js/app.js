@@ -21,7 +21,7 @@ var Store = (function() {
                 _store = {};
             }
         }
-    }
+    };
 
 })();
 
@@ -44,20 +44,6 @@ var FrameBuffer = {
         return FrameBuffer._frames;
     }
 };
-
-FrameBuffer.add("1");
-setTimeout(function() {
-    FrameBuffer.add("2");
-}, 100);
-setTimeout(function() {
-    FrameBuffer.add("3");
-}, 200);
-setTimeout(function() {
-    FrameBuffer.add("4");
-}, 400);
-setTimeout(function() {
-    FrameBuffer.add("5");
-}, 600);
 
 var AppView = Backbone.View.extend({
 
@@ -114,7 +100,7 @@ var AppView = Backbone.View.extend({
 
         FileReaderJS.setupDrop(document.body, this.fileReaderOpts);
         FileReaderJS.setupClipboard(document.body, this.fileReaderOpts);
-
+        FileReaderJS.setupInput(document.getElementById('file-input'), this.fileReaderOpts);
     },
 
     fileReaderOpts: {

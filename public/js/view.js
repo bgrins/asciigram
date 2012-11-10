@@ -12,6 +12,8 @@
 		return new Frame(frame);
 	});
 
+	log(frames.length);
+
 	frames = _.sortBy(frames, function(f) {
 		return f.timestamp;
 	});
