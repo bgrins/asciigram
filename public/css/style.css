@@ -108,6 +108,7 @@ video {
 .jumbotron h1 {
 	font-size: 72px;
 	line-height: 1;
+	text-shadow: 0.06em 0.08em #D1D1D1;
 }
 .jumbotron .btn {
 	font-size: 21px;
