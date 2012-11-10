@@ -16,7 +16,6 @@ app.configure(function(){
   app.set('layout', 'views/layout.ejs');
   app.use(partials());
 
-  app.use(express.favicon());
   app.use(express.logger('dev'));
   app.use(express.bodyParser());
   app.use(express.methodOverride());
@@ -34,6 +33,7 @@ app.configure('development', function(){
 
 app.get('/', indexRoute.index);
 app.post("/add", indexRoute.add)
+app.get("/view/:id", indexRoute.view);
 app.get("/get/:id", indexRoute.get);
 
 

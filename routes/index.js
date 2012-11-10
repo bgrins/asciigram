@@ -1,12 +1,19 @@
 var fileStore = require("../models/file.js");
 
 exports.index = function(req, res){
-  res.render('index', { title: 'Express' });
+  res.render('index', { title: 'Asciigram' });
 };
 
 exports.add = function(req, res) {
 	var id = req.body.id;
-	var frames = JSON.parse(req.body.frames);
+	var frames;
+
+	try {
+		frames = JSON.parse(req.body.frames);
+	} catch(e) {
+		res.send("Invalid file data", 500);
+	}
+	
 	if (id) {
 		fileStore.getFile(id, function(err, file) {
 			if (err || !file) {
@@ -38,10 +45,23 @@ exports.add = function(req, res) {
 	}
 };
 
-exports.get = function(req, res) {
+exports.view = function(req, res) {
 	var lookup = req.params.id;
 	fileStore.getFile(lookup, function(err, file) {
 		if (err || !file) {
+			res.send("Not found", 404);
+			return;
+		}
+
+		res.render("view", { title: "Asciigram -- View", file: JSON.stringify(file) });
+	});
+
+}
+
+exports.get = function(req, res) {
+	var lookup = req.params.id;
+	fileStore.getFile(lookup, function(err, file) {
+		if (err || !file || !file.frames || !file.frames.length) {
 			res.send("Not found", 404);
 			return;
 		}
