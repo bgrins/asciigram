@@ -26,6 +26,7 @@ app.configure(function(){
   app.use(express.static(path.join(__dirname, 'public')));
 
   db = mongoose.connect('mongodb://nodejitsu_nko3-comorichweb:r1o7du673h4f7lspurbqdudqd5@ds039277.mongolab.com:39277/nodejitsu_nko3-comorichweb_nodejitsudb5539601137');
+
 });
 
 app.configure('development', function(){
@@ -33,6 +34,7 @@ app.configure('development', function(){
 });
 
 app.get('/', indexRoute.index);
+app.get('/mongo', indexRoute.mongo);
 
 http.createServer(app).listen(app.get('port'), function(){
   console.log("Express server listening on port " + app.get('port'));
