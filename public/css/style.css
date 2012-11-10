@@ -15,6 +15,20 @@ body.drag {
 	color: #eee;
 }
 
+#results {
+	position:absolute;
+	right:0;
+	top: 100px;
+	list-style: none;
+	border: solid 5px #333;
+	border-right: none;
+}
+
+#results li {
+	zoom: .2;
+	color: green;
+}
+
 body.no-video #playspace {
 	display: none;
 }
@@ -128,3 +142,4 @@ video {
 .sprite.google { background-position: -43px 0px; width: 33px; height: 32px;  margin:0 4px;} 
 .sprite.pinterest { background-position: -86px 0px; width: 32px; height: 32px;  margin:0 4px;} 
 .sprite.twitter { background-position: -128px 0px; width: 33px; height: 33px;  margin:0 4px;} 
+

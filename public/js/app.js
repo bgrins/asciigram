@@ -57,10 +57,19 @@ var AppView = Backbone.View.extend({
     },
 
     toggleRecord: function() {
+        var record = $("#record");
+
         if (!this.recording) {
             FrameBuffer.clear();
+            record.addClass("btn-warning");
         }
+        else {
+            record.removeClass("btn-warning");
+            this.save();
+        }
+
         this.recording = !this.recording;
+
     },
 
     getCurrentFrames: function() {
@@ -86,11 +95,14 @@ var AppView = Backbone.View.extend({
         else {
             App.memoryStore.push({
                 id: "no id",
-                frames: frames
+                frames: _.map(frames, function(f) {
+                    return new Frame(f);
+                })
             });
 
             var that = this;
             var templateHTML = _.map(App.memoryStore, function(i) {
+
                 return that.thumbTemplate({
                     preview: i.frames[0].content
                 });

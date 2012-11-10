@@ -1,11 +1,13 @@
+
+function Frame(obj) {
+	this.content = obj.content.replace(/&nbsp;/g, " ").replace(/<br>/g, "\n");
+	this.timestamp = new Date(obj.timestamp);
+}
+
 (function(file) {
+
 	if (!file) {
 		return;
-	}
-
-	function Frame(obj) {
-		this.content = obj.content.replace(/&nbsp;/g, " ").replace(/<br>/g, "\n");
-		this.timestamp = new Date(obj.timestamp);
 	}
 
 	var frames = _.map(file.frames, function(frame) {
@@ -40,6 +42,5 @@
 	function stop() {
 		clearInterval(timeout);
 	}
-
 
 })(window.LOADEDFILE);
