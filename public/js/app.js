@@ -1,30 +1,4 @@
-var Store = (function() {
 
-    var USE_LOCAL_STORAGE = true;
-    var _store = USE_LOCAL_STORAGE && window.localStorage || { };
-
-    return {
-        get: function(key) {
-            if (_store[key] !== undefined) {
-                try {
-                    return JSON.parse(_store[key]);
-                } catch(e) { }
-            }
-        },
-        set: function(key, val) {
-            _store[key] = JSON.stringify(val);
-        },
-        clear: function() {
-            if (window.localStorage && _store === window.localStorage && window.localStorage.clear) {
-                window.localStorage.clear();
-            }
-            else {
-                _store = {};
-            }
-        }
-    };
-
-})();
 
 var FileStore = {
     get: function() {
