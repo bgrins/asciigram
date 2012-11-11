@@ -51,6 +51,7 @@ var AppView = Backbone.View.extend({
         "click .save-image": "saveImage",
         "click #record": "toggleRecord",
         "click #results li": "previewFile",
+        "click #webcam": "previewLiveVideo",
         "click": "cancelPreview",
         "click #snapshot": "takeSnapshot"
     },
@@ -71,6 +72,7 @@ var AppView = Backbone.View.extend({
             $("#full-preview pre").html(file.frames[0].content);
             */
         }
+        this.previewStillImage();
 
         return false;
 
@@ -196,7 +198,7 @@ var AppView = Backbone.View.extend({
 
         var that = this;
         Jscii.renderVideo($('#video')[0], $('#videoascii')[0], function() {
-            $("body").removeClass("no-video").addClass("yes-video");
+            that.previewLiveVideo();
             FrameBuffer.clear();
         }, function(markup) {
             if (that.recording) {
@@ -209,6 +211,13 @@ var AppView = Backbone.View.extend({
         FileReaderJS.setupDrop(document.body, this.fileReaderOpts);
         FileReaderJS.setupClipboard(document.body, this.fileReaderOpts);
         FileReaderJS.setupInput(document.getElementById('file-input'), this.fileReaderOpts);
+    },
+
+    previewLiveVideo: function() {
+        $("body").removeClass("no-video").addClass("yes-video");
+    },
+    previewStillImage: function() {
+        $("body").removeClass("yes-video").addClass("no-video");
     },
 
     fileReaderOpts: {
