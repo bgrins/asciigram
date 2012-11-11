@@ -1,9 +1,7 @@
 
 var Store = (function() {
-
     var USE_LOCAL_STORAGE = true;
     var _store = USE_LOCAL_STORAGE && window.localStorage || { };
-
     return {
         get: function(key) {
             if (_store[key] !== undefined) {

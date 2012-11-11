@@ -44,10 +44,11 @@ var assetManagerGroups = {
         'path': './public/js/',
         'dataType': 'javascript',
         'files': jsfiles,
+        'debug': false,
         'preManipulate': {
             // Matches all (regex start line)
             '^': [
-                assetHandler.yuiCssOptimize, 
+                // assetHandler.uglifyJsOptimize, 
                 assetHandler.fixVendorPrefixes,
                 assetHandler.fixGradients,
                 assetHandler.replaceImageRefToBase64(root)
