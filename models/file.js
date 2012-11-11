@@ -22,6 +22,14 @@ File.prototype.addFrame = function(content, timestamp) {
     this.frames.push(frame);
 };
 
+File.prototype.getPreview = function() {
+    if (this.frames.length > 0) {
+        return this.frames[0].content;
+    }
+
+    return "";
+};
+
 File.prototype.generateLookup = function() {
     var chars = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXTZabcdefghiklmnopqrstuvwxyz";
     var string_length = 8;

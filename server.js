@@ -40,6 +40,7 @@ app.post("/add", indexRoute.add);
 app.get("/view/:id", indexRoute.view);
 app.get("/get/:id", indexRoute.get);
 app.get("/embed/:id", indexRoute.embed);
+app.get("/preview/:id", indexRoute.preview);
 
 
 http.createServer(app).listen(app.get('port'), function(){
