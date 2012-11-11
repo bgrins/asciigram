@@ -363,8 +363,6 @@ var GLView = Backbone.View.extend({
 
 });
 
-$('.share').html(generateShareLinks("http://google.com", "some description"));
-
 if (window.APP) {
     var App = new AppView({ el: $("body") });
 }

@@ -53,4 +53,6 @@ Video.prototype.getResolution = function() {
 	var video = new Video(file);
 	var player = document.getElementById("player");
 	video.play(player);
+
+	$('.share').html(generateShareLinks("http://comorichweb.nko3.jit.su/view/"+file.lookup, "Check out the sweet asciigram I created!!"));
 })(window.LOADEDFILE);
