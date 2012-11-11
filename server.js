@@ -98,6 +98,7 @@ app.configure('development', function(){
   app.set("jsFiles", jsFiles);
   app.set("development", true);
   app.set("cssFiles", cssFiles);
+  app.set("appurl", "http://localhost:3000/");
 });
 app.configure('production', function(){
   // TO log in: mongo ds039277.mongolab.com:39277/nodejitsu_nko3-comorichweb_nodejitsudb5539601137 -u nodejitsu_nko3-comorichweb -p r1o7du673h4f7lspurbqdudqd5
@@ -105,6 +106,7 @@ app.configure('production', function(){
   app.set("jsFiles", [ "site.js" ]);
   app.set("cssFiles", [ "site.css" ]);
   app.set("development", false);
+  app.set("appurl", "http://comorichweb.nko3.jit.su/")
   app.use("/", assetManager(assetManagerGroups), connect.static(root));
 });
 
