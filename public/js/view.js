@@ -171,20 +171,31 @@ Video.prototype.getResolution = function() {
 
 	var player = $("#player")[0];
 	var video = new Video(file, player);
-	video.play();
 
 	$("#file-player").toggleClass("image", video.isImage);
 
-	$("#player-pause").click(function() {
+	var pauseButton = $("#player-pause");
+	var playButton = $("#player-play");
+	var restartButton = $("#player-restart");
+
+	pauseButton.click(function() {
 		video.pause();
+		playButton.show();
+		pauseButton.hide();
 	});
-	$("#player-play").click(function() {
+
+	playButton.click(function() {
 		video.play(video.currentFrame);
+		playButton.hide();
+		pauseButton.show();
 	});
-	$("#player-restart").click(function() {
+
+	restartButton.click(function() {
 		video.stop();
 		//video.play();
 	});
+
+	playButton.click();
 
 	$("#timeshift").attr("max", video.getLength());
 	$("#timeshift").on("change", function(e) {
