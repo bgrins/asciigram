@@ -26,11 +26,11 @@ var jsFiles = [
     'vendor/filereader.js',
     'vendor/handlebars.js',
     'vendor/sharingButtons.js',
-    'view.js',
     'models/file.js',
     'views/glview.js',
     'views/appview.js',
     'popular.js',
+    'view.js',
     'app.js'
 ];
 
