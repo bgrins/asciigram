@@ -47,6 +47,7 @@ var AppView = Backbone.View.extend({
             });
 
             $("#share-container").toggle(file.synced);
+            $("#sync").toggle(!file.synced);
             $("#view-url").val(file.getShareUrl());
 
             this.player = new FilePlayer(file, $("#imgascii")[0], function(player) {
@@ -146,6 +147,7 @@ var AppView = Backbone.View.extend({
         if (that.currentFile) {
             that.currentFile.sync(function() {
                 that.renderThumbs();
+                that.previewFile(that.currentFile); 
             });
         }
     },

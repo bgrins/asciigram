@@ -9,14 +9,14 @@
 			<div id="image-toolbar" class="toolbar">
 				<!-- <button class="btn" id="save">Save</button> -->
 				<button class="btn" id="webcam">Webcam</button>
-				<button class='btn' id="sync">Save</button>
+				<button class='btn' id="sync" style="display: none;">Save</button>
 				<input type="file" id="file-input" name="file-input" multiple="" style='display:none;'>
 			</div>
 
 			<img id='logo' width='150' src='/img/person.png' />
 
 			<div>
-				<div id="play-controls">
+				<div id="play-controls" style="display:none;">
 					<div class="btn-group2">
 						<button id="player-play" class="btn btn-inverse"><i class="icon-white icon-play"></i></button>
 						<button id="player-pause" class="btn btn-inverse"><i class="icon-white icon-pause"></i></button>
@@ -27,7 +27,7 @@
 
 				<pre id="imgascii"></pre>
 
-				<div id="share-container">
+				<div id="share-container" style="display: none;">
 					<label>Share:</label><input id="view-url" />
 				</div>
 			</div>
@@ -41,7 +41,7 @@
 					<button class="btn btn-primary" id="record" data-recording-text="Stop Recording"><i class="icon-facetime-video"></i> <strong>Record</strong></button>
 					<button class="btn btn-primary" id="snapshot"><i class="icon-camera"></i> <strong>Take picture</strong></button>
 					<br />
-					<input type='range' min='5' max='200' id="quality" />
+					<input type='range' min='5' max='100' id="quality" value="87" />
 					<!--<button class="btn btn-primary" id="record"><i class="icon-facetime-video"></i> <strong>Replay</strong></button>
 
 					<button class="btn" id="save">Save</button>-->
