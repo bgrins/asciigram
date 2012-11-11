@@ -1,10 +1,8 @@
 
 var AppView = Backbone.View.extend({
-
     SEND_TO_SERVER: false,
     RESOLUTION: 150,
     thumbTemplate: Handlebars.compile($("#video-list").html()),
-
     events: {
         "click #save": "save",
         "click .save-image": "saveImage",
@@ -22,21 +20,16 @@ var AppView = Backbone.View.extend({
     },
 
     previewFile: function(e) {
-
         var file = FileStore.getByID($(e.currentTarget).closest("li").data("id"));
-        if (file && file.frames) {
-            this.GL.stop();
-            $("#imgascii").html(file.frames[0].content);
-            /*
-            $("body").addClass("previewing");
-            $("#full-preview a").attr("href", "/view/" + file.id).text(file.id);
-            $("#full-preview pre").html(file.frames[0].content);
-            */
+        if (file) {
+            file.preview(function(preview) {
+                this.GL.stop();
+                $("#imgascii").html(preview);
+            });
         }
+
         this.previewStillImage();
-
         return false;
-
     },
 
     changeResolution: function() {
@@ -74,7 +67,6 @@ var AppView = Backbone.View.extend({
     },
 
     addDataURLSnapshot: function(url) {
-
         var that = this;
         var img = new Image();
         img.onload = function() {
@@ -97,69 +89,38 @@ var AppView = Backbone.View.extend({
         });
     },
 
-    pushCurrentBufferToServer: function(cb) {
-        var frames = this.getCurrentFrames();
-        var ajax = $.post("add", { frames: JSON.stringify(frames) });
+    renderThumbs: function() {
         var that = this;
-        ajax.done(function(id) {
-            that.addVideoToLocalStorage(id, frames);
-            cb(id);
+        var tmpl = that.thumbTemplate;
+
+        $("#results").empty();
+        _.each(FileStore.get(), function(file) {
+            file.preview(function(preview) {
+                // console.log("preview");
+                 var obj = {
+                     id: file.id, 
+                     preview: preview.content
+                 };
+
+                // console.log(obj);
+                $("#results").append(tmpl(obj));
+            })
         });
     },
 
-    renderThumbs: function() {
-
-        var that = this;
-        var templateHTML = _.map(FileStore.get(), function(i) {
-
-            return that.thumbTemplate({
-                preview: new Frame(i.frames[0]).content,
-                id: i.id
-            });
-
-        }).join("");
-
-        $("#results").html(templateHTML);
-    },
-
     save: function() {
-
         var frames = this.getCurrentFrames();
-
         if (frames.length === 0) {
             log("Error, no frames provided");
             return;
         }
 
-        if (this.SEND_TO_SERVER) {
-            var ajax = $.post("add", { frames: JSON.stringify(frames) });
-            var that = this;
-            ajax.done(function(id) {
-                that.addVideoToLocalStorage(id, frames);
-            });
-        }
-        else {
-            FileStore.push({
-                id: guid(),
-                frames: frames
-            });
-
-            this.renderThumbs();
-        }
-    },
-
-    addVideoToLocalStorage: function(id, frames) {
-
-        FileStore.push({
-            id: id,
-            frames: frames
-        });
-
+        var file = new File(guid(), frames);
+        FileStore.push(file);
         this.renderThumbs();
     },
 
     initialize: function() {
-
         this.asciiLogo();
 
         var that = this;

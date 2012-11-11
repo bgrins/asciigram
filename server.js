@@ -27,6 +27,7 @@ var jsFiles = [
     'vendor/handlebars.js',
     'vendor/sharingButtons.js',
     'view.js',
+    'models/File.js',
     'views/glview.js',
     'views/appview.js',
     'popular.js',
