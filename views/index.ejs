@@ -1,11 +1,11 @@
 
 <div id="booth-container" class='container-fluid'>
 
-<div class="ascii-container row">
+<div class="row">
 
 	<div class='span8 pull-left screen'>
 
-		<div id="image-space">
+		<div id="image-space" class="workspace">
 
 			<div id="image-toolbar" class="toolbar">
 				<!-- <button class="btn" id="save">Save</button> -->
@@ -15,14 +15,13 @@
 
 			<img id='logo' width='150' src='/img/person.png' />
 
-			<div class='gl-holder'>
-
-
+			<div>
 				<pre id="imgascii"></pre>
+				<button class='btn'>Save (not hooked up)</button>
 			</div>
 		</div>
 
-		<div id="webcam-space" class="ascii-container">
+		<div id="webcam-space" class="workspace">
 
 
 			<div class='once-enabled'>
@@ -31,6 +30,9 @@
 
 					<button class="btn btn-primary" id="record" data-recording-text="Stop Recording"><i class="icon-facetime-video"></i> <strong>Record</strong></button>
 					<button class="btn btn-primary" id="snapshot"><i class="icon-camera"></i> <strong>Take picture</strong></button>
+
+					<br />
+					<input type='range' min='5' max='200' id="quality" />
 					<!--<button class="btn btn-primary" id="record"><i class="icon-facetime-video"></i> <strong>Replay</strong></button>
 
 					<button class="btn" id="save">Save</button>-->
@@ -69,7 +71,10 @@
 
 <script>APP = true</script>
 
-<code id="num-frames"></code>
+
+<div id="debug-toolbar">
+<code>Frames: <span id="num-frames"></span> - <span id="size-frames"></span></code>
+</div>
 
 
 <script type='text/handlebars' id="video-list">

@@ -17,7 +17,7 @@
    * add more characters and they will be accounted for automatically
    * note: the extra &nbsp; is to account for the value range inclusive of 100%
    */
-  var chars = ['@','#','$','=','*','!',';',':','~','-',',','.','&nbsp;', '&nbsp;'];
+  var chars = ['@','#','$','=','*','!',';',':','~','-',',','.',' ', ' '];
   var charLen = chars.length-1;
   function getChar(val) { return chars[parseInt(val*charLen, 10)]; }
 
@@ -72,7 +72,7 @@
         videoCtx.drawImage(video, 0, 0, w, h);
         var data = videoCtx.getImageData(0, 0, w, h).data;
         var asciiString = getAsciiString(data, w, h);
-        container.innerHTML = asciiString;
+        container.textContent = asciiString;
         ontick(asciiString);
       }
     }, interval);
@@ -94,7 +94,7 @@
       imgCanvas.height = h = w/ratio;
       imgCtx.drawImage(image, 0, 0, w, h);
       data = imgCtx.getImageData(0, 0, w, h).data;
-      container.innerHTML = getAsciiString(data, w, h);
+      container.textContent = getAsciiString(data, w, h);
       cb();
     }
 
@@ -126,7 +126,7 @@
   function getAsciiString(d, width, height) {
     var len = width*height-1, str = '';
     for(var i=0; i<len; i++) {
-      if(i%width === 0) str += '<br>';
+      if(i%width === 0) str += '\n';
       var rgb = getRGB(d, i);
       var val = Math.max(rgb[0], rgb[1], rgb[2])/255;
       //str += '<b style="color: rgb('+rgb.join(',')+')">'+getChar(val)+'</b>';
@@ -142,6 +142,11 @@
 
   window.Jscii = {
     setVideoDimension: setVideoDimension,
+    setResolution: function(r) {
+      DEFAULT_WIDTH = r;
+      setVideoDimension(DEFAULT_WIDTH, parseInt(DEFAULT_WIDTH*3/4, 10));
+
+    },
     renderVideo: renderVideo,
     startRender: startRender,
     stopRender: stopRender,

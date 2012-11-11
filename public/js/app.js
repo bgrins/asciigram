@@ -35,7 +35,16 @@ var FrameBuffer = {
             timestamp: Date.now()
         });
 
-        $("#num-frames").text(FrameBuffer._frames.length);
+        if (window.DEVELOPMENT) {
+            $("#num-frames").text(FrameBuffer._frames.length);
+
+            var size = 0;
+            var fullStr = _.map(FrameBuffer._frames, function(f) {
+                size += util.stringToBytes(f.content);
+            });
+
+            $("#size-frames").text(util.prettyFileSize(size));
+        }
     },
     clear: function() {
         FrameBuffer._frames = [];

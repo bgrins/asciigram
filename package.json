@@ -1,6 +1,6 @@
 {
   "name": "nko3-comorichweb",
-  "version": "0.0.0-19",
+  "version": "0.0.0-22",
   "description": "comorichweb",
   "author": "Brian Grinstead, Aaron Marasco, Nicole Grinstead",
   "main": "server.js",

@@ -22,7 +22,7 @@
     -->
   </head>
 
-  <body class="no-video">
+  <body class="no-video<%= settings.development ? " development" : "" %>">
 
     <div class="container">
       <div class="jumbotron">
@@ -52,7 +52,11 @@
 
     </div> <!-- /container -->
 
-
+    <% if (settings.development) { %>
+    <script>
+      window.DEVELOPMENT = true;
+    </script>
+    <% } %>
   <% settings.jsFiles.forEach(function(f) { %>
       <script src='/js/<%- f %>'></script>
     <% }); %>
