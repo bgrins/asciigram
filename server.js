@@ -98,7 +98,7 @@ app.configure('development', function(){
   app.set("cssFiles", cssFiles);
 });
 app.configure('production', function(){
-  app.use(express.errorHandler());
+  // TO log in: mongo ds039277.mongolab.com:39277/nodejitsu_nko3-comorichweb_nodejitsudb5539601137 -u nodejitsu_nko3-comorichweb -p r1o7du673h4f7lspurbqdudqd5
   db = mongoose.connect('mongodb://nodejitsu_nko3-comorichweb:r1o7du673h4f7lspurbqdudqd5@ds039277.mongolab.com:39277/nodejitsu_nko3-comorichweb_nodejitsudb5539601137');
   app.set("jsFiles", [ "site.js" ]);
   app.set("cssFiles", [ "site.css" ]);
