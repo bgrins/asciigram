@@ -66,16 +66,16 @@ body.previewing #full-preview {
 	text-align: center;
 }
 
-/*
+
 body.no-video #playspace {
 	display: none;
 }
 body.yes-video #playspace {
 	display: block;
 }
-body.yes-video #gl-container {
+body.yes-video .gl-holder {
 	display: none;
-}*/
+}
 
 html, body, input, select, textarea {
   font-family: Calibri, Candara, Segoe, "Segoe UI", Optima, sans-serif;
