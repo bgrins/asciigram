@@ -23,11 +23,22 @@ var AppView = Backbone.View.extend({
     },
 
     previewFile: function(e) {
-        var file = FileStore.getByID($(e.currentTarget).closest("li").data("id"));
+        var file;
+        if ($.isFunction(e.preview)) {
+            file = e;
+        } else {
+            FileStore.getByID($(e.currentTarget).closest("li").data("id"));
+        }
+
         if (file) {
             this.GL.stop();
-            file.preview(function(preview) {
-                $("#imgascii").html(preview);
+            this.currentFile = file;
+            file.frames(function(frames) {
+                $("#play-controls").toggle(frames.length > 1);
+            });
+
+            new FilePlayer(file, $("#imgascii")[0], function(player) {
+                FilePlayerView.setFilePlayer(player);
             });
         }
 
@@ -94,7 +105,7 @@ var AppView = Backbone.View.extend({
             file.preview(function(preview) {
                 // console.log("preview");
                  var obj = {
-                     id: file.id, 
+                     id: file.id,
                      preview: preview.content
                  };
 
@@ -113,7 +124,7 @@ var AppView = Backbone.View.extend({
 
         var file = new File(guid(), frames);
         FileStore.push(file);
-        this.currentFile = file;
+        this.previewFile(file);
         this.renderThumbs();
     },
 
@@ -143,6 +154,8 @@ var AppView = Backbone.View.extend({
         FileReaderJS.setupDrop(document.body, this.fileReaderOpts);
         FileReaderJS.setupClipboard(document.body, this.fileReaderOpts);
         FileReaderJS.setupInput(document.getElementById('file-input'), this.fileReaderOpts);
+
+        FilePlayerView.init();
     },
 
     previewLiveVideo: function() {
