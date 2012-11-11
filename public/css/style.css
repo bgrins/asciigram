@@ -51,6 +51,7 @@ body.drag {
     background: rgba(128, 128, 128, .4);
     border-radius: 0 4px;
     border: solid 2px #999;
+    padding-bottom: 10px;
 }
 .toolbar {
     margin-bottom: 10px;
@@ -186,9 +187,6 @@ video {
 
 .gram-container {
     text-align: center;
-}
-.gl-holder {
-    position:relative;
 }
 #logo {
     margin: 0 auto;
