@@ -2,7 +2,7 @@
 var FilePlayerView = {
 	_filePlayer: null,
 	autoPlay: true,
-	loop: false,
+	loop: true,
 	init: function(filePlayer) {
 
 
@@ -77,7 +77,7 @@ var FilePlayerView = {
 		var pauseButton = this.pauseButton;
 
 		filePlayer.onfinish = function() {
-			if (FilePlayerView.loop) {
+			if (FilePlayerView.loop && filePlayer.getLength() > 2) {
 				filePlayer.play();
 			}
 			else {
