@@ -46,7 +46,6 @@ body.drag {
 #results li {
 	zoom: .2;
 	margin: 3px;
-	float:right;
 }
 
 body.previewing #full-preview {
@@ -67,6 +66,7 @@ body.previewing #full-preview {
 	text-align: center;
 }
 
+/*
 body.no-video #playspace {
 	display: none;
 }
@@ -75,7 +75,7 @@ body.yes-video #playspace {
 }
 body.yes-video #gl-container {
 	display: none;
-}
+}*/
 
 html, body, input, select, textarea {
   font-family: Calibri, Candara, Segoe, "Segoe UI", Optima, sans-serif;
@@ -192,12 +192,12 @@ video {
 .sprite.pinterest { background-position: -86px 0px; width: 32px; height: 32px;  margin:0 4px;}
 .sprite.twitter { background-position: -128px 0px; width: 33px; height: 33px;  margin:0 4px;}
 
-.popular-preview { 
+.popular-preview {
 	display: inline-block;
-	margin: 10px 20px; 
+	margin: 10px 20px;
 }
 
-.popular-preview pre{ 
-	line-height: 3px; 
+.popular-preview pre{
+	line-height: 3px;
 	font-size:3px;
 }

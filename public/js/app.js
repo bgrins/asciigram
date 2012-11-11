@@ -19,8 +19,6 @@ var FileStore = {
     }
 };
 
-log("Stored Files", Store.get("files"));
-
 var FrameBuffer = {
     _frames: [],
     set: function(content) {
