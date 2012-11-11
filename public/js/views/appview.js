@@ -23,7 +23,7 @@ var AppView = Backbone.View.extend({
         $("body").removeClass("previewing");
     },
 
-    previewFile: function(e) {
+    previewFile: function(e, force) {
         var file;
         if ($.isFunction(e.preview)) {
             file = e;
@@ -31,7 +31,7 @@ var AppView = Backbone.View.extend({
             file = FileStore.getByID($(e.currentTarget).closest("li").data("id"));
         }
 
-        if (this.currentFile && file && (this.currentFile.id == file.id)) {
+        if (!force && this.currentFile && file && (this.currentFile.id == file.id)) {
             return;
         }
 
@@ -46,7 +46,8 @@ var AppView = Backbone.View.extend({
                 $("#play-controls").toggle(frames.length > 1);
             });
 
-            $("#share-container").toggle(file.synced);
+            $("#share-container").toggle(!!file.synced);
+            $("#sync").toggle(!file.synced);
             $("#view-url").val(file.getShareUrl());
 
             this.player = new FilePlayer(file, $("#imgascii")[0], function(player) {
@@ -146,6 +147,7 @@ var AppView = Backbone.View.extend({
         if (that.currentFile) {
             that.currentFile.sync(function() {
                 that.renderThumbs();
+                that.previewFile(that.currentFile, true); 
             });
         }
     },
