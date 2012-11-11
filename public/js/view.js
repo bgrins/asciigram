@@ -102,23 +102,6 @@ Video.prototype.play = function(startFrame) {
 	}
 
 	play();
-
-	/*
-	showFrame(this.frames[0]);
-
-	function showFrame(frame) {
-		player.textContent = frame.content;
-		var idx = _.indexOf(vid.frames, frame) + 1;
-		if (idx > vid.frames.length - 1) {
-			return;
-		}
-
-		var nextFrame = vid.frames[idx];
-		vid.timeout = setTimeout(function() {
-			showFrame(nextFrame)
-		}, frame.timestamp - nextFrame.timestamp)
-	}
-	*/
 };
 
 Video.prototype.getLength = function() {
@@ -169,7 +152,7 @@ Video.prototype.getResolution = function() {
 	}
 
 	var player = $("#player")[0];
-	var video = new Video(file, player);
+	var video = new File(file.id, file.frames, player);
 
 	$("#file-player").toggleClass("image", video.isImage);
 
