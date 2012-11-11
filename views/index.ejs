@@ -1,27 +1,26 @@
 
-
 <div id="booth-container" class='container-fluid'>
 
-
-<div id="gl-container" class="ascii-container row">
-
-
+<div class="ascii-container row">
 
 	<div class='span8 pull-left screen'>
-		<img id='logo' width='150' src='/img/person.png' />
 
-		<div class='gl-holder'>
+		<div id="image-space">
+			<img id='logo' width='150' src='/img/person.png' />
 
-	<div id="image-toolbar" class="toolbar">
-		<!-- <button class="btn" id="save">Save</button> -->
-		<button class="btn" id="webcam">Webcam</button>
-		<input type="file" id="file-input" name="file-input" multiple="">
-	</div>
+			<div class='gl-holder'>
 
-			<pre id="imgascii"></pre>
+				<div id="image-toolbar" class="toolbar">
+					<!-- <button class="btn" id="save">Save</button> -->
+					<button class="btn" id="webcam">Webcam</button>
+					<input type="file" id="file-input" name="file-input" multiple="">
+				</div>
+
+				<pre id="imgascii"></pre>
+			</div>
 		</div>
 
-		<div id="playspace" class="ascii-container">
+		<div id="webcam-space" class="ascii-container">
 
 		<div id="video-toolbar" class="toolbar">
 
@@ -34,7 +33,7 @@
 
 
 			<video id="video" autoplay></video>
-		    <pre id="videoascii"></pre>
+		    <pre id="videoascii">Please enable your webcam!</pre>
 		</div>
 
 

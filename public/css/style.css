@@ -67,10 +67,10 @@ body.previewing #full-preview {
 }
 
 
-body.no-video #playspace {
+body.no-video #webcam-space {
 	display: none;
 }
-body.yes-video #playspace {
+body.yes-video #webcam-space {
 	display: block;
 }
 body.yes-video .gl-holder {
@@ -133,9 +133,6 @@ pre {
 	word-break: normal;
 }
 
-video {
-	width: 200px;
-}
 
 .jumbotron {
 	text-align: center;
@@ -145,17 +142,15 @@ video {
 .ascii-container {
 	text-align: center;
 }
-#playspace video {
+
+video {
+    width: 200px;
+}
+#booth-container video, #booth-container canvas {
 	opacity:0;
 	position:absolute;
 	top: -10000px;
 	left: -10000px;
-}
-#gl-container canvas {
-	opacity:0;
-	position:absolute;
-	top: 0;
-	left: 0;
 }
 
 .toolbar {

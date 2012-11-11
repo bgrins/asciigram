@@ -10,7 +10,7 @@ var GLView = Backbone.View.extend({
 
         this.image = opts.image;
 
-        this.placeholder = $("#gl-container");
+        this.placeholder = $("#image-space");
         this.asciiContainer= $("#imgascii");
 
         try {
