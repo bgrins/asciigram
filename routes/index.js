@@ -113,12 +113,20 @@ exports.view = function(req, res) {
 	});
 };
 
+exports.secretDelete = function(req, res) {
+	var lookup = req.params.lookup;
+	fileStore.secretDelete(lookup);
+	res.end();
+};
+
 exports.love = function(req, res) {
 	var lookup = req.params.lookup;
 	fileStore.updateLoves(lookup);
+	res.end();
 };
 
 exports.hate = function(req, res) {
 	var lookup = req.params.lookup;
 	fileStore.updateHates(lookup);
+	res.end();
 };
