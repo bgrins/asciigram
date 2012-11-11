@@ -63,10 +63,10 @@ var assetManagerGroups = {
         'preManipulate': {
             // Matches all (regex start line)
             '^': [
-                assetHandler.yuiCssOptimize,
-                assetHandler.fixVendorPrefixes,
-                assetHandler.fixGradients,
-                assetHandler.replaceImageRefToBase64(root)
+                // assetHandler.yuiCssOptimize,
+                // assetHandler.fixVendorPrefixes,
+                // assetHandler.fixGradients,
+                // assetHandler.replaceImageRefToBase64(root)
             ]
         }
     }
