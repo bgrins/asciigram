@@ -56,17 +56,17 @@ var assetManagerGroups = {
         }
     },
     'css': {
-        'route': /\/static\/css\/.*\.css/,
+        'route': /\/css\/.*\.css/,
         'path': './public/css/',
         'dataType': 'css',
         'files': cssFiles,
         'preManipulate': {
             // Matches all (regex start line)
             '^': [
-                assetHandler.yuiCssOptimize,
-                assetHandler.fixVendorPrefixes,
-                assetHandler.fixGradients,
-                assetHandler.replaceImageRefToBase64(root)
+                // assetHandler.yuiCssOptimize,
+                // assetHandler.fixVendorPrefixes,
+                // assetHandler.fixGradients,
+                // assetHandler.replaceImageRefToBase64(root)
             ]
         }
     }
@@ -95,12 +95,15 @@ app.configure('development', function(){
   app.use(express.errorHandler());
   db = mongoose.connect('mongodb://127.0.0.1/asciigram');
   app.set("jsFiles", jsFiles);
+  app.set("development", true);
   app.set("cssFiles", cssFiles);
 });
 app.configure('production', function(){
+  // TO log in: mongo ds039277.mongolab.com:39277/nodejitsu_nko3-comorichweb_nodejitsudb5539601137 -u nodejitsu_nko3-comorichweb -p r1o7du673h4f7lspurbqdudqd5
   db = mongoose.connect('mongodb://nodejitsu_nko3-comorichweb:r1o7du673h4f7lspurbqdudqd5@ds039277.mongolab.com:39277/nodejitsu_nko3-comorichweb_nodejitsudb5539601137');
   app.set("jsFiles", [ "site.js" ]);
   app.set("cssFiles", [ "site.css" ]);
+  app.set("development", false);
   app.use("/", assetManager(assetManagerGroups), connect.static(root));
 });
 
