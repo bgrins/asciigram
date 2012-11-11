@@ -226,6 +226,11 @@ body.development #debug-toolbar {
     overflow: visible;
 }
 
+pre.about-imgs {
+	line-height:4px;
+	font-size:5px;
+}
+
 
 /* CSS Sprites (generated at instantsprite.com) */
 .sprite { background: url('/img/social-sprite.png') no-repeat top left; display:inline-block;  }
