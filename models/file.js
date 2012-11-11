@@ -10,6 +10,8 @@ var frameSchema = new mongoose.Schema({
 var fileschema = new mongoose.Schema({
     lookup: String,
 	numberOfViews: Number,
+	loves: Number, 
+	hates: Number,
     frames: [ frameSchema ]
 });
 
@@ -54,8 +56,32 @@ function updateViewCount(doc){
 	doc.save();
 };
 
+function updateLoves(lookup){ 
+	getFile(lookup, function(err, file) {
+		if (err || !file) {
+			res.send("Not found", 404);
+			return;
+		}
+		
+		file.loves = (file.loves || 0)+1;
+		file.save();
+	});
+};
+
+function updateHates(lookup){ 
+	getFile(lookup, function(err, file) {
+		if (err || !file) {
+			res.send("Not found", 404);
+			return;
+		}
+		
+		file.hates = (file.hates || 0)+1;
+		file.save();
+	});
+};
+
 function getPopular(cb){
-	var query = File.find().sort('-numberOfViews').limit(12).where();
+	var query = File.find().sort({numberOfViews:-1}).sort({loves:-1}).sort({hates:+1}).limit(12);
 
 	query.exec(function(err, doc) {
         cb(err, doc);
@@ -66,3 +92,5 @@ exports.File = File;
 exports.getFile = getFile;
 exports.updateViewCount = updateViewCount;
 exports.getPopular = getPopular;
+exports.updateHates = updateHates;
+exports.updateLoves = updateLoves;

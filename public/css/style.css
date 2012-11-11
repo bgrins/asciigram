@@ -207,6 +207,11 @@ video {
     font-size:3px;
 }
 
+/* View Page */
+#file-player.image #play-controls {
+    display: none;
+}
+
 
 /* CSS Sprites (generated at instantsprite.com) */
 .sprite { background: url('/img/social-sprite.png') no-repeat top left; display:inline-block;  }

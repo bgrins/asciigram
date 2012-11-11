@@ -101,7 +101,7 @@ app.configure('development', function(){
 });
 app.configure('production', function(){
   // TO log in: mongo ds039277.mongolab.com:39277/nodejitsu_nko3-comorichweb_nodejitsudb5539601137 -u nodejitsu_nko3-comorichweb -p r1o7du673h4f7lspurbqdudqd5
-  db = mongoose.connect('mongodb://nodejitsu_nko3-comorichweb:r1o7du673h4f7lspurbqdudqd5@ds039277.mongolab.com:39277/nodejitsu_nko3-comorichweb_nodejitsudb5539601137');
+  db = mongoose.connect('mongodb://nodejitsu_nko3-comorichweb:97eo3g5a4b79v6o886cs5bmfp2@ds039277.mongolab.com:39277/nodejitsu_nko3-comorichweb_nodejitsudb5090763608');
   app.set("jsFiles", [ "site.js" ]);
   app.set("cssFiles", [ "site.css" ]);
   app.set("development", false);

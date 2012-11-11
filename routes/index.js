@@ -109,16 +109,16 @@ exports.view = function(req, res) {
 		
 		fileStore.updateViewCount(file);
 		res.render("view", { title: "Asciigram -- View", file: JSON.stringify(file), 
-			numberOfViews: file.numberOfViews });
+			numberOfViews: (file.numberOfViews || 0), loves: (file.loves || 0), hates: (file.hates || 0) });
 	});
 };
 
 exports.love = function(req, res) {
 	var lookup = req.params.lookup;
-	console.log(lookup);
+	fileStore.updateLoves(lookup);
 };
 
 exports.hate = function(req, res) {
 	var lookup = req.params.lookup;
-	console.log(lookup);
+	fileStore.updateHates(lookup);
 };
