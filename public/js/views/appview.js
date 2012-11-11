@@ -15,7 +15,8 @@ var AppView = Backbone.View.extend({
         "click": "cancelPreview",
         "click #snapshot": "takeSnapshot",
         "change #quality": "changeResolution",
-        "click #sync": "syncCurrent"
+        "click #sync": "syncCurrent",
+        "click #view-url": "highlightBox"
     },
 
     cancelPreview: function() {
@@ -30,7 +31,15 @@ var AppView = Backbone.View.extend({
             file = FileStore.getByID($(e.currentTarget).closest("li").data("id"));
         }
 
+        if (this.currentFile && file && (this.currentFile.id == file.id)) {
+            return;
+        }
+
         if (file) {
+            if (this.player) {
+                this.player.stop();
+            }
+
             this.GL.stop();
             this.currentFile = file;
             file.frames(function(frames) {
@@ -40,7 +49,7 @@ var AppView = Backbone.View.extend({
             $("#share-container").toggle(file.synced);
             $("#view-url").val(file.getShareUrl());
 
-            new FilePlayer(file, $("#imgascii")[0], function(player) {
+            this.player = new FilePlayer(file, $("#imgascii")[0], function(player) {
                 FilePlayerView.setFilePlayer(player);
             });
         }
@@ -131,10 +140,17 @@ var AppView = Backbone.View.extend({
         this.renderThumbs();
     },
 
-    syncCurrent: function(cb) {
-        if (this.currentFile) {
-            this.currentFile.sync(cb);
+    syncCurrent: function() {
+        var that = this;
+        if (that.currentFile) {
+            that.currentFile.sync(function() {
+                that.renderThumbs();
+            });
         }
+    },
+
+    highlightBox: function() {
+        $("#view-url").select();
     },
 
     initialize: function() {
