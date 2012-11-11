@@ -215,6 +215,16 @@ body.development #debug-toolbar {
 #file-player.image #play-controls {
     display: none;
 }
+#player-pause {
+    display: none;
+}
+.move-right {
+    margin-left: 0px;
+    position: relative;
+    left: 50px;
+    width: 0;
+    overflow: visible;
+}
 
 
 /* CSS Sprites (generated at instantsprite.com) */

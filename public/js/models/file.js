@@ -46,21 +46,22 @@ File.prototype.preview = function(cb) {
         return;
     }
 
-    $.post("/preview", { id : this.id }, function(resp) {
-        that.setPreview(resp);
-        cb(this.__preview);
+    $.get("/preview/" + this.id, function(resp) {
+        that.setPreview(new Frame({ timestamp: new Date(), content: resp }));
+        cb(that.__preview);
     });
 };
 
 File.prototype.sync = function(cb) {
     cb = ($.isFunction(cb)) ? cb : $.noop;
-    var frames = this.__frames;
-    var id = this.id;
-
+    var file = this;
+    var frames = file.__frames;
+    var id = file.id;
     var ajax = $.post("/add", { frames: JSON.stringify(frames), id: id });
-
     ajax.always(function(resp) {
-        cb(resp);
+        file.id = resp;
+        FileStore.savePermanent(file);
+        cb(resp);        
     })
 };
 
@@ -70,10 +71,8 @@ File.prototype.sync = function(cb) {
 // (either just a preview for a single frame or the whole file).
 var _filestore = [];
 var FileStore = {
-
     get: function() {
         return _filestore;
-        // return Store.get("files") || [];
     },
     getByID: function(id) {
         return _.filter(FileStore.get(), function(f) {
@@ -82,13 +81,18 @@ var FileStore = {
     },
     push: function(file) {
         _filestore.push(file);
-        // var files = FileStore.get();
-        // console.log(file);
-        // files.push(file);
-        // Store.set("files", files);
+    },
+    savePermanent: function(file) {
+        var store = Store.get("previous-files") || [ ];
+        store.push(file.id);
+        Store.set("previous-files", store);
     },
     clear: function() {
         _filestore = [ ];
-        // Store.set("files", []);
     }
 };
+
+var savedStore = Store.get("previous-files") || [];
+_.each(savedStore, function(i) {
+    FileStore.push(new File(i));
+});

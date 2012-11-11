@@ -1,7 +1,6 @@
 
 function Frame(obj) {
 	this.content = obj.content.replace(/&nbsp;/g, " ").replace(/<br>/g, "\n");
-	window.tmpcontent = this.content;
 	this.timestamp = new Date(obj.timestamp).getTime();
 	this.date = new Date(this.timestamp);
 }
@@ -41,6 +40,7 @@ Video.prototype.play = function(startFrame) {
 	var speed = 1;
 
 	startFrame = Math.min(this.frames.length - 1, Math.max(startFrame, 0)) || 0;
+
 	var startTime = (new Date()).getTime();
 	var currentTime = startTime - this.frames[startFrame].timestamp;
 	var currentTimeOffset = startTime - this.frames[0].timestamp;
@@ -53,7 +53,7 @@ Video.prototype.play = function(startFrame) {
 
 	function findFrame(time) {
 
-		time = time;
+		time = time + timeShift;
 		for (var i = 0; i < frames.length; i++) {
 
 			//log(frames[i].timestamp, time);
@@ -93,7 +93,8 @@ Video.prototype.play = function(startFrame) {
 		vid.setFrame(currentFrame.index);
 
 		if (currentFrame.last) {
-			vid.stop();
+			vid.pause();
+			vid.currentFrame = 0;
 		}
 		else {
 			setTimeout(play, REFRESH_RATE);
@@ -169,26 +170,37 @@ Video.prototype.getResolution = function() {
 
 	var player = $("#player")[0];
 	var video = new Video(file, player);
-	video.play();
 
 	$("#file-player").toggleClass("image", video.isImage);
 
-	$("#player-pause").click(function() {
+	var pauseButton = $("#player-pause");
+	var playButton = $("#player-play");
+	var restartButton = $("#player-restart");
+
+	pauseButton.click(function() {
 		video.pause();
+		playButton.show();
+		pauseButton.hide();
 	});
-	$("#player-play").click(function() {
+
+	playButton.click(function() {
 		video.play(video.currentFrame);
+		playButton.hide();
+		pauseButton.show();
 	});
-	$("#player-restart").click(function() {
+
+	restartButton.click(function() {
 		video.stop();
 		//video.play();
 	});
+
+	playButton.click();
 
 	$("#timeshift").attr("max", video.getLength());
 	$("#timeshift").on("change", function(e) {
 		video.pause();
 		video.setFrame($(this).val());
-	})
+	});
 	video.ontick = function() {
 		$("#timeshift").val(video.currentFrame);
 	};
