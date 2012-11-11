@@ -8,6 +8,18 @@ exports.about = function(req, res){
   res.render('about', { title: 'About' });
 };
 
+exports.embed = function(req, res) {
+	var lookup = req.params.id;
+	fileStore.getFile(lookup, function(err, file) {
+		if (err || !file) {
+			res.send("Not found", 404);
+			return;
+		}
+
+		res.render("embed", { file: JSON.stringify(file), layout: null});
+	});
+}
+
 exports.add = function(req, res) {
 	var id = req.body.id;
 	var frames;
