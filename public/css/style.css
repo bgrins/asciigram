@@ -44,8 +44,16 @@ body.drag {
 }
 
 #results li {
-	zoom: .2;
-	margin: 3px;
+    zoom: .2;
+    padding: 20px 0;
+}
+
+#results li pre {
+    cursor: pointer;
+    -webkit-transform: all linear .1s;
+}
+#results li:hover pre {
+    border-color: #8266A5;
 }
 
 body.previewing #full-preview {

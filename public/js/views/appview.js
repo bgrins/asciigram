@@ -2,17 +2,19 @@
 var AppView = Backbone.View.extend({
 
     SEND_TO_SERVER: false,
+    RESOLUTION: 150,
     thumbTemplate: Handlebars.compile($("#video-list").html()),
 
     events: {
         "click #save": "save",
         "click .save-image": "saveImage",
         "click #record": "toggleRecord",
-        "click #results li": "previewFile",
+        "click #results pre": "previewFile",
         "click #webcam": "previewLiveVideo",
         "click #show-image": "previewStillImage",
         "click": "cancelPreview",
-        "click #snapshot": "takeSnapshot"
+        "click #snapshot": "takeSnapshot",
+        "change #quality": "changeResolution"
     },
 
     cancelPreview: function() {
@@ -21,8 +23,8 @@ var AppView = Backbone.View.extend({
 
     previewFile: function(e) {
 
-        var file = FileStore.getByID($(e.currentTarget).data("id"));
-        if (file.frames) {
+        var file = FileStore.getByID($(e.currentTarget).closest("li").data("id"));
+        if (file && file.frames) {
             this.GL.stop();
             $("#imgascii").html(file.frames[0].content);
             /*
@@ -35,6 +37,10 @@ var AppView = Backbone.View.extend({
 
         return false;
 
+    },
+
+    changeResolution: function() {
+        this.RESOLUTION = parseInt($("#quality").val()) || 10;
     },
 
     toggleRecord: function() {
