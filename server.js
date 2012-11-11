@@ -27,7 +27,7 @@ var jsFiles = [
     'vendor/handlebars.js',
     'vendor/sharingButtons.js',
     'view.js',
-    'models/File.js',
+    'models/file.js',
     'views/glview.js',
     'views/appview.js',
     'popular.js',
@@ -114,7 +114,7 @@ app.post("/add", indexRoute.add);
 app.get("/view/:id", indexRoute.view);
 app.get("/popular", indexRoute.popular);
 app.get("/get/:id", indexRoute.get);
-app.get("/embed/:id", indexRoute.embed);
+//app.get("/embed/:id", indexRoute.embed);
 app.get("/preview/:id", indexRoute.preview);
 app.post("/hate/:lookup", indexRoute.hate);
 app.post("/love/:lookup", indexRoute.love);

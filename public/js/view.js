@@ -9,6 +9,7 @@ function Frame(obj) {
 function Video(file, player) {
 	this.playing = false;
 	this.player = player || document.createElement("pre");
+	this.ontick = function() { };
 	var frames = _.map(file.frames, function(frame) {
 		return new Frame(frame);
 	});
@@ -119,6 +120,16 @@ Video.prototype.play = function(startFrame) {
 	*/
 };
 
+Video.prototype.getLength = function() {
+	if (this.isImage) {
+		return 0;
+	}
+
+	return this.frames.length;
+	return this.frames[this.frames.length - 1].timestamp - this.frames[0].timestamp;
+
+};
+
 Video.prototype.setFrame = function(i) {
 
 	var index = Math.min(this.frames.length - 1, Math.max(i, 0)) || 0;
@@ -129,6 +140,8 @@ Video.prototype.setFrame = function(i) {
 
 		this.currentFrame = index;
 		this.player.textContent = frame.content;
+
+		this.ontick(frame.timestamp);
 	}
 };
 
@@ -170,6 +183,18 @@ Video.prototype.getResolution = function() {
 		video.stop();
 		//video.play();
 	});
+
+	$("#timeshift").attr("max", video.getLength());
+	$("#timeshift").on("change", function(e) {
+		video.pause();
+		video.setFrame($(this).val());
+	})
+	video.ontick = function() {
+		$("#timeshift").val(video.currentFrame);
+	};
+
+
+
 
 	$('.share').html(generateShareLinks("http://comorichweb.nko3.jit.su/view/"+file.lookup, "Check out the sweet asciigram I created!!"));
 })(window.LOADEDFILE);
