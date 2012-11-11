@@ -157,11 +157,21 @@ video {
 	text-align: center;
 	margin-bottom: 10px;
 }
-.jumbotron h1 {
+.jumbotron h1 a {
 	font-size: 72px;
 	line-height: 1;
-	text-shadow: 0.06em 0.08em #D1D1D1;
+	color: #444;
+	text-decoration: none;
+	text-shadow: 5px 5px 10px #D1D1D1;
+
+	-webkit-transition: all linear .1s;
 }
+.jumbotron h1 a:hover {
+	color: #446;
+	text-decoration: none;
+	text-shadow: -2px -2px #D1D1D1;
+}
+
 .jumbotron .btn {
 	font-size: 21px;
 	padding: 14px 24px;
