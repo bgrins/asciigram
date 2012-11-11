@@ -2,8 +2,9 @@
 // Handles auto timestamping.
 var FrameBuffer = {
     _frames: [],
+    currentSize: 0,
     FPS: 15,
-    MAX: 200,
+    MAX: 50,
     set: function(content) {
         FrameBuffer.clear();
         FrameBuffer.add(content);
@@ -35,16 +36,24 @@ var FrameBuffer = {
         if (window.DEVELOPMENT) {
             $("#num-frames").text(FrameBuffer._frames.length);
 
-            var size = 0;
-            var fullStr = _.map(FrameBuffer._frames, function(f) {
-                size += util.stringToBytes(f.content);
-            });
+            var size = FrameBuffer.getFullSize();
 
             $("#size-frames").text(util.prettyFileSize(size));
         }
     },
+    getFrameSize: function(frame) {
+        return util.stringToBytes(frame.content);
+    },
+    getFullSize: function() {
+        var size = 0;
+        var fullStr = _.each(FrameBuffer._frames, function(f) {
+            size += FrameBuffer.getFrameSize(f);
+        });
+        return size;
+    },
     clear: function() {
         FrameBuffer._frames = [];
+        FrameBuffer.currentSize = 0;
     },
     get: function() {
         return FrameBuffer._frames;
