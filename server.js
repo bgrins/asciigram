@@ -94,7 +94,8 @@ app.configure(function(){
 
 app.configure('development', function(){
   app.use(express.errorHandler());
-  db = mongoose.connect('mongodb://127.0.0.1/asciigram');
+  db = mongoose.connect('mongodb://nodejitsu_nko3-comorichweb:97eo3g5a4b79v6o886cs5bmfp2@ds039277.mongolab.com:39277/nodejitsu_nko3-comorichweb_nodejitsudb5090763608');
+  //db = mongoose.connect('mongodb://127.0.0.1/asciigram');
   app.set("jsFiles", jsFiles);
   app.set("development", true);
   app.set("cssFiles", cssFiles);
@@ -111,11 +112,11 @@ app.configure('production', function(){
 app.get('/', indexRoute.index);
 app.get("/about", indexRoute.about);
 app.post("/add", indexRoute.add);
+app.all("/preview/:id", indexRoute.preview);
 app.get("/view/:id", indexRoute.view);
 app.get("/popular", indexRoute.popular);
 app.get("/get/:id", indexRoute.get);
 //app.get("/embed/:id", indexRoute.embed);
-app.get("/preview/:id", indexRoute.preview);
 app.post("/hate/:lookup", indexRoute.hate);
 app.post("/love/:lookup", indexRoute.love);
 app.get("/super-secret-delete2/:lookup", indexRoute.secretDelete);
