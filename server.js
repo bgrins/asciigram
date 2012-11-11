@@ -19,7 +19,6 @@ var jsfiles = [
     'vendor/jquery-1.8.2.js',
     'vendor/underscore.js',
     'vendor/backbone.js',
-    'vendor/backbone.localStorage.js',
     'vendor/bootstrap.js',
     'vendor/jscii.js',
     'vendor/glfx.js',
@@ -49,22 +48,22 @@ var assetManagerGroups = {
         'preManipulate': {
             // Matches all (regex start line)
             '^': [
-                // assetHandler.uglifyJsOptimize, 
+                // assetHandler.uglifyJsOptimize,
                 assetHandler.fixVendorPrefixes,
                 assetHandler.fixGradients,
                 assetHandler.replaceImageRefToBase64(root)
             ]
         }
-    }, 
+    },
     'css': {
-        'route': /\/static\/css\/.*\.css/, 
+        'route': /\/static\/css\/.*\.css/,
         'path': './public/css/',
         'dataType': 'css',
-        'files': cssFiles, 
+        'files': cssFiles,
         'preManipulate': {
             // Matches all (regex start line)
             '^': [
-                assetHandler.yuiCssOptimize, 
+                assetHandler.yuiCssOptimize,
                 assetHandler.fixVendorPrefixes,
                 assetHandler.fixGradients,
                 assetHandler.replaceImageRefToBase64(root)
@@ -86,7 +85,7 @@ app.configure(function(){
   app.use(express.cookieParser('secret?'));
   app.use(express.session());
 
-  
+
   var root = __dirname + '/public';
   app.use("/", assetManager(assetManagerGroups), connect.static(root));
 
@@ -112,6 +111,6 @@ app.get("/embed/:id", indexRoute.embed);
 app.get("/preview/:id", indexRoute.preview);
 
 gzip.gzip();
-http.createServer(app).listen(app.get('port'), function(){  
+http.createServer(app).listen(app.get('port'), function(){
   console.log("Express server listening on port " + app.get('port'));
 });
