@@ -8,8 +8,7 @@ var express = require('express'),
     connect = require('connect'),
     gzip = require('connect-gzip'),
     assetManager = require('connect-assetmanager'),
-    assetHandler = require('connect-assetmanager-handlers'),
-    userRoute = require('./routes/user');
+    assetHandler = require('connect-assetmanager-handlers');
 
 var app = express();
 
