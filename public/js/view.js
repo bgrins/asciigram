@@ -1,10 +1,11 @@
 
 var FilePlayerView = {
 	_filePlayer: null,
+	autoPlay: true,
 	init: function(filePlayer) {
 
 
-		var pauseButton = $("#player-pause");
+		var pauseButton = this.pauseButton = $("#player-pause");
 		var playButton = this.playButton = $("#player-play");
 		var restartButton = $("#player-restart");
 		var that = this;
@@ -73,7 +74,17 @@ var FilePlayerView = {
 			$("#timeshift").val(player.currentFrame);
 		};
 
-		this.playButton.click();
+		var playButton = this.playButton;
+		var pauseButton = this.pauseButton;
+
+		filePlayer.onfinish = function() {
+			playButton.show();
+			pauseButton.hide();
+		};
+
+		if (FilePlayerView.autoPlay) {
+			playButton.click();
+		}
 	}
 };
 

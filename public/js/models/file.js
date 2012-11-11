@@ -12,6 +12,7 @@ function FilePlayer(file, player, cb) {
     this.playing = false;
     this.player = player || document.createElement("pre");
     this.ontick = function() { };
+    this.onfinish = function() { };
 
     file.preview(function(preview) {
         if (!filePlayer.frames) {
@@ -101,6 +102,7 @@ FilePlayer.prototype.play = function(startFrame) {
         if (currentFrame.last) {
             vid.pause();
             vid.currentFrame = 0;
+            vid.onfinish();
         }
         else {
             setTimeout(play, REFRESH_RATE);
