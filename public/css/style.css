@@ -10,10 +10,7 @@ body.drag {
     position:relative;
 }
 .full-width {
-    /*left: 0;
-    right: 0;
-    position:relative;
-    position:absolute;*/
+    margin-bottom: 5px;
     background: #333;
     color: #eee;
 }
