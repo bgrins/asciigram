@@ -116,6 +116,7 @@ app.all("/preview/:id", indexRoute.preview);
 app.get("/view/:id", indexRoute.view);
 app.get("/popular", indexRoute.popular);
 app.get("/get/:id", indexRoute.get);
+app.get("/frames/:id", indexRoute.frames);
 //app.get("/embed/:id", indexRoute.embed);
 app.post("/hate/:lookup", indexRoute.hate);
 app.post("/love/:lookup", indexRoute.love);

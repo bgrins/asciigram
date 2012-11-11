@@ -150,14 +150,11 @@ FilePlayer.prototype.getResolution = function() {
     return [ lines[0].length, lines.length ];
 };
 
-
-
 function File(id, frames, player) {
     this.previewloaded = false;
     this.loaded = false;
     this.id = id;
-
-
+    this.synced = false;
 
     this.__frames = [ ];
     this.__preview = [ ];
@@ -195,8 +192,8 @@ File.prototype.frames = function(cb) {
         return;
     }
 
-    $.post("/frames", { id : that.id }, function(resp) {
-        that.setFrames(resp);
+    $.get("/frames/" + that.id, function(resp) {
+        that.setFrames(resp.frames);
         cb(that.__frames);
     });
 };
@@ -207,6 +204,10 @@ File.prototype.preview = function(cb) {
 
     if (that.previewloaded) {
         cb(that.__preview);
+        return;
+    }
+
+    if (!typeof(this.id) == "string") {
         return;
     }
 
@@ -224,12 +225,19 @@ File.prototype.sync = function(cb) {
     var ajax = $.post("/add", { frames: JSON.stringify(frames), id: id });
     ajax.always(function(resp) {
         file.id = resp;
+        file.synced = true;
         FileStore.savePermanent(file);
         cb(resp);
     })
 };
 
+File.prototype.getShareUrl = function() {
+    if (!this.synced) {
+        return "";
+    }
 
+    return "/view/" + this.id;
+}
 
 
 // FileStore is a module for handling in memory or localStorage Files
@@ -260,5 +268,7 @@ var FileStore = {
 
 var savedStore = Store.get("previous-files") || [];
 _.each(savedStore, function(i) {
-    FileStore.push(new File(i));
+    var file = new File(i);
+    file.synced = true;
+    FileStore.push(file);
 });
