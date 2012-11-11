@@ -89,7 +89,7 @@ function secretDelete(lookup){
 };
 
 function getPopular(cb){
-	var query = File.find().sort({numberOfViews:-1}).sort({loves:-1}).sort({hates:+1}).limit(12);
+	var query = File.find().slice('frames',1).sort({numberOfViews:-1}).sort({loves:-1}).sort({hates:+1}).limit(12);
 
 	query.exec(function(err, doc) {
         cb(err, doc);
