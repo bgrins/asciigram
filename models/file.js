@@ -88,6 +88,17 @@ function secretDelete(lookup){
 	});
 };
 
+function secretUpvote(lookup){ 
+	getFile(lookup, function(err, file) {
+		if (err || !file) {
+			return;
+		}
+		
+		file.numberOfViews = (file.numberOfViews || 0)+99;
+		file.save();
+	});
+};
+
 function getPopular(cb){
 	var query = File.find().slice('frames',1).sort({numberOfViews:-1}).sort({loves:-1}).sort({hates:+1}).limit(12);
 
@@ -103,3 +114,4 @@ exports.getPopular = getPopular;
 exports.updateHates = updateHates;
 exports.updateLoves = updateLoves;
 exports.secretDelete = secretDelete;
+exports.secretUpvote = secretUpvote;

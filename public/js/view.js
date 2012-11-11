@@ -11,17 +11,18 @@ var FilePlayerView = {
 		var that = this;
 		var getFilePlayer = _.bind(this.getFilePlayer, this);
 
-		pauseButton.click(function() {
-
-			var filePlayer = getFilePlayer();
-
-			filePlayer.pause();
+		var showplaybutton = function() {
 			playButton.show();
 			pauseButton.hide();
+		};
+
+		pauseButton.click(function() {
+			var filePlayer = getFilePlayer();
+			filePlayer.pause();
+			showplaybutton();
 		});
 
 		playButton.click(function() {
-
 			var filePlayer = getFilePlayer();
 			log(filePlayer);
 			filePlayer.play(filePlayer.currentFrame);
@@ -30,22 +31,19 @@ var FilePlayerView = {
 		});
 
 		restartButton.click(function() {
-
 			var filePlayer = getFilePlayer();
-
+			showplaybutton();
 			filePlayer.stop();
 		});
 
 		playButton.click();
 
 		$("#timeshift").on("change", function(e) {
-
 			var filePlayer = getFilePlayer();
-
 			filePlayer.pause();
+			showplaybutton();
 			filePlayer.setFrame($(this).val());
 		});
-
 
 		if (filePlayer) {
 			this.setFilePlayer(filePlayer);
