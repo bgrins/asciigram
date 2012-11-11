@@ -5,9 +5,9 @@ function Frame(obj) {
     this.date = new Date(this.timestamp);
 }
 
-function FilePreview(file, player, cb) {
+function FilePlayer(file, player, cb) {
 
-    var filePreview = this;
+    var filePlayer = this;
 
     this.playing = false;
     this.player = player || document.createElement("pre");
@@ -18,14 +18,14 @@ function FilePreview(file, player, cb) {
     });
 
     file.frames(function(frames) {
-        filePreview.frames = frames;
-        filePreview.isImage = frames.length === 1;
-        cb(filePreview);
+        filePlayer.frames = frames;
+        filePlayer.isImage = frames.length === 1;
+        cb(filePlayer);
     });
 
 }
 
-FilePreview.prototype.play = function(startFrame) {
+FilePlayer.prototype.play = function(startFrame) {
 
     var player = this.player;
     if (this.isImage) {
@@ -108,7 +108,7 @@ FilePreview.prototype.play = function(startFrame) {
     play();
 };
 
-FilePreview.prototype.getLength = function() {
+FilePlayer.prototype.getLength = function() {
     if (this.isImage) {
         return 0;
     }
@@ -116,7 +116,7 @@ FilePreview.prototype.getLength = function() {
     return this.frames.length;
 };
 
-FilePreview.prototype.setFrame = function(i) {
+FilePlayer.prototype.setFrame = function(i) {
 
     var index = Math.min(this.frames.length - 1, Math.max(i, 0)) || 0;
     var frame = this.frames[index];
@@ -131,10 +131,10 @@ FilePreview.prototype.setFrame = function(i) {
     }
 };
 
-FilePreview.prototype.pause = function() {
+FilePlayer.prototype.pause = function() {
     this.playing = false;
 };
-FilePreview.prototype.stop = function() {
+FilePlayer.prototype.stop = function() {
     this.ticks = 0;
     this.currentFrame = 0;
     this.setFrame(0);
@@ -142,7 +142,7 @@ FilePreview.prototype.stop = function() {
 };
 
 // get the x/y resolution of the first frame
-FilePreview.prototype.getResolution = function() {
+FilePlayer.prototype.getResolution = function() {
     var frame = this.__frames[0];
     var lines = frames.split("/n");
     return [ lines[0].length, lines.length ];

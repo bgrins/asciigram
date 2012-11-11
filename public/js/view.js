@@ -8,41 +8,40 @@
 	var player = $("#player")[0];
 	var video = new File(file.id, file.frames, player);
 
-	var preview = new FilePreview(video, player, function(preview) {
+	var preview = new FilePlayer(video, player, function(filePlayer) {
 
-		$("#file-player").toggleClass("image", preview.isImage);
+		$("#file-player").toggleClass("image", filePlayer.isImage);
 
 		var pauseButton = $("#player-pause");
 		var playButton = $("#player-play");
 		var restartButton = $("#player-restart");
 
 		pauseButton.click(function() {
-			preview.pause();
+			filePlayer.pause();
 			playButton.show();
 			pauseButton.hide();
 		});
 
 		playButton.click(function() {
-			preview.play(preview.currentFrame);
+			filePlayer.play(filePlayer.currentFrame);
 			playButton.hide();
 			pauseButton.show();
 		});
 
 		restartButton.click(function() {
-			preview.stop();
-			//preview.play();
+			filePlayer.stop();
 		});
 
 		playButton.click();
 
-		$("#timeshift").attr("max", preview.getLength());
+		$("#timeshift").attr("max", filePlayer.getLength());
 		$("#timeshift").on("change", function(e) {
-			preview.pause();
-			preview.setFrame($(this).val());
+			filePlayer.pause();
+			filePlayer.setFrame($(this).val());
 		});
 
-		preview.ontick = function() {
-			$("#timeshift").val(preview.currentFrame);
+		filePlayer.ontick = function() {
+			$("#timeshift").val(filePlayer.currentFrame);
 		};
 
 	});
