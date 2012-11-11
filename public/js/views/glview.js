@@ -10,7 +10,7 @@ var GLView = Backbone.View.extend({
 
         this.image = opts.image;
 
-        this.placeholder = $("#gl-container");
+        this.placeholder = $("#image-space");
         this.asciiContainer= $("#imgascii");
 
         try {
@@ -72,16 +72,13 @@ var GLView = Backbone.View.extend({
         var WARP_SIZE = this.WARP_SIZE;
         $(placeholder).mousemove(function(e) {
             if (that.distorting) {
-                var offset = $(canvas).offset();
+                var offset = $(placeholder).offset();
                 var x = e.pageX - offset.left;
                 var y = e.pageY - offset.top;
                 canvas.draw(texture).swirl(x, y, WARP_SIZE, 4).update();
                 Jscii.renderImage(canvas, asciiContainer[0]);
             }
         });
-
-        placeholder.append(canvas);
-        $(canvas).offset(asciiContainer.offset());
     }
 
 });

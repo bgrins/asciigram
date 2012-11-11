@@ -46,7 +46,6 @@ body.drag {
 #results li {
 	zoom: .2;
 	margin: 3px;
-	float:right;
 }
 
 body.previewing #full-preview {
@@ -67,14 +66,22 @@ body.previewing #full-preview {
 	text-align: center;
 }
 
-body.no-video #playspace {
+
+body.no-video #webcam-space {
 	display: none;
 }
-body.yes-video #playspace {
+body.yes-video #webcam-space {
 	display: block;
 }
-body.yes-video #gl-container {
-	display: none;
+body.yes-video #image-space {
+    display: none;
+}
+
+.once-enabled {
+    display: none;
+}
+body.webcam-enabled .once-enabled {
+    display: block;
 }
 
 html, body, input, select, textarea {
@@ -133,9 +140,6 @@ pre {
 	word-break: normal;
 }
 
-video {
-	width: 200px;
-}
 
 .jumbotron {
 	text-align: center;
@@ -145,22 +149,17 @@ video {
 .ascii-container {
 	text-align: center;
 }
-#playspace video {
+
+video {
+    width: 200px;
+}
+#booth-container video, #booth-container canvas {
 	opacity:0;
 	position:absolute;
 	top: -10000px;
 	left: -10000px;
 }
-#gl-container canvas {
-	opacity:0;
-	position:absolute;
-	top: 0;
-	left: 0;
-}
 
-#image-toolbar {
-	display:none;
-}
 .toolbar {
 	margin-bottom: 10px;
 }
@@ -192,12 +191,12 @@ video {
 .sprite.pinterest { background-position: -86px 0px; width: 32px; height: 32px;  margin:0 4px;}
 .sprite.twitter { background-position: -128px 0px; width: 33px; height: 33px;  margin:0 4px;}
 
-.popular-preview { 
+.popular-preview {
 	display: inline-block;
-	margin: 10px 20px; 
+	margin: 10px 20px;
 }
 
-.popular-preview pre{ 
-	line-height: 3px; 
+.popular-preview pre{
+	line-height: 3px;
 	font-size:3px;
 }
