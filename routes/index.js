@@ -8,17 +8,17 @@ exports.about = function(req, res){
   res.render('about', { title: 'About' });
 };
 
-exports.embed = function(req, res) {
-	var lookup = req.params.id;
-	fileStore.getFile(lookup, function(err, file) {
-		if (err || !file) {
-			res.send("Not found", 404);
-			return;
-		}
+// exports.embed = function(req, res) {
+// 	var lookup = req.params.id;
+// 	fileStore.getFile(lookup, function(err, file) {
+// 		if (err || !file) {
+// 			res.send("Not found", 404);
+// 			return;
+// 		}
 
-		res.render("embed", { file: JSON.stringify(file), layout: null});
-	});
-};
+// 		res.render("embed", { file: JSON.stringify(file), layout: null});
+// 	});
+// };
 
 exports.preview = function(req, res) {
 	var lookup = req.params.id;
@@ -29,6 +29,18 @@ exports.preview = function(req, res) {
 		}
 
 		res.send(file.getPreview());
+	});
+};
+
+exports.frames = function(req, res) {
+	var lookup = req.params.id;
+	fileStore.getFile(lookup, function(err, file) {
+		if (err || !file) {
+			res.send("Not found", 404);
+			return;
+		}
+
+		res.send(file);
 	});
 };
 
@@ -109,16 +121,4 @@ exports.love = function(req, res) {
 exports.hate = function(req, res) {
 	var lookup = req.params.lookup;
 	console.log(lookup);
-};
-
-exports.get = function(req, res) {
-	var lookup = req.params.id;
-	fileStore.getFile(lookup, function(err, file) {
-		if (err || !file || !file.frames || !file.frames.length) {
-			res.send("Not found", 404);
-			return;
-		}
-
-		res.send(file.frames[0].content);
-	});
 };
