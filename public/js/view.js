@@ -53,5 +53,5 @@ Video.prototype.getResolution = function() {
 
 	var video = new Video(file);
 	var player = document.getElementById("player");
-	video.play();
+	video.play(player);
 })(window.LOADEDFILE);
