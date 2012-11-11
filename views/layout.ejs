@@ -46,8 +46,6 @@
 
       <div class="footer">
         <p></p>
-        <iframe src="http://nodeknockout.com/iframe/comorichweb" frameborder=0 scrolling=no allowtransparency=true width=115 height=25 style="position:absolute; top:10px; right:0;">
-        </iframe>
       </div>
 
     </div> <!-- /container -->
@@ -78,6 +76,9 @@
     <script src='/js/popular.js'></script>
     <script src='/js/app.js'></script>-->
 
+    <% if (!settings.development) { %>
+    <iframe src="http://nodeknockout.com/iframe/comorichweb" frameborder=0 scrolling=no allowtransparency=true width=115 height=25 style="position:absolute; top:10px; right:0;">
+    </iframe>
     <script type="text/javascript">
 
       var _gaq = _gaq || [];
@@ -91,5 +92,6 @@
       })();
 
     </script>
+    <% } %>
   </body>
 </html>
