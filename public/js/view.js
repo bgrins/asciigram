@@ -6,8 +6,9 @@ function Frame(obj) {
 	this.date = new Date(this.timestamp);
 }
 
-function Video(file) {
+function Video(file, player) {
 	this.playing = false;
+	this.player = player || document.createElement("pre");
 	var frames = _.map(file.frames, function(frame) {
 		return new Frame(frame);
 	});
@@ -20,8 +21,9 @@ function Video(file) {
 	this.isImage = this.frames.length === 1;
 }
 
-Video.prototype.play = function(player, startFrame) {
+Video.prototype.play = function(startFrame) {
 
+	var player = this.player;
 	if (this.isImage) {
 		player.textContent = this.frames[0].content;
 		return;
@@ -37,7 +39,7 @@ Video.prototype.play = function(player, startFrame) {
 	var REFRESH_RATE = 50;
 	var speed = 1;
 
-	startFrame = Math.max(this.frames.length - 1, Math.min(startFrame, 0)) || 0;
+	startFrame = Math.min(this.frames.length - 1, Math.max(startFrame, 0)) || 0;
 	var startTime = (new Date()).getTime();
 	var currentTime = startTime - this.frames[startFrame].timestamp;
 	var currentTimeOffset = startTime - this.frames[0].timestamp;
@@ -46,7 +48,6 @@ Video.prototype.play = function(player, startFrame) {
 
 	vid.ticks = startFrame;
 
-	log(currentTime, currentTimeOffset, timeShift);
 	var frames = this.frames;
 
 	function findFrame(time) {
@@ -84,12 +85,11 @@ Video.prototype.play = function(player, startFrame) {
 
 		var currentContent = currentFrame.frame.content;
 
-		vid.currentFrame = currentFrame.index;
 		vid.playing = true;
 		vid.ticks++;
 		$("#num-ticks").text(vid.ticks);
 
-		player.textContent = currentContent;
+		vid.setFrame(currentFrame.index);
 
 		if (currentFrame.last) {
 			vid.stop();
@@ -119,8 +119,26 @@ Video.prototype.play = function(player, startFrame) {
 	*/
 };
 
+Video.prototype.setFrame = function(i) {
+
+	var index = Math.min(this.frames.length - 1, Math.max(i, 0)) || 0;
+	var frame = this.frames[index];
+
+	log(index, frame);
+	if (frame) {
+
+		this.currentFrame = index;
+		this.player.textContent = frame.content;
+	}
+};
+
+Video.prototype.pause = function() {
+	this.playing = false;
+};
 Video.prototype.stop = function() {
 	this.ticks = 0;
+	this.currentFrame = 0;
+	this.setFrame(0);
 	this.playing = false;
 };
 
@@ -136,19 +154,21 @@ Video.prototype.getResolution = function() {
 		return;
 	}
 
-	var video = new Video(file);
 	var player = $("#player")[0];
-	video.play(player);
+	var video = new Video(file, player);
+	video.play();
 
 	$("#file-player").toggleClass("image", video.isImage);
 
 	$("#player-pause").click(function() {
-
-		$("#num-ticks").text(video.ticks);
-		video.stop();
+		video.pause();
 	});
 	$("#player-play").click(function() {
-		video.play(player, video.currentFrame);
+		video.play(video.currentFrame);
+	});
+	$("#player-restart").click(function() {
+		video.stop();
+		//video.play();
 	});
 
 	$('.share').html(generateShareLinks("http://comorichweb.nko3.jit.su/view/"+file.lookup, "Check out the sweet asciigram I created!!"));
