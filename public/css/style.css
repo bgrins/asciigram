@@ -73,8 +73,15 @@ body.no-video #webcam-space {
 body.yes-video #webcam-space {
 	display: block;
 }
-body.yes-video .gl-holder {
-	display: none;
+body.yes-video #image-space {
+    display: none;
+}
+
+.once-enabled {
+    display: none;
+}
+body.webcam-enabled .once-enabled {
+    display: block;
 }
 
 html, body, input, select, textarea {

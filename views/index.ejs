@@ -12,6 +12,7 @@
 				<button class="btn" id="webcam">Webcam</button>
 				<input type="file" id="file-input" name="file-input" multiple="" style='display:none;'>
 			</div>
+
 			<img id='logo' width='150' src='/img/person.png' />
 
 			<div class='gl-holder'>
@@ -23,18 +24,29 @@
 
 		<div id="webcam-space" class="ascii-container">
 
-		<div id="video-toolbar" class="toolbar">
 
-			<button class="btn btn-primary" id="record" data-recording-text="Stop Recording"><i class="icon-facetime-video"></i> <strong>Record</strong></button>
-			<button class="btn btn-primary" id="snapshot"><i class="icon-camera"></i> <strong>Take picture</strong></button>
-			<!--<button class="btn btn-primary" id="record"><i class="icon-facetime-video"></i> <strong>Replay</strong></button>
+			<div class='once-enabled'>
 
-			<button class="btn" id="save">Save</button>-->
-		</div>
+				<div id="video-toolbar" class="toolbar once-enabled">
+
+					<button class="btn btn-primary" id="record" data-recording-text="Stop Recording"><i class="icon-facetime-video"></i> <strong>Record</strong></button>
+					<button class="btn btn-primary" id="snapshot"><i class="icon-camera"></i> <strong>Take picture</strong></button>
+					<!--<button class="btn btn-primary" id="record"><i class="icon-facetime-video"></i> <strong>Replay</strong></button>
+
+					<button class="btn" id="save">Save</button>-->
+				</div>
+
+				<video id="video" autoplay></video>
+
+			    <pre id="videoascii"></pre>
+
+			</div>
+
+			<div class='never-enabled alert'>
+				Please enable your webcam! <button id='show-image' class='btn'>Back to image</button>
+			</div>
 
 
-			<video id="video" autoplay></video>
-		    <pre id="videoascii">Please enable your webcam!</pre>
 		</div>
 
 
@@ -54,6 +66,7 @@
 	<br />
 	<pre></pre>
 </div>
+
 <script>APP = true</script>
 
 <code id="num-frames"></code>

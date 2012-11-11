@@ -52,6 +52,7 @@ var AppView = Backbone.View.extend({
         "click #record": "toggleRecord",
         "click #results li": "previewFile",
         "click #webcam": "previewLiveVideo",
+        "click #show-image": "previewStillImage",
         "click": "cancelPreview",
         "click #snapshot": "takeSnapshot"
     },
@@ -198,6 +199,8 @@ var AppView = Backbone.View.extend({
 
         var that = this;
         Jscii.renderVideo($('#video')[0], $('#videoascii')[0], function() {
+            $("body").addClass("webcam-enabled");
+            $(".never-enabled").remove();
             that.previewLiveVideo();
             FrameBuffer.clear();
         }, function(markup) {
