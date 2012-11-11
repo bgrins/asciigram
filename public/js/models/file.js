@@ -223,7 +223,6 @@ File.prototype.sync = function(cb) {
         file.id = resp;
         file.synced = true;
         FileStore.savePermanent(file);
-        console.log("HERE");
         cb(resp);
     })
 };
