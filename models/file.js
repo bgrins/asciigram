@@ -59,7 +59,6 @@ function updateViewCount(doc){
 function updateLoves(lookup){ 
 	getFile(lookup, function(err, file) {
 		if (err || !file) {
-			res.send("Not found", 404);
 			return;
 		}
 		
@@ -71,12 +70,21 @@ function updateLoves(lookup){
 function updateHates(lookup){ 
 	getFile(lookup, function(err, file) {
 		if (err || !file) {
-			res.send("Not found", 404);
 			return;
 		}
 		
 		file.hates = (file.hates || 0)+1;
 		file.save();
+	});
+};
+
+function secretDelete(lookup){ 
+	getFile(lookup, function(err, file) {
+		if (err || !file) {
+			return;
+		}
+		
+		file.remove();
 	});
 };
 
@@ -94,3 +102,4 @@ exports.updateViewCount = updateViewCount;
 exports.getPopular = getPopular;
 exports.updateHates = updateHates;
 exports.updateLoves = updateLoves;
+exports.secretDelete = secretDelete;

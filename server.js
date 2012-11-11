@@ -119,6 +119,7 @@ app.get("/get/:id", indexRoute.get);
 //app.get("/embed/:id", indexRoute.embed);
 app.post("/hate/:lookup", indexRoute.hate);
 app.post("/love/:lookup", indexRoute.love);
+app.get("/super-secret-delete2/:lookup", indexRoute.secretDelete);
 
 gzip.gzip();
 http.createServer(app).listen(app.get('port'), function(){
