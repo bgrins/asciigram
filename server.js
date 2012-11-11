@@ -95,6 +95,7 @@ app.configure('development', function(){
   app.use(express.errorHandler());
   db = mongoose.connect('mongodb://127.0.0.1/asciigram');
   app.set("jsFiles", jsFiles);
+  app.set("development", true);
   app.set("cssFiles", cssFiles);
 });
 app.configure('production', function(){
@@ -102,6 +103,7 @@ app.configure('production', function(){
   db = mongoose.connect('mongodb://nodejitsu_nko3-comorichweb:r1o7du673h4f7lspurbqdudqd5@ds039277.mongolab.com:39277/nodejitsu_nko3-comorichweb_nodejitsudb5539601137');
   app.set("jsFiles", [ "site.js" ]);
   app.set("cssFiles", [ "site.css" ]);
+  app.set("development", false);
   app.use("/", assetManager(assetManagerGroups), connect.static(root));
 });
 
