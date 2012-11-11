@@ -53,7 +53,11 @@ File.prototype.preview = function(cb) {
 };
 
 File.prototype.sync = function(cb) {
-    var ajax = $.post("add", { frames: JSON.stringify(frames), id: this.id });
+    cb = ($.isFunction(cb)) ? cb : $.noop;
+    var frames = this.__frames;
+    var id = this.id;
+
+    var ajax = $.post("/add", { frames: JSON.stringify(frames), id: id });
 
     ajax.always(function(resp) {
         cb(resp);
