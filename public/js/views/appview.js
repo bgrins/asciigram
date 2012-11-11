@@ -23,12 +23,23 @@ var AppView = Backbone.View.extend({
     },
 
     previewFile: function(e) {
-        var file = FileStore.getByID($(e.currentTarget).closest("li").data("id"));
+        var file;
+        if ($.isFunction(e.preview)) {
+            file = e;
+        } else {
+            FileStore.getByID($(e.currentTarget).closest("li").data("id"));
+        }
+
         if (file) {
             this.GL.stop();
-            file.preview(function(preview) {
-                $("#imgascii").html(preview);
+            this.currentFile = file;
+            new FilePlayer(file, $("#imgascii")[0], function(player) {
+                player.play();
             });
+
+            // file.preview(function(preview) {
+            //     $("#imgascii").html(preview);
+            // });
         }
 
         this.previewStillImage();
@@ -113,7 +124,7 @@ var AppView = Backbone.View.extend({
 
         var file = new File(guid(), frames);
         FileStore.push(file);
-        this.currentFile = file;
+        this.previewFile(file);
         this.renderThumbs();
     },
 

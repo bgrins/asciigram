@@ -6,7 +6,6 @@
 	<div class='span9 screen'>
 
 		<div id="image-space" class="workspace">
-
 			<div id="image-toolbar" class="toolbar">
 				<!-- <button class="btn" id="save">Save</button> -->
 				<button class="btn" id="webcam">Webcam</button>
@@ -16,14 +15,21 @@
 			<img id='logo' width='150' src='/img/person.png' />
 
 			<div>
+				<div id="play-controls">
+					<div class="btn-group2">
+						<button id="player-play" class="btn btn-inverse"><i class="icon-white icon-play"></i></button>
+						<button id="player-pause" class="btn btn-inverse"><i class="icon-white icon-pause"></i></button>
+						<button id="player-restart" class="btn btn-inverse"><i class="icon-white icon-retweet"></i></button>
+					</div>
+					<input type='range' id='timeshift' min=0 />
+				</div>
+
 				<pre id="imgascii"></pre>
 				<button class='btn'>Save (not hooked up)</button>
 			</div>
 		</div>
 
 		<div id="webcam-space" class="workspace">
-
-
 			<div class='once-enabled'>
 
 				<div id="video-toolbar" class="toolbar once-enabled">
@@ -83,8 +89,8 @@
 
 <script type='text/handlebars' id="video-list">
 <li data-id="{{id}}">
-  <pre>
-    {{preview}}
+  <pre style="font-size: 3px;">
+    {{&	preview}}
   </div>
 </li>
 </script>
