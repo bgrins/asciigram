@@ -209,6 +209,7 @@ body.development #debug-toolbar {
 .popular-preview pre{
     line-height: 3px;
     font-size:3px;
+	text-align:center;
 }
 
 /* View Page */

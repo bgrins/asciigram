@@ -100,10 +100,6 @@ exports.popular = function(req, res){
 			res.send("Not found", 404);
 			return;
 		}
-		for (var i=0; i<files.length; i++){ 
-			files[i].frames[0].content = files[i].frames[0].content.replace(/&nbsp;/g, " ").replace(/<br>/g, "\n");
-		}		
-
 		res.render("popular", { title: "Asciigram -- Popular", files: files });
 	});
 };
