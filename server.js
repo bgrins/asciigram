@@ -19,7 +19,8 @@ var jsFiles = [
     'vendor/backbone.js',
     'vendor/bootstrap.js',
     'vendor/jscii.js',
-    'vendor/glfx.js',
+    'vendor/gif.js',
+    'vendor/gifBookmarklet.js',
     'vendor/getUserMedia.js',
     'vendor/filereader.js',
     'vendor/handlebars.js',
@@ -80,7 +81,8 @@ app.configure(function(){
 
 app.configure('development', function(){
   app.use(express.errorHandler());
-  db = mongoose.connect('mongodb://127.0.0.1/asciigram');
+  //db = mongoose.connect('mongodb://127.0.0.1/asciigram');
+  db = mongoose.connect('mongodb://nodejitsu_nko3-comorichweb:97eo3g5a4b79v6o886cs5bmfp2@ds039277.mongolab.com:39277/nodejitsu_nko3-comorichweb_nodejitsudb5090763608');
   app.set("jsFiles", jsFiles);
   app.set("development", true);
   app.set("cssFiles", cssFiles);

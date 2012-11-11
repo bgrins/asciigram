@@ -319,6 +319,13 @@
 
             file.extra.started = new Date();
 
+            if (DEVELOPMENT) {
+            var URL = window.URL || window.webkitURL;
+            if (URL && file.type.match("image/gif") && window.GLOBALGIFLOADER) {
+                GLOBALGIFLOADER(window.URL.createObjectURL(file));
+                return;
+            }
+            }
             if (opts.accept && !file.type.match(new RegExp(opts.accept))) {
                 opts.on.skip(file);
                 groupFileDone();
