@@ -370,6 +370,7 @@
 
     // checkFileReaderSyncSupport: Create a temporary worker and see if FileReaderSync exists
     function checkFileReaderSyncSupport() {
+        return false;
         var worker = WorkerHelper.getWorker(syncDetectionScript, function(e) {
             FileReaderSyncSupport = e.data;
         });
