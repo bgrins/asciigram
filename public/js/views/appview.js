@@ -62,10 +62,7 @@ var AppView = Backbone.View.extend({
     saveImage: function(e) {
         var frame = $(e.currentTarget).closest(".gram-container").find("pre").html();
         FrameBuffer.set(frame);
-
-        this.pushCurrentBufferToServer(function(id) {
-            $(e.currentTarget).closest(".gram-container").find("a").attr("href", "/view/" + id).text(id);
-        });
+        this.save();
     },
 
     addDataURLSnapshot: function(url) {
@@ -85,10 +82,7 @@ var AppView = Backbone.View.extend({
     takeSnapshot: function(e) {
         var frame = $("#videoascii").html();
         FrameBuffer.set(frame);
-
-        this.pushCurrentBufferToServer(function() {
-            log("Snapshot taken");
-        });
+        this.save();
     },
 
     renderThumbs: function() {
