@@ -6,7 +6,6 @@ function Frame(obj) {
 }
 
 function FilePlayer(file, player, cb) {
-
     var filePlayer = this;
 
     this.playing = false;
@@ -29,7 +28,6 @@ function FilePlayer(file, player, cb) {
 }
 
 FilePlayer.prototype.play = function(startFrame) {
-
     var player = this.player;
     if (this.isImage) {
         player.textContent = this.frames[0].content;
@@ -75,14 +73,12 @@ FilePlayer.prototype.play = function(startFrame) {
     }
 
     function play() {
-
         // If it has been stopped, bail out.
         if (!vid.playing) {
             return;
         }
 
         currentTime = (new Date()).getTime() - currentTimeOffset;
-
         var currentFrame = findFrame(currentTime);
 
         // Finished the video... stop it
@@ -121,7 +117,6 @@ FilePlayer.prototype.getLength = function() {
 };
 
 FilePlayer.prototype.setFrame = function(i) {
-
     var index = Math.min(this.frames.length - 1, Math.max(i, 0)) || 0;
     var frame = this.frames[index];
 
@@ -158,9 +153,6 @@ function File(id, frames, player) {
     this.previewloaded = false;
     this.loaded = false;
     this.id = id;
-
-
-
     this.__frames = [ ];
     this.__preview = [ ];
 
@@ -176,7 +168,6 @@ File.prototype.setPreview = function(preview){
 };
 
 File.prototype.setFrames = function(frames) {
-
     var frames = _.map(frames, function(frame) {
         return new Frame(frame);
     });
@@ -197,8 +188,8 @@ File.prototype.frames = function(cb) {
         return;
     }
 
-    $.post("/frames", { id : that.id }, function(resp) {
-        that.setFrames(resp);
+    $.get("/frames/" + this.id, function(resp) {
+        that.setFrames(resp.frames);
         cb(that.__frames);
     });
 };
@@ -226,13 +217,18 @@ File.prototype.sync = function(cb) {
     var ajax = $.post("/add", { frames: JSON.stringify(frames), id: id });
     ajax.always(function(resp) {
         file.id = resp;
+        file.synced = true;
         FileStore.savePermanent(file);
         cb(resp);
     })
 };
 
-
-
+File.prototype.getShareUrl = function() {
+    if (!this.synced) {
+        return "";
+    }
+    return "/view/" + this.id;
+}
 
 // FileStore is a module for handling in memory or localStorage Files
 // This should also be able to handle loading files in from the server
@@ -262,5 +258,7 @@ var FileStore = {
 
 var savedStore = Store.get("previous-files") || [];
 _.each(savedStore, function(i) {
-    FileStore.push(new File(i));
+    var file = new File(i);
+    file.synced = true;
+    FileStore.push(file);
 });
