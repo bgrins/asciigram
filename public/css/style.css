@@ -175,7 +175,11 @@ video {
     width: 200px;
 }
 
+body.development #debug-toolbar {
+    display:block;
+}
 #debug-toolbar {
+    display:none;
     position:fixed;
     bottom:0;
     right:0;
