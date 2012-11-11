@@ -15,7 +15,10 @@
     "express": "3.x",
     "express-partials": "*",
     "ejs": "*",
-    "mongoose": "3.3.1"
+    "mongoose": "3.3.1",
+    "connect": "*",
+    "connect-gzip": "*",
+    "connect-assetmanager": "*"
   },
   "devDependencies": {
     "nodemon": "*",

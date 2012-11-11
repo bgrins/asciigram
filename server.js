@@ -5,6 +5,8 @@ var express = require('express'),
     partials = require('express-partials'),
     indexRoute = require('./routes/index'),
     mongoose = require('mongoose'),
+    connect = require('connect'),
+    gzip = require('connect-gzip'),
     userRoute = require('./routes/user');
 
 var app = express();
@@ -22,8 +24,10 @@ app.configure(function(){
   app.use(app.router);
   app.use(express.cookieParser('secret?'));
   app.use(express.session());
-  app.use(express.static(path.join(__dirname, 'public')));
 
+  app.use(connect.compress());
+  app.use(express.static(path.join(__dirname, 'public')));
+  app.use(gzip.gzip());
 });
 
 app.configure('development', function(){
@@ -42,7 +46,7 @@ app.get("/get/:id", indexRoute.get);
 app.get("/embed/:id", indexRoute.embed);
 app.get("/preview/:id", indexRoute.preview);
 
-
-http.createServer(app).listen(app.get('port'), function(){
+gzip.gzip();
+http.createServer(app).listen(app.get('port'), function(){  
   console.log("Express server listening on port " + app.get('port'));
 });
