@@ -9,7 +9,7 @@ var AppView = Backbone.View.extend({
         "click #save": "save",
         "click .save-image": "saveImage",
         "click #record": "toggleRecord",
-        "click #results pre": "previewFile",
+        "click #results li": "previewFile",
         "click #webcam": "previewLiveVideo",
         "click #show-image": "previewStillImage",
         "click": "cancelPreview",
@@ -27,7 +27,7 @@ var AppView = Backbone.View.extend({
         if ($.isFunction(e.preview)) {
             file = e;
         } else {
-            FileStore.getByID($(e.currentTarget).closest("li").data("id"));
+            file = FileStore.getByID($(e.currentTarget).closest("li").data("id"));
         }
 
         if (file) {
@@ -36,6 +36,9 @@ var AppView = Backbone.View.extend({
             file.frames(function(frames) {
                 $("#play-controls").toggle(frames.length > 1);
             });
+
+            $("#share-container").toggle(file.synced);
+            $("#view-url").val(file.getShareUrl());
 
             new FilePlayer(file, $("#imgascii")[0], function(player) {
                 FilePlayerView.setFilePlayer(player);
