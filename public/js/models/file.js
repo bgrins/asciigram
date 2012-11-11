@@ -227,7 +227,7 @@ File.prototype.getShareUrl = function() {
     if (!this.synced) {
         return "";
     }
-    return "/view/" + this.id;
+    return window.FULL_APP_URL + "view/" + this.id;
 }
 
 // FileStore is a module for handling in memory or localStorage Files

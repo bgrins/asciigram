@@ -57,6 +57,10 @@
       </script>
     <% } %>
 
+    <script>
+      window.FULL_APP_URL = "<%- settings.appurl %>";
+    </script>
+
     <% settings.jsFiles.forEach(function(f) { %>
       <script src='/js/<%- f %>'></script>
     <% }); %>
