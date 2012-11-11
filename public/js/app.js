@@ -1,4 +1,7 @@
 
+// FileStore is a module for handling in memory or localStorage Files
+// This should also be able to handle loading files in from the server
+// (either just a preview for a single frame or the whole file).
 var FileStore = {
     get: function() {
         return Store.get("files") || [];
@@ -18,6 +21,8 @@ var FileStore = {
     }
 };
 
+// FrameBuffer is a module for storing frame content.
+// Handles auto timestamping.
 var FrameBuffer = {
     _frames: [],
     set: function(content) {
@@ -40,9 +45,9 @@ var FrameBuffer = {
     }
 };
 
-
 $('.share').html(generateShareLinks("http://google.com", "some description"));
 
+// Special case on home page: Kick off the app.
 if (window.APP) {
     var App = new AppView({ el: $("body") });
 }
