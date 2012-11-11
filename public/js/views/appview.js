@@ -35,6 +35,7 @@ var AppView = Backbone.View.extend({
             this.currentFile = file;
             new FilePlayer(file, $("#imgascii")[0], function(player) {
                 player.play();
+                FilePlayerView.setFilePlayer(player);
             });
 
             // file.preview(function(preview) {
@@ -105,7 +106,7 @@ var AppView = Backbone.View.extend({
             file.preview(function(preview) {
                 // console.log("preview");
                  var obj = {
-                     id: file.id, 
+                     id: file.id,
                      preview: preview.content
                  };
 
@@ -154,6 +155,8 @@ var AppView = Backbone.View.extend({
         FileReaderJS.setupDrop(document.body, this.fileReaderOpts);
         FileReaderJS.setupClipboard(document.body, this.fileReaderOpts);
         FileReaderJS.setupInput(document.getElementById('file-input'), this.fileReaderOpts);
+
+        FilePlayerView.init();
     },
 
     previewLiveVideo: function() {
