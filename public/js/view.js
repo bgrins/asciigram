@@ -8,39 +8,45 @@
 	var player = $("#player")[0];
 	var video = new File(file.id, file.frames, player);
 
-	$("#file-player").toggleClass("image", video.isImage);
+	var preview = new FilePreview(video, player, function(preview) {
 
-	var pauseButton = $("#player-pause");
-	var playButton = $("#player-play");
-	var restartButton = $("#player-restart");
+		$("#file-player").toggleClass("image", preview.isImage);
 
-	pauseButton.click(function() {
-		video.pause();
-		playButton.show();
-		pauseButton.hide();
+		var pauseButton = $("#player-pause");
+		var playButton = $("#player-play");
+		var restartButton = $("#player-restart");
+
+		pauseButton.click(function() {
+			preview.pause();
+			playButton.show();
+			pauseButton.hide();
+		});
+
+		playButton.click(function() {
+			preview.play(preview.currentFrame);
+			playButton.hide();
+			pauseButton.show();
+		});
+
+		restartButton.click(function() {
+			preview.stop();
+			//preview.play();
+		});
+
+		playButton.click();
+
+		$("#timeshift").attr("max", preview.getLength());
+		$("#timeshift").on("change", function(e) {
+			preview.pause();
+			preview.setFrame($(this).val());
+		});
+
+		preview.ontick = function() {
+			$("#timeshift").val(preview.currentFrame);
+		};
+
 	});
 
-	playButton.click(function() {
-		video.play(video.currentFrame);
-		playButton.hide();
-		pauseButton.show();
-	});
-
-	restartButton.click(function() {
-		video.stop();
-		//video.play();
-	});
-
-	playButton.click();
-
-	$("#timeshift").attr("max", video.getLength());
-	$("#timeshift").on("change", function(e) {
-		video.pause();
-		video.setFrame($(this).val());
-	});
-	video.ontick = function() {
-		$("#timeshift").val(video.currentFrame);
-	};
 
 
 
