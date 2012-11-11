@@ -41,6 +41,7 @@ Video.prototype.play = function(startFrame) {
 	var speed = 1;
 
 	startFrame = Math.min(this.frames.length - 1, Math.max(startFrame, 0)) || 0;
+
 	var startTime = (new Date()).getTime();
 	var currentTime = startTime - this.frames[startFrame].timestamp;
 	var currentTimeOffset = startTime - this.frames[0].timestamp;
@@ -53,7 +54,7 @@ Video.prototype.play = function(startFrame) {
 
 	function findFrame(time) {
 
-		time = time;
+		time = time + timeShift;
 		for (var i = 0; i < frames.length; i++) {
 
 			//log(frames[i].timestamp, time);
