@@ -37,10 +37,25 @@ body.drag {
 #booth-container {
 	padding: 10px 20px;
 	margin-top: 10px;
-	background: #ddd;
-	border: solid 2px #999;
-	border-radius: 4px;
+	background: #eee;
 	box-shadow: 0 0 10px #ddd;
+    text-align: center;
+}
+#booth-container video, #booth-container canvas {
+    opacity:0;
+    position:absolute;
+    top: -10000px;
+    left: -10000px;
+}
+.workspace {
+    background: rgba(128, 128, 128, .4);
+    border-radius: 0 4px;
+    border: solid 2px #999;
+}
+.toolbar {
+    margin-bottom: 10px;
+    background: #481786;
+    padding: 5px;
 }
 
 #results li {
@@ -84,7 +99,6 @@ body.yes-video #webcam-space {
 body.yes-video #image-space {
     display: none;
 }
-
 .once-enabled {
     display: none;
 }
@@ -154,18 +168,8 @@ pre {
 	margin-bottom: 10px;
 }
 
-.ascii-container {
-	text-align: center;
-}
-
 video {
     width: 200px;
-}
-#booth-container video, #booth-container canvas {
-	opacity:0;
-	position:absolute;
-	top: -10000px;
-	left: -10000px;
 }
 
 #debug-toolbar {
@@ -178,9 +182,7 @@ video {
     border-top: solid 1px #ddd;
     background: rgba(255, 255, 255, .3);
 }
-.toolbar {
-	margin-bottom: 10px;
-}
+
 
 .gram-container {
 	text-align: center;
