@@ -188,7 +188,7 @@ File.prototype.frames = function(cb) {
         return;
     }
 
-    $.post("/frames", { id : that.id }, function(resp) {
+    $.get("/frames/" + this.id, function(resp) {
         that.setFrames(resp);
         cb(that.__frames);
     });
