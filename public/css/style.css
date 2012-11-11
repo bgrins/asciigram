@@ -231,6 +231,10 @@ pre.about-imgs {
 	line-height:3px;
 	font-size:4px;
 }
+pre.about-thanks {
+	line-height:2px;
+	font-size:3px;
+}
 #peep {
     text-align: center;
 }
