@@ -14,7 +14,9 @@ function FilePlayer(file, player, cb) {
     this.ontick = function() { };
 
     file.preview(function(preview) {
-        log("Preview");
+        if (!filePlayer.frames) {
+            filePlayer.player.textContent = preview.content;
+        }
     });
 
     file.frames(function(frames) {
