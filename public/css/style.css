@@ -163,7 +163,6 @@ video {
 #debug-toolbar {
     position:fixed;
     bottom:0;
-    left:0;
     right:0;
     height: 16px;
     line-height: 16px;

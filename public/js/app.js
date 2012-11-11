@@ -39,11 +39,11 @@ var FrameBuffer = {
             $("#num-frames").text(FrameBuffer._frames.length);
 
             var size = 0;
-            _.each(FrameBuffer._frames, function(f) {
-                size += f.content.length;
+            var fullStr = _.map(FrameBuffer._frames, function(f) {
+                size += util.stringToBytes(f.content);
             });
-            log($("#size-frames"));
-            $("#size-frames").text(size + "MB");
+
+            $("#size-frames").text(util.prettyFileSize(size));
         }
     },
     clear: function() {
