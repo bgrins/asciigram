@@ -1,7 +1,6 @@
 
 function Frame(obj) {
 	this.content = obj.content.replace(/&nbsp;/g, " ").replace(/<br>/g, "\n");
-	window.tmpcontent = this.content;
 	this.timestamp = new Date(obj.timestamp).getTime();
 	this.date = new Date(this.timestamp);
 }
