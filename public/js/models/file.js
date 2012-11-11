@@ -203,6 +203,10 @@ File.prototype.preview = function(cb) {
         return;
     }
 
+    if (typeof(this.id) != "string") {
+        return;
+    }
+
     $.get("/preview/" + this.id, function(resp) {
         that.setPreview(new Frame({ timestamp: new Date(), content: resp }));
         cb(that.__preview);
