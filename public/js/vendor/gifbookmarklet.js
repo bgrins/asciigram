@@ -365,22 +365,6 @@ var stopped = false;
           };
 
 
-function ADDCANVAS(canvas) {
-
-    var pre = $("<pre />");
-    App.asciiImage(canvas, pre[0]);
-    FrameBuffer.add(pre.html());
-}
-function GLOBALGIFLOADER(url) {
-    log(url);
-                    var img = new Image();
-                    img.onload = function() {
-                        $("body").append(img);
-                        bookmarklet();
-                    };
-                    img.src = url;
-
-}
 
           var doRev = function() {
             forward = !forward;
@@ -658,6 +642,23 @@ function GLOBALGIFLOADER(url) {
   gifs.forEach(mkOverlay);
 };
 
+
+function ADDCANVAS(canvas) {
+
+    var pre = $("<pre />");
+    App.asciiImage(canvas, pre[0]);
+    FrameBuffer.add(pre.html());
+}
+function GLOBALGIFLOADER(url) {
+    log(url);
+                    var img = new Image();
+                    img.onload = function() {
+                        $("body").append(img);
+                        bookmarklet();
+                    };
+                    img.src = url;
+
+}
 // So here we take advantage of the fact that we didn't tell Closure that we're
 // exporting this function, which means we can do "var b = ...; b();" and it'll
 // handle it correctly.
