@@ -23,7 +23,6 @@ app.configure(function(){
   app.use(express.cookieParser('secret?'));
   app.use(express.session());
   app.use(express.static(path.join(__dirname, 'public')));
-
 });
 
 app.configure('development', function(){
@@ -38,8 +37,10 @@ app.get('/', indexRoute.index);
 app.get("/about", indexRoute.about);
 app.post("/add", indexRoute.add);
 app.get("/view/:id", indexRoute.view);
+app.get("/popular", indexRoute.popular);
 app.get("/get/:id", indexRoute.get);
 app.get("/embed/:id", indexRoute.embed);
+app.get("/preview/:id", indexRoute.preview);
 
 
 http.createServer(app).listen(app.get('port'), function(){

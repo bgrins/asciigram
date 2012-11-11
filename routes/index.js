@@ -18,7 +18,19 @@ exports.embed = function(req, res) {
 
 		res.render("embed", { file: JSON.stringify(file), layout: null});
 	});
-}
+};
+
+exports.preview = function(req, res) {
+	var lookup = req.params.id;
+	fileStore.getFile(lookup, function(err, file) {
+		if (err || !file) {
+			res.send("Not found", 404);
+			return;
+		}
+
+		res.send(file.getPreview());
+	});
+};
 
 exports.add = function(req, res) {
 	var id = req.body.id;
@@ -61,6 +73,20 @@ exports.add = function(req, res) {
 	}
 };
 
+exports.popular = function(req, res){
+	fileStore.getPopular(function(err, files) {
+		if (err || !files) {
+			res.send("Not found", 404);
+			return;
+		}
+		for (var i=0; i<files.length; i++){ 
+			files[i].frames[0].content = files[i].frames[0].content.replace(/&nbsp;/g, " ").replace(/<br>/g, "\n");
+		}		
+
+		res.render("popular", { title: "Asciigram -- Popular", files: files });
+	});
+};
+
 exports.view = function(req, res) {
 	var lookup = req.params.id;
 	fileStore.getFile(lookup, function(err, file) {
@@ -68,11 +94,12 @@ exports.view = function(req, res) {
 			res.send("Not found", 404);
 			return;
 		}
-
-		res.render("view", { title: "Asciigram -- View", file: JSON.stringify(file) });
+		
+		fileStore.updateViewCount(file);
+		res.render("view", { title: "Asciigram -- View", file: JSON.stringify(file), 
+			numberOfViews: file.numberOfViews });
 	});
-
-}
+};
 
 exports.get = function(req, res) {
 	var lookup = req.params.id;

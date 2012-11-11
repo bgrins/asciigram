@@ -41,9 +41,8 @@ Video.prototype.stop = function() {
 // get the x/y resolution of the first frame
 Video.prototype.getResolution = function() {
 	var frame = this.frames[0];
-	var line
-
-
+	var lines = frames.split("/n");
+	return [ lines[0].length, lines.length ];
 };
 
 (function(file) {
@@ -53,5 +52,5 @@ Video.prototype.getResolution = function() {
 
 	var video = new Video(file);
 	var player = document.getElementById("player");
-	video.play();
+	video.play(player);
 })(window.LOADEDFILE);
