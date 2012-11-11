@@ -7,8 +7,10 @@
     <meta name="description" content="Use ASCII to share images and videos">
     <meta name="author" content="Aaron Marasco, Brian and Nicole Grinstead.">
 
-    <link href="/css/bootstrap.css" rel="stylesheet" />
-    <link href="/css/style.css" rel="stylesheet" />
+
+    <% settings.cssFiles.forEach(function(f) { %>
+      <link href="/css/<%- f %>" rel="stylesheet" />
+    <% }); %>
 
     <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon">
     <!-- Fav and touch icons
@@ -52,7 +54,9 @@
     </div> <!-- /container -->
 
 
-    <script src='/js/site.js'></script>
+  <% settings.jsFiles.forEach(function(f) { %>
+      <script src='/js/<%- f %>'></script>
+    <% }); %>
     <!--<script src='/js/common.js'></script>
     <script src='/js/vendor/jquery-1.8.2.js'></script>
     <script src='/js/vendor/underscore.js'></script>

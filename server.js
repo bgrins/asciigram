@@ -14,7 +14,7 @@ var express = require('express'),
 var app = express();
 
 
-var jsfiles = [
+var jsFiles = [
     'common.js',
     'vendor/jquery-1.8.2.js',
     'vendor/underscore.js',
@@ -43,7 +43,7 @@ var assetManagerGroups = {
         'route': /\/js\/.*/,
         'path': './public/js/',
         'dataType': 'javascript',
-        'files': jsfiles,
+        'files': jsFiles,
         'debug': false,
         'preManipulate': {
             // Matches all (regex start line)
@@ -87,8 +87,6 @@ app.configure(function(){
 
 
   var root = __dirname + '/public';
-  app.use("/", assetManager(assetManagerGroups), connect.static(root));
-
   app.use(express.static(path.join(__dirname, 'public')));
   app.use(app.router);
 });
@@ -96,9 +94,14 @@ app.configure(function(){
 app.configure('development', function(){
   app.use(express.errorHandler());
   db = mongoose.connect('mongodb://127.0.0.1/asciigram');
+  app.set("jsFiles", jsFiles);
+  app.set("cssFiles", cssFiles);
 });
 app.configure('production', function(){
   db = mongoose.connect('mongodb://nodejitsu_nko3-comorichweb:r1o7du673h4f7lspurbqdudqd5@ds039277.mongolab.com:39277/nodejitsu_nko3-comorichweb_nodejitsudb5539601137');
+  app.set("jsFiles", [ "site.js" ]);
+  app.set("cssFiles", [ "site.css" ]);
+  app.use("/", assetManager(assetManagerGroups), connect.static(root));
 });
 
 app.get('/', indexRoute.index);
