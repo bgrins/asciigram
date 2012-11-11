@@ -9,6 +9,7 @@
 			<div id="image-toolbar" class="toolbar">
 				<!-- <button class="btn" id="save">Save</button> -->
 				<button class="btn" id="webcam">Webcam</button>
+				<button class='btn' id="sync">Save</button>
 				<input type="file" id="file-input" name="file-input" multiple="" style='display:none;'>
 			</div>
 
@@ -25,7 +26,6 @@
 				</div>
 
 				<pre id="imgascii"></pre>
-				<button class='btn'>Save (not hooked up)</button>
 			</div>
 		</div>
 
@@ -36,11 +36,6 @@
 
 					<button class="btn btn-primary" id="record" data-recording-text="Stop Recording"><i class="icon-facetime-video"></i> <strong>Record</strong></button>
 					<button class="btn btn-primary" id="snapshot"><i class="icon-camera"></i> <strong>Take picture</strong></button>
-					<button class="btn btn-primary" id="sync">
-						<i class="icon-share"></i>
-						<strong>Sync</strong>
-					</button>
-
 					<br />
 					<input type='range' min='5' max='200' id="quality" />
 					<!--<button class="btn btn-primary" id="record"><i class="icon-facetime-video"></i> <strong>Replay</strong></button>

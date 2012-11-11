@@ -33,14 +33,13 @@ var AppView = Backbone.View.extend({
         if (file) {
             this.GL.stop();
             this.currentFile = file;
-            new FilePlayer(file, $("#imgascii")[0], function(player) {
-                player.play();
-                FilePlayerView.setFilePlayer(player);
+            file.frames(function(frames) {
+                $("#play-controls").toggle(frames.length > 1);
             });
 
-            // file.preview(function(preview) {
-            //     $("#imgascii").html(preview);
-            // });
+            new FilePlayer(file, $("#imgascii")[0], function(player) {
+                FilePlayerView.setFilePlayer(player);
+            });
         }
 
         this.previewStillImage();
