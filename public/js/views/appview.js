@@ -41,6 +41,7 @@ var AppView = Backbone.View.extend({
 
     changeResolution: function() {
         this.RESOLUTION = parseInt($("#quality").val()) || 10;
+        Jscii.setResolution(this.RESOLUTION);
     },
 
     toggleRecord: function() {

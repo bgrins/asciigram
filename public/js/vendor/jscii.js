@@ -142,6 +142,11 @@
 
   window.Jscii = {
     setVideoDimension: setVideoDimension,
+    setResolution: function(r) {
+      DEFAULT_WIDTH = r;
+      setVideoDimension(DEFAULT_WIDTH, parseInt(DEFAULT_WIDTH*3/4, 10));
+
+    },
     renderVideo: renderVideo,
     startRender: startRender,
     stopRender: stopRender,
