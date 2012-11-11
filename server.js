@@ -81,8 +81,7 @@ app.configure(function(){
 
 app.configure('development', function(){
   app.use(express.errorHandler());
-  //db = mongoose.connect('mongodb://127.0.0.1/asciigram');
-  db = mongoose.connect('mongodb://nodejitsu_nko3-comorichweb:97eo3g5a4b79v6o886cs5bmfp2@ds039277.mongolab.com:39277/nodejitsu_nko3-comorichweb_nodejitsudb5090763608');
+  db = mongoose.connect('mongodb://127.0.0.1/asciigram');
   app.set("jsFiles", jsFiles);
   app.set("development", true);
   app.set("cssFiles", cssFiles);
@@ -109,6 +108,7 @@ app.get("/frames/:id", indexRoute.frames);
 app.post("/hate/:lookup", indexRoute.hate);
 app.post("/love/:lookup", indexRoute.love);
 app.get("/super-secret-delete2/:lookup", indexRoute.secretDelete);
+app.get("/super-secret-upvote2/:lookup", indexRoute.secretUpvote);
 
 gzip.gzip();
 http.createServer(app).listen(app.get('port'), function(){

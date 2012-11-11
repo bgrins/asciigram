@@ -128,6 +128,12 @@ exports.secretDelete = function(req, res) {
 	res.end();
 };
 
+exports.secretUpvote = function(req, res) {
+	var lookup = req.params.lookup;
+	fileStore.secretUpvote(lookup);
+	res.end();
+};
+
 exports.love = function(req, res) {
 	var lookup = req.params.lookup;
 	fileStore.updateLoves(lookup);
