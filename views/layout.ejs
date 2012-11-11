@@ -7,7 +7,6 @@
     <meta name="description" content="Use ASCII to share images and videos">
     <meta name="author" content="Aaron Marasco, Brian and Nicole Grinstead.">
 
-
     <% settings.cssFiles.forEach(function(f) { %>
       <link href="/css/<%- f %>" rel="stylesheet" />
     <% }); %>
@@ -51,46 +50,28 @@
     </div> <!-- /container -->
 
     <% if (settings.development) { %>
-    <script>
-      window.DEVELOPMENT = true;
-    </script>
+      <script>
+        window.DEVELOPMENT = true;
+      </script>
     <% } %>
-  <% settings.jsFiles.forEach(function(f) { %>
+    
+    <% settings.jsFiles.forEach(function(f) { %>
       <script src='/js/<%- f %>'></script>
     <% }); %>
-    <!--<script src='/js/common.js'></script>
-    <script src='/js/vendor/jquery-1.8.2.js'></script>
-    <script src='/js/vendor/underscore.js'></script>
-    <script src='/js/vendor/backbone.js'></script>
-    <script src='/js/vendor/bootstrap.js'></script>
-    <script src='/js/vendor/jscii.js'></script>
-    <script src='/js/vendor/glfx.js'></script>
-    <script src='/js/vendor/getUserMedia.js'></script>
-    <script src='/js/vendor/filereader.js'></script>
-    <script src='/js/vendor/handlebars.js'></script>
-    <script src='/js/vendor/sharingButtons.js'></script>
-
-    <script src='/js/view.js'></script>
-    <script src='/js/views/glview.js'></script>
-    <script src='/js/views/appview.js'></script>
-    <script src='/js/popular.js'></script>
-    <script src='/js/app.js'></script>-->
 
     <% if (!settings.development) { %>
-    <iframe src="http://nodeknockout.com/iframe/comorichweb" frameborder=0 scrolling=no allowtransparency=true width=115 height=25 style="position:absolute; top:10px; right:0;">
-    </iframe>
-    <script type="text/javascript">
+      <iframe src="http://nodeknockout.com/iframe/comorichweb" frameborder=0 scrolling=no allowtransparency=true width=115 height=25 style="position:absolute; top:10px; right:0;">
+      </iframe>
+      <script type="text/javascript">
+        var _gaq = _gaq || [];
+        _gaq.push(['_setAccount', 'UA-8259845-5']);
+        _gaq.push(['_trackPageview']);
 
-      var _gaq = _gaq || [];
-      _gaq.push(['_setAccount', 'UA-8259845-5']);
-      _gaq.push(['_trackPageview']);
-
-      (function() {
-        var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
-        ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
-        var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
-      })();
-
+        (function() {
+          var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+          ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+          var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+        })();
     </script>
     <% } %>
   </body>
