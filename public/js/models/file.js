@@ -189,7 +189,7 @@ File.prototype.frames = function(cb) {
     }
 
     $.get("/frames/" + this.id, function(resp) {
-        that.setFrames(resp);
+        that.setFrames(resp.frames);
         cb(that.__frames);
     });
 };
