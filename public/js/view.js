@@ -93,7 +93,8 @@ Video.prototype.play = function(startFrame) {
 		vid.setFrame(currentFrame.index);
 
 		if (currentFrame.last) {
-			vid.stop();
+			vid.pause();
+			vid.currentFrame = 0;
 		}
 		else {
 			setTimeout(play, REFRESH_RATE);
@@ -188,7 +189,7 @@ Video.prototype.getResolution = function() {
 	$("#timeshift").on("change", function(e) {
 		video.pause();
 		video.setFrame($(this).val());
-	})
+	});
 	video.ontick = function() {
 		$("#timeshift").val(video.currentFrame);
 	};
