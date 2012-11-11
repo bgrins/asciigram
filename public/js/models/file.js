@@ -1,3 +1,10 @@
+
+function Frame(obj) {
+    this.content = obj.content.replace(/&nbsp;/g, " ").replace(/<br>/g, "\n");
+    this.timestamp = new Date(obj.timestamp).getTime();
+    this.date = new Date(this.timestamp);
+}
+
 function File(id, frames, player) {
     this.previewloaded = false;
     this.loaded = false;
