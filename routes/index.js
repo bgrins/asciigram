@@ -56,15 +56,24 @@ exports.add = function(req, res) {
 
 	if (id) {
 		fileStore.getFile(id, function(err, file) {
-			if (err || !file) {
+			if (err) {
 				res.send("Not found", 404);
 				return;
 			}
 
-			updateFile(file);
+			if (file) {
+				updateFile(file);
+			}
+			else {
+				addNew();
+			}		
 		});
 	}
 	else {
+		addnew();
+	}
+
+	function addNew(){
 		var file = new fileStore.File();
 		file.lookup = file.generateLookup();
 		updateFile(file);
