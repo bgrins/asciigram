@@ -45,8 +45,6 @@ var FrameBuffer = {
     }
 };
 
-$('.share').html(generateShareLinks("http://google.com", "some description"));
-
 // Special case on home page: Kick off the app.
 if (window.APP) {
     var App = new AppView({ el: $("body") });

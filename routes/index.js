@@ -101,6 +101,16 @@ exports.view = function(req, res) {
 	});
 };
 
+exports.love = function(req, res) {
+	var lookup = req.params.lookup;
+	console.log(lookup);
+};
+
+exports.hate = function(req, res) {
+	var lookup = req.params.lookup;
+	console.log(lookup);
+};
+
 exports.get = function(req, res) {
 	var lookup = req.params.id;
 	fileStore.getFile(lookup, function(err, file) {

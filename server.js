@@ -112,6 +112,8 @@ app.get("/popular", indexRoute.popular);
 app.get("/get/:id", indexRoute.get);
 app.get("/embed/:id", indexRoute.embed);
 app.get("/preview/:id", indexRoute.preview);
+app.post("/hate/:lookup", indexRoute.hate);
+app.post("/love/:lookup", indexRoute.love);
 
 gzip.gzip();
 http.createServer(app).listen(app.get('port'), function(){
