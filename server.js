@@ -56,7 +56,7 @@ var assetManagerGroups = {
         }
     },
     'css': {
-        'route': /\/static\/css\/.*\.css/,
+        'route': /\/css\/.*\.css/,
         'path': './public/css/',
         'dataType': 'css',
         'files': cssFiles,
