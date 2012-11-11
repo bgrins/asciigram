@@ -95,8 +95,9 @@ var AppView = Backbone.View.extend({
             var pre = $("<pre />");
             App.asciiImage(img, pre[0]);
             FrameBuffer.set(pre.html());
+            App.save();
 
-            that.addVideoToLocalStorage(guid(), that.getCurrentFrames());
+            //that.addVideoToLocalStorage(guid(), that.getCurrentFrames());
         };
         img.src = url;
 
