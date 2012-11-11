@@ -7,9 +7,69 @@ var express = require('express'),
     mongoose = require('mongoose'),
     connect = require('connect'),
     gzip = require('connect-gzip'),
+    assetManager = require('connect-assetmanager'),
+    assetHandler = require('connect-assetmanager-handlers'),
     userRoute = require('./routes/user');
 
 var app = express();
+
+
+var jsfiles = [
+    'common.js',
+    'vendor/jquery-1.8.2.js',
+    'vendor/underscore.js',
+    'vendor/backbone.js',
+    'vendor/backbone.localStorage.js',
+    'vendor/bootstrap.js',
+    'vendor/jscii.js',
+    'vendor/glfx.js',
+    'vendor/getUserMedia.js',
+    'vendor/filereader.js',
+    'vendor/handlebars.js',
+    'vendor/sharingButtons.js',
+    'view.js',
+    'views/glview.js',
+    'popular.js',
+    'app.js'
+];
+
+var cssFiles = [
+    "bootstrap.css",
+    "style.css"
+];
+
+var assetManagerGroups = {
+    'js': {
+        'route': /\/js\/.*/,
+        'path': './public/js/',
+        'dataType': 'javascript',
+        'files': jsfiles,
+        'preManipulate': {
+            // Matches all (regex start line)
+            '^': [
+                assetHandler.yuiCssOptimize, 
+                assetHandler.fixVendorPrefixes,
+                assetHandler.fixGradients,
+                assetHandler.replaceImageRefToBase64(root)
+            ]
+        }
+    }, 
+    'css': {
+        'route': /\/static\/css\/.*\.css/, 
+        'path': './public/css/',
+        'dataType': 'css',
+        'files': cssFiles, 
+        'preManipulate': {
+            // Matches all (regex start line)
+            '^': [
+                assetHandler.yuiCssOptimize, 
+                assetHandler.fixVendorPrefixes,
+                assetHandler.fixGradients,
+                assetHandler.replaceImageRefToBase64(root)
+            ]
+        }
+    }
+};
 
 app.configure(function(){
   app.set('port', process.env.PORT || 3000);
@@ -21,12 +81,15 @@ app.configure(function(){
   app.use(express.logger('dev'));
   app.use(express.bodyParser());
   app.use(express.methodOverride());
-  app.use(app.router);
   app.use(express.cookieParser('secret?'));
   app.use(express.session());
 
-  app.use(connect.compress());
+  
+  var root = __dirname + '/public';
+  app.use("/", assetManager(assetManagerGroups), connect.static(root));
+
   app.use(express.static(path.join(__dirname, 'public')));
+  app.use(app.router);
 });
 
 app.configure('development', function(){

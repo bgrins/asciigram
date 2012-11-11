@@ -18,7 +18,8 @@
     "mongoose": "3.3.1",
     "connect": "*",
     "connect-gzip": "*",
-    "connect-assetmanager": "*"
+    "connect-assetmanager": "*",
+    "connect-assetmanager-handlers": "*"
   },
   "devDependencies": {
     "nodemon": "*",
