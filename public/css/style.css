@@ -43,6 +43,7 @@ body.drag {
 #results li {
 	zoom: .2;
 	margin: 3px;
+	float:right;
 }
 
 body.previewing #full-preview {
