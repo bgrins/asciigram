@@ -1,0 +1,14 @@
+<div style="width: 100%;" class="gram-container">
+	<div class="popular-container clearfix">
+		<%= files.length%>
+		<%for (var i=0; i< files.length; i++){ %>
+			<div class='popular-preview'>
+				<pre><%= files[i].frames[0].content%></pre>
+				<div>
+					<a class="btn" href="/view/<%= files[i].lookup%>"><i class="icon-zoom-in"></i>&nbsp;Make it big!</a>
+				</div>
+			</div>
+		<%}%>
+	</div>
+</div>
+

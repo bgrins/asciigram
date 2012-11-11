@@ -192,3 +192,12 @@ video {
 .sprite.pinterest { background-position: -86px 0px; width: 32px; height: 32px;  margin:0 4px;}
 .sprite.twitter { background-position: -128px 0px; width: 33px; height: 33px;  margin:0 4px;}
 
+.popular-preview { 
+	display: inline-block;
+	margin: 10px 20px; 
+}
+
+.popular-preview pre{ 
+	line-height: 3px; 
+	font-size:3px;
+}

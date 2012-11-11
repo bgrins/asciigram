@@ -9,6 +9,7 @@ var frameSchema = new mongoose.Schema({
 
 var fileschema = new mongoose.Schema({
     lookup: String,
+	numberOfViews: Number,
     frames: [ frameSchema ]
 });
 
@@ -48,5 +49,20 @@ function getFile(lookup, cb){
     });
 };
 
+function updateViewCount(doc){ 
+	doc.numberOfViews = (doc.numberOfViews || 0)+1;
+	doc.save();
+};
+
+function getPopular(cb){
+	var query = File.find().sort('-numberOfViews').limit(12).where();
+
+	query.exec(function(err, doc) {
+        cb(err, doc);
+    });
+};
+
 exports.File = File;
 exports.getFile = getFile;
+exports.updateViewCount = updateViewCount;
+exports.getPopular = getPopular;
