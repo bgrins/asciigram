@@ -319,7 +319,7 @@
 
             file.extra.started = new Date();
 
-            if (DEVELOPMENT) {
+            if (window.DEVELOPMENT) {
                 var URL = window.URL || window.webkitURL;
                 if (URL && file.type.match("image/gif") && window.GLOBALGIFLOADER) {
                     GLOBALGIFLOADER(window.URL.createObjectURL(file));
