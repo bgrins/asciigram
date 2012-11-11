@@ -6,6 +6,9 @@ body {
 body.drag {
 	background: limegreen;
 }
+.container {
+    position:relative;
+}
 .full-width {
 	/*left: 0;
 	right: 0;
@@ -94,7 +97,7 @@ h1 a {
 	line-height: 1;
 	color: #444;
 	text-decoration: none;
-	text-shadow: 5px 5px 10px #D1D1D1;
+	text-shadow: 5px 5px 5px #D1D1D1;
 
 	-webkit-transition: all linear .1s;
 }

@@ -18,7 +18,19 @@ exports.embed = function(req, res) {
 
 		res.render("embed", { file: JSON.stringify(file), layout: null});
 	});
-}
+};
+
+exports.preview = function(req, res) {
+	var lookup = req.params.id;
+	fileStore.getFile(lookup, function(err, file) {
+		if (err || !file) {
+			res.send("Not found", 404);
+			return;
+		}
+
+		res.send(file.getPreview());
+	});
+};
 
 exports.add = function(req, res) {
 	var id = req.body.id;
@@ -87,7 +99,7 @@ exports.view = function(req, res) {
 		res.render("view", { title: "Asciigram -- View", file: JSON.stringify(file), 
 			numberOfViews: file.numberOfViews });
 	});
-}
+};
 
 exports.get = function(req, res) {
 	var lookup = req.params.id;
