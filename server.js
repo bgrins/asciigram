@@ -29,6 +29,7 @@ var jsfiles = [
     'vendor/sharingButtons.js',
     'view.js',
     'views/glview.js',
+    'views/appview.js',
     'popular.js',
     'app.js'
 ];
