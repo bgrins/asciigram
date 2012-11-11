@@ -1,0 +1,14 @@
+
+<pre style="font-size: 3px;">
+
+</pre>
+
+<script type="text/javascript" src="/js/vendor/underscore.js"></script>
+<script type="text/javascript" src="/js/view.js"></script>
+<script>
+	(function() {
+		var vid = new Video(<%- file %>);
+		var player = document.getElementsByTagName("pre")[0];
+		vid.play(player);
+	})();
+</script>
