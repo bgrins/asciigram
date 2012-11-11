@@ -125,7 +125,7 @@ FilePlayer.prototype.setFrame = function(i) {
     var index = Math.min(this.frames.length - 1, Math.max(i, 0)) || 0;
     var frame = this.frames[index];
 
-    log(index, frame);
+    //log(index, frame);
     if (frame) {
 
         this.currentFrame = index;

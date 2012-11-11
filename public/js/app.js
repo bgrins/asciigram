@@ -2,14 +2,34 @@
 // Handles auto timestamping.
 var FrameBuffer = {
     _frames: [],
+    FPS: 15,
+    MAX: 200,
     set: function(content) {
         FrameBuffer.clear();
         FrameBuffer.add(content);
     },
     add: function(content) {
+
+        var now = Date.now();
+
+        if (FrameBuffer._frames.length) {
+            var lastTime = FrameBuffer._frames[FrameBuffer._frames.length -1].timestamp;
+
+            var ms = now - lastTime;
+
+            // Drop a frame if it is too soon
+            if (ms < (1000 / FrameBuffer.FPS)) {
+                return;
+            }
+        }
+
+        if (FrameBuffer._frames.length >= FrameBuffer.MAX) {
+            FrameBuffer._frames.shift();
+        }
+
         FrameBuffer._frames.push({
             content: content,
-            timestamp: Date.now()
+            timestamp: now
         });
 
         if (window.DEVELOPMENT) {
