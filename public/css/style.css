@@ -19,10 +19,12 @@ body.drag {
 }
 
 #your-files {
-    border: solid 5px #8266A5;
+    /*
+    border: solid 5px #481786;*/
     background: #eee;
     padding: 10px 4px;
     min-height: 500px;
+    margin-left: -18px;
 }
 #results {
     list-style: none;
