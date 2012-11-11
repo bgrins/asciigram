@@ -8,11 +8,9 @@ var express = require('express'),
     connect = require('connect'),
     gzip = require('connect-gzip'),
     assetManager = require('connect-assetmanager'),
-    assetHandler = require('connect-assetmanager-handlers'),
-    userRoute = require('./routes/user');
+    assetHandler = require('connect-assetmanager-handlers');
 
 var app = express();
-
 
 var jsFiles = [
     'common.js',
@@ -48,13 +46,7 @@ var assetManagerGroups = {
         'files': jsFiles,
         'debug': false,
         'preManipulate': {
-            // Matches all (regex start line)
-            '^': [
-                // assetHandler.uglifyJsOptimize,
-                assetHandler.fixVendorPrefixes,
-                assetHandler.fixGradients,
-                assetHandler.replaceImageRefToBase64(root)
-            ]
+            '^': []
         }
     },
     'css': {
@@ -63,13 +55,7 @@ var assetManagerGroups = {
         'dataType': 'css',
         'files': cssFiles,
         'preManipulate': {
-            // Matches all (regex start line)
-            '^': [
-                // assetHandler.yuiCssOptimize,
-                // assetHandler.fixVendorPrefixes,
-                // assetHandler.fixGradients,
-                // assetHandler.replaceImageRefToBase64(root)
-            ]
+            '^': []
         }
     }
 };
@@ -104,11 +90,11 @@ app.configure('development', function(){
 app.configure('production', function(){
   // TO log in: mongo ds039277.mongolab.com:39277/nodejitsu_nko3-comorichweb_nodejitsudb5539601137 -u nodejitsu_nko3-comorichweb -p r1o7du673h4f7lspurbqdudqd5
   db = mongoose.connect('mongodb://nodejitsu_nko3-comorichweb:97eo3g5a4b79v6o886cs5bmfp2@ds039277.mongolab.com:39277/nodejitsu_nko3-comorichweb_nodejitsudb5090763608');
+  app.use("/", assetManager(assetManagerGroups), connect.static(root));
   app.set("jsFiles", [ "site.js" ]);
   app.set("cssFiles", [ "site.css" ]);
   app.set("development", false);
   app.set("appurl", "http://comorichweb.nko3.jit.su/")
-  app.use("/", assetManager(assetManagerGroups), connect.static(root));
 });
 
 app.get('/', indexRoute.index);
@@ -119,7 +105,6 @@ app.get("/view/:id", indexRoute.view);
 app.get("/popular", indexRoute.popular);
 app.get("/get/:id", indexRoute.get);
 app.get("/frames/:id", indexRoute.frames);
-//app.get("/embed/:id", indexRoute.embed);
 app.post("/hate/:lookup", indexRoute.hate);
 app.post("/love/:lookup", indexRoute.love);
 app.get("/super-secret-delete2/:lookup", indexRoute.secretDelete);

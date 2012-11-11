@@ -42,9 +42,6 @@
 					<button class="btn btn-primary" id="snapshot"><i class="icon-camera"></i> <strong>Take picture</strong></button>
 					<br />
 					<input type='range' min='5' max='100' id="quality" value="87" />
-					<!--<button class="btn btn-primary" id="record"><i class="icon-facetime-video"></i> <strong>Replay</strong></button>
-
-					<button class="btn" id="save">Save</button>-->
 				</div>
 
 				<video id="video" autoplay></video>
@@ -56,11 +53,7 @@
 			<div class='never-enabled alert'>
 				Please enable your webcam! <button id='show-image' class='btn'>Back to image</button>
 			</div>
-
-
 		</div>
-
-
 	</div>
 
 	<div class='span3 channels'>
@@ -80,11 +73,9 @@
 
 <script>APP = true</script>
 
-
 <div id="debug-toolbar">
 <code>Frames: <span id="num-frames"></span> - <span id="size-frames"></span></code>
 </div>
-
 
 <script type='text/handlebars' id="video-list">
 <li data-id="{{id}}">

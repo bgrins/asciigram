@@ -2,7 +2,9 @@
 	<div class="popular-container clearfix">
 		<%for (var i=0; i< files.length; i++){ %>
 			<div class='popular-preview' data-id="<%= files[i].lookup%>">
-				<pre class="span3"><%= files[i].frames[0].content%></pre>
+				<a href="/view/<%- files[i].lookup %>">
+					<pre><%= files[i].frames[0].content%></pre>
+				</a>
 				<div>
 					<a class="btn-mini post" href="#" data-url='/love/'><i class="icon-heart"></i>&nbsp;Love</a>		
 					<a class="btn-mini post" href="#" data-url='/hate/'><i class="icon-thumbs-down"></i>&nbsp;Hate</a>				
